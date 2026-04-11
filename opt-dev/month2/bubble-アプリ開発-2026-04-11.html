@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>記事構成指示書: bubble アプリ開発</title>
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --sub: #555;
+    --muted: #888;
+    --line: #e5e5e5;
+    --line-strong: #d0d0d0;
+    --accent: #0a6efd;
+    --accent-soft: #eef3ff;
+    --bg: #fafaf8;
+    --card: #ffffff;
+    --highlight: #fff8e1;
+    --highlight-border: #f0c800;
+    --code-bg: #f4f4f4;
+    --h2-bar: #0a6efd;
+    --h3-bar: #8ab4ff;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 48px 32px 96px;
+  }
+
+  /* ヘッダー */
+  .header {
+    border-bottom: 3px solid var(--ink);
+    padding-bottom: 24px;
+    margin-bottom: 40px;
+  }
+  .header .eyebrow {
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    color: var(--sub);
+    background: #fff;
+    padding: 4px 10px;
+    border: 1px solid var(--line-strong);
+    border-radius: 3px;
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+  .header h1 {
+    font-size: 32px;
+    line-height: 1.4;
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+
+  /* セクション見出し */
+  h2.section {
+    font-size: 22px;
+    font-weight: 800;
+    margin: 56px 0 20px;
+    padding: 12px 0 12px 16px;
+    border-left: 6px solid var(--h2-bar);
+    letter-spacing: -0.01em;
+    line-height: 1.4;
+  }
+  h2.section .num {
+    display: inline-block;
+    font-size: 14px;
+    color: var(--accent);
+    margin-right: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  /* 個別指示（目立たせる） */
+  .director-note {
+    background: var(--highlight);
+    border: 2px solid var(--highlight-border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 0 0 40px;
+  }
+  .director-note::before {
+    content: "📋 ディレクターからの個別指示";
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: #8a6d00;
+    margin-bottom: 10px;
+    letter-spacing: 0.03em;
+  }
+  .director-note p {
+    margin: 0 0 10px;
+    font-size: 15px;
+    line-height: 1.9;
+    color: #5a4a00;
+  }
+  .director-note p:last-child { margin-bottom: 0; }
+  .director-note a {
+    color: #0a5bd2;
+    text-decoration: underline;
+    word-break: break-all;
+  }
+  .director-note a:hover { color: #063d8f; }
+
+  /* 基本情報テーブル */
+  .info-table {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .info-table dl {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 180px 1fr;
+  }
+  .info-table dt {
+    background: #f7f7f5;
+    padding: 14px 20px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--sub);
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+  }
+  .info-table dd {
+    margin: 0;
+    padding: 14px 20px;
+    font-size: 15px;
+    border-bottom: 1px solid var(--line);
+    line-height: 1.6;
+  }
+  .info-table dl > *:nth-last-child(-n+2) {
+    border-bottom: none;
+  }
+  .info-table dd strong {
+    color: var(--accent);
+  }
+
+  /* ユーザーニーズ */
+  .needs {
+    background: var(--card);
+    border-left: 4px solid var(--accent);
+    padding: 20px 28px;
+    border-radius: 0 8px 8px 0;
+    font-size: 15px;
+    line-height: 2;
+    color: var(--ink);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    white-space: pre-wrap;
+  }
+
+  /* 全体の方向性チェックリスト */
+  .directions {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .directions li {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 14px 16px 14px 48px;
+    margin-bottom: 10px;
+    position: relative;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  .directions li::before {
+    content: "✓";
+    position: absolute;
+    left: 16px;
+    top: 14px;
+    width: 22px;
+    height: 22px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 1;
+  }
+
+  /* アウトライン */
+  .outline-intro {
+    color: var(--sub);
+    font-size: 14px;
+    margin-bottom: 20px;
+    padding: 12px 16px;
+    background: var(--accent-soft);
+    border-radius: 6px;
+    border-left: 3px solid var(--accent);
+  }
+  .h2-block {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin-bottom: 18px;
+    position: relative;
+  }
+  .h2-block::before {
+    content: "H2";
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+  }
+  .h2-block h3.h2-title {
+    font-size: 19px;
+    font-weight: 700;
+    margin: 4px 0 8px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .h2-block > .direction {
+    font-size: 14px;
+    color: var(--sub);
+    margin: 0 0 16px;
+    line-height: 1.7;
+  }
+  .h3-list {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 0;
+    border-top: 1px dashed var(--line);
+    padding-top: 14px;
+  }
+  .h3-list li {
+    padding: 10px 0 10px 24px;
+    position: relative;
+    font-size: 15px;
+    line-height: 1.6;
+    border-bottom: 1px dashed var(--line);
+  }
+  .h3-list li:last-child {
+    border-bottom: none;
+    padding-bottom: 4px;
+  }
+  .h3-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 19px;
+    width: 12px;
+    height: 2px;
+    background: var(--h3-bar);
+  }
+  .h3-list .h3-title {
+    font-weight: 600;
+    color: var(--ink);
+    display: block;
+    margin-bottom: 4px;
+    font-size: 15px;
+  }
+  .h3-list .h3-title::before {
+    content: "H3";
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    background: #eef3ff;
+    color: var(--accent);
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-right: 8px;
+    letter-spacing: 0.05em;
+    vertical-align: middle;
+  }
+  .h3-list .h3-direction {
+    font-size: 13px;
+    color: var(--sub);
+    line-height: 1.7;
+  }
+
+  /* エンティティリスト */
+  .entity-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: entity-counter;
+  }
+  .entity-list li {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 18px 14px 56px;
+    margin-bottom: 10px;
+    position: relative;
+    counter-increment: entity-counter;
+  }
+  .entity-list li::before {
+    content: counter(entity-counter);
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .entity-name {
+    display: block;
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 2px;
+  }
+  .entity-url {
+    display: block;
+    font-size: 12px;
+    color: var(--accent);
+    text-decoration: none;
+    word-break: break-all;
+  }
+  .entity-url:hover { text-decoration: underline; }
+
+  /* 印刷対応 */
+  @media print {
+    body { background: #fff; font-size: 12pt; }
+    .container { padding: 20px; max-width: 100%; }
+    .h2-block, .info-table, .director-note, .needs, .directions li, .entity-list li {
+      page-break-inside: avoid;
+      box-shadow: none;
+    }
+    h2.section { page-break-after: avoid; }
+  }
+
+  /* モバイル対応 */
+  @media (max-width: 640px) {
+    .container { padding: 24px 16px 64px; }
+    .header h1 { font-size: 24px; }
+    h2.section { font-size: 18px; margin: 40px 0 16px; }
+    .info-table dl { grid-template-columns: 1fr; }
+    .info-table dt { border-bottom: none; padding-bottom: 4px; }
+    .info-table dd { padding-top: 4px; }
+    .h2-block { padding: 20px; }
+    .h2-block h3.h2-title { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ヘッダー -->
+  <header class="header">
+    <span class="eyebrow">WRITER'S BRIEF</span>
+    <h1>記事構成指示書: bubble アプリ開発</h1>
+  </header>
+
+  <!-- ディレクターからの個別指示 -->
+  <div class="director-note">
+    <p>・事例については開発の競合会社の事例を紹介する場合はあくまでも事例のみを紹介してどの開発会社が開発したかはかかない<br>・今後Opt.dev様の事例に差し替えることを想定しておく</p>
+  </div>
+
+  <!-- 基本情報 -->
+  <h2 class="section"><span class="num">01</span>基本情報</h2>
+  <div class="info-table">
+    <dl>
+      <dt>キーワード</dt>
+      <dd>bubble アプリ開発</dd>
+
+      <dt>タイトル案</dt>
+      <dd>Bubbleアプリ開発完全ガイド｜向き不向き・料金・事例まで網羅</dd>
+
+      <dt>メタディスクリプション案</dt>
+      <dd>ノーコード開発ツールBubbleでアプリ開発をしたい人向けに、特徴・メリット・デメリット・料金プラン・実際の開発事例・向き不向きを徹底解説。自社での開発と開発会社への依頼、どちらを選ぶべきかの判断基準も掲載。</dd>
+
+      <dt>目標文字数</dt>
+      <dd>約 7,900 字</dd>
+    </dl>
+  </div>
+
+  <!-- ユーザーニーズ -->
+  <h2 class="section"><span class="num">02</span>ユーザーニーズ</h2>
+  <div class="needs">新規事業やMVP開発を検討している経営者・事業担当者、あるいはアイデアを持っている個人事業主が「プログラミングできないけどアプリを作りたい、Bubbleで本当にやれるのか」を調べている。既存のSIer委託と比較してコストを抑えたい、もしくは自前で学習して作りきれるのか判断したい意図が強い。読後は「自分のやりたいアプリがBubbleに向いているか・向いていないかが判断でき、次のアクション（自分で触ってみる or 開発会社に相談する）を決められる」状態を目指す。</div>
+
+  <!-- 全体の方向性 -->
+  <h2 class="section"><span class="num">03</span>全体の方向性</h2>
+  <ul class="directions">
+    <li>上位記事で共通する「メリット・デメリット・料金・事例」の4点セットを必ず押さえる</li>
+    <li>Bubbleに「向いているアプリ」と「向いていないアプリ」の境界線を早い段階で明確にする（これが読者の最大の関心事）</li>
+    <li>上位記事で手薄な「自社開発 vs 開発会社への依頼」の判断基準を入れると差別化になる</li>
+    <li>開発事例は上位記事で言及されているものに限定し、勝手に有名アプリを追加しない</li>
+    <li>ネイティブアプリとWebアプリの違いに触れ、Bubbleが主にWebアプリ向けであることを明示する</li>
+    <li>料金プランは概要レベルに留め、詳細は別記事に誘導する前提で書く（深入りしすぎない）</li>
+    <li>読後にユーザーが「自分のやりたいアプリがBubble向きか判断でき、次のアクションを決められる」状態を目指す</li>
+  </ul>
+
+  <!-- 記事構成 -->
+  <h2 class="section"><span class="num">04</span>記事構成（アウトライン）</h2>
+  <p class="outline-intro">以下の構成で本文を執筆してください。各 H2 の下の「方向性」は各セクションで触れる要点を示しています。H3 の順序は変更せず、そのまま採用してください。</p>
+
+  <div class="h2-block">
+    <h3 class="h2-title">Bubble（バブル）とは？ノーコードアプリ開発ツールの概要</h3>
+    <p class="direction">記事冒頭で前提知識を揃える導入セクション。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">Bubbleでできること</span>
+        <span class="h3-direction">Webアプリ・業務システム・マッチングサービスなど、Bubbleが得意な開発領域を紹介。</span>
+      </li>
+      <li>
+        <span class="h3-title">Bubbleでできないこと</span>
+        <span class="h3-direction">ネイティブアプリの直接生成・重い計算処理・高度なSEO対策が必要なサイトなど、苦手領域を正直に伝える。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">Bubbleでアプリ開発するメリット</h3>
+    <p class="direction">上位記事で共通して挙げられているメリットを整理する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">プログラミング不要で非エンジニアでも開発可能</span>
+        <span class="h3-direction">学習コストはあるが、コードを書かずに済む点を説明。</span>
+      </li>
+      <li>
+        <span class="h3-title">環境構築が不要ですぐに始められる</span>
+        <span class="h3-direction">ブラウザだけで開発環境が整う手軽さを強調。</span>
+      </li>
+      <li>
+        <span class="h3-title">無料プランで試せる</span>
+        <span class="h3-direction">開発開始のハードルの低さを紹介。</span>
+      </li>
+      <li>
+        <span class="h3-title">デザインの自由度と拡張性の高さ</span>
+        <span class="h3-direction">他のノーコードツールと比べたBubbleの強みを説明。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">Bubbleでアプリ開発するデメリット・注意点</h3>
+    <p class="direction">読者の期待値調整のためのセクション。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">エディタ・ドキュメントが英語中心</span>
+        <span class="h3-direction">日本語情報の少なさと、英語学習が求められる現状を説明。</span>
+      </li>
+      <li>
+        <span class="h3-title">学習コストがかかる</span>
+        <span class="h3-direction">初心者がつまずきやすい部分があり、一定の時間投資が必要であることを明記。</span>
+      </li>
+      <li>
+        <span class="h3-title">表示速度・パフォーマンスの制約</span>
+        <span class="h3-direction">アクセスが増えた際のパフォーマンス面での懸念を説明。</span>
+      </li>
+      <li>
+        <span class="h3-title">SEO対策が難しい</span>
+        <span class="h3-direction">検索流入を狙うサイトには不向きであることを説明。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">Bubbleに向いているアプリ・向いていないアプリ</h3>
+    <p class="direction">本記事の差別化セクション。読者が自分のアイデアがBubble向きか判断できるようにする。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">Bubbleに向いているケース</span>
+        <span class="h3-direction">MVPやプロトタイプ、社内システム、マッチングサービスなど、具体的な向いているアプリの傾向を列挙。</span>
+      </li>
+      <li>
+        <span class="h3-title">Bubbleに向いていないケース</span>
+        <span class="h3-direction">高度なリアルタイム処理・ネイティブ機能を多用するアプリ・大規模サービスなど、不向きなケースを列挙。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">Bubbleで開発されたアプリの事例</h3>
+    <p class="direction">上位記事に登場した事例を紹介するセクション。勝手に有名アプリを追加しない。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">国内のBubble開発事例</span>
+        <span class="h3-direction">ブラリノ、TRIP BOOK、ReMoCe、Kitene、TOTTA、LIBRIS、ABABAなど、上位記事で言及されている国内事例に限定して紹介。</span>
+      </li>
+      <li>
+        <span class="h3-title">海外のBubble開発事例</span>
+        <span class="h3-direction">CircleHome、Beelango、Award Pool、Qoins、Prompt Labなど、上位記事で言及されている海外事例に限定して紹介。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">Bubbleの料金プラン</h3>
+    <p class="direction">概要レベルで簡潔にまとめるセクション。詳細は別記事に誘導可能。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">無料プランでできること</span>
+        <span class="h3-direction">学習・プロトタイプ作成の範囲で無料プランが使えることを説明。</span>
+      </li>
+      <li>
+        <span class="h3-title">有料プランの選び方</span>
+        <span class="h3-direction">プランごとの違いを簡潔に紹介し、用途別の選び方を示す。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">Bubbleでアプリ開発を始める流れ</h3>
+    <p class="direction">読者が「次に何をすればいいか」を具体的にイメージできるようにするセクション。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">Step1: アカウント作成</span>
+        <span class="h3-direction">公式サイトでの登録の流れを簡潔に。</span>
+      </li>
+      <li>
+        <span class="h3-title">Step2: チュートリアルで操作に慣れる</span>
+        <span class="h3-direction">公式の学習リソースを活用する流れを説明。</span>
+      </li>
+      <li>
+        <span class="h3-title">Step3: 小さなアプリを1本作ってみる</span>
+        <span class="h3-direction">段階的にステップアップする方法を推奨。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">自社で開発するか、開発会社に依頼するかの判断基準</h3>
+    <p class="direction">上位記事で手薄な差別化セクション。読者の次のアクションを促す。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">自社開発に向いているケース</span>
+        <span class="h3-direction">学習時間が取れる個人・小規模チームなど、自前開発が現実的なケースを説明。</span>
+      </li>
+      <li>
+        <span class="h3-title">開発会社への依頼に向いているケース</span>
+        <span class="h3-direction">スピード重視・複雑な要件・本格運用を想定する場合など、外注が合理的なケースを説明。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">よくある質問（FAQ）</h3>
+    <p class="direction">上位記事で共通して扱われている読者の疑問をまとめる。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">Bubbleでネイティブアプリは作れる？</span>
+        <span class="h3-direction">ラッパー経由での実現方法と注意点を回答。</span>
+      </li>
+      <li>
+        <span class="h3-title">セキュリティは大丈夫？</span>
+        <span class="h3-direction">Privacy Rules などBubble側の機能を前提に回答。</span>
+      </li>
+      <li>
+        <span class="h3-title">英語ができなくても使える？</span>
+        <span class="h3-direction">日本語情報の現状と、最低限必要な英語レベルを回答。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">まとめ｜Bubbleは「向いているアプリ」を見極めて活用しよう</h3>
+    <p class="direction">本文の要点を再確認し、読者を「自分のアイデアが向いているか判断→次のアクション」に誘導する。</p>
+
+  </div>
+
+</div>
+</body>
+</html>

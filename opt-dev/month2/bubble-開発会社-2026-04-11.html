@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>記事構成指示書: bubble 開発会社</title>
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --sub: #555;
+    --muted: #888;
+    --line: #e5e5e5;
+    --line-strong: #d0d0d0;
+    --accent: #0a6efd;
+    --accent-soft: #eef3ff;
+    --bg: #fafaf8;
+    --card: #ffffff;
+    --highlight: #fff8e1;
+    --highlight-border: #f0c800;
+    --code-bg: #f4f4f4;
+    --h2-bar: #0a6efd;
+    --h3-bar: #8ab4ff;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 48px 32px 96px;
+  }
+
+  /* ヘッダー */
+  .header {
+    border-bottom: 3px solid var(--ink);
+    padding-bottom: 24px;
+    margin-bottom: 40px;
+  }
+  .header .eyebrow {
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    color: var(--sub);
+    background: #fff;
+    padding: 4px 10px;
+    border: 1px solid var(--line-strong);
+    border-radius: 3px;
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+  .header h1 {
+    font-size: 32px;
+    line-height: 1.4;
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+
+  /* セクション見出し */
+  h2.section {
+    font-size: 22px;
+    font-weight: 800;
+    margin: 56px 0 20px;
+    padding: 12px 0 12px 16px;
+    border-left: 6px solid var(--h2-bar);
+    letter-spacing: -0.01em;
+    line-height: 1.4;
+  }
+  h2.section .num {
+    display: inline-block;
+    font-size: 14px;
+    color: var(--accent);
+    margin-right: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  /* 個別指示（目立たせる） */
+  .director-note {
+    background: var(--highlight);
+    border: 2px solid var(--highlight-border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 0 0 40px;
+  }
+  .director-note::before {
+    content: "📋 ディレクターからの個別指示";
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: #8a6d00;
+    margin-bottom: 10px;
+    letter-spacing: 0.03em;
+  }
+  .director-note p {
+    margin: 0 0 10px;
+    font-size: 15px;
+    line-height: 1.9;
+    color: #5a4a00;
+  }
+  .director-note p:last-child { margin-bottom: 0; }
+  .director-note a {
+    color: #0a5bd2;
+    text-decoration: underline;
+    word-break: break-all;
+  }
+  .director-note a:hover { color: #063d8f; }
+
+  /* 基本情報テーブル */
+  .info-table {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .info-table dl {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 180px 1fr;
+  }
+  .info-table dt {
+    background: #f7f7f5;
+    padding: 14px 20px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--sub);
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+  }
+  .info-table dd {
+    margin: 0;
+    padding: 14px 20px;
+    font-size: 15px;
+    border-bottom: 1px solid var(--line);
+    line-height: 1.6;
+  }
+  .info-table dl > *:nth-last-child(-n+2) {
+    border-bottom: none;
+  }
+  .info-table dd strong {
+    color: var(--accent);
+  }
+
+  /* ユーザーニーズ */
+  .needs {
+    background: var(--card);
+    border-left: 4px solid var(--accent);
+    padding: 20px 28px;
+    border-radius: 0 8px 8px 0;
+    font-size: 15px;
+    line-height: 2;
+    color: var(--ink);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    white-space: pre-wrap;
+  }
+
+  /* 全体の方向性チェックリスト */
+  .directions {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .directions li {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 14px 16px 14px 48px;
+    margin-bottom: 10px;
+    position: relative;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  .directions li::before {
+    content: "✓";
+    position: absolute;
+    left: 16px;
+    top: 14px;
+    width: 22px;
+    height: 22px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 1;
+  }
+
+  /* アウトライン */
+  .outline-intro {
+    color: var(--sub);
+    font-size: 14px;
+    margin-bottom: 20px;
+    padding: 12px 16px;
+    background: var(--accent-soft);
+    border-radius: 6px;
+    border-left: 3px solid var(--accent);
+  }
+  .h2-block {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin-bottom: 18px;
+    position: relative;
+  }
+  .h2-block::before {
+    content: "H2";
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+  }
+  .h2-block h3.h2-title {
+    font-size: 19px;
+    font-weight: 700;
+    margin: 4px 0 8px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .h2-block > .direction {
+    font-size: 14px;
+    color: var(--sub);
+    margin: 0 0 16px;
+    line-height: 1.7;
+  }
+  .h3-list {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 0;
+    border-top: 1px dashed var(--line);
+    padding-top: 14px;
+  }
+  .h3-list li {
+    padding: 10px 0 10px 24px;
+    position: relative;
+    font-size: 15px;
+    line-height: 1.6;
+    border-bottom: 1px dashed var(--line);
+  }
+  .h3-list li:last-child {
+    border-bottom: none;
+    padding-bottom: 4px;
+  }
+  .h3-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 19px;
+    width: 12px;
+    height: 2px;
+    background: var(--h3-bar);
+  }
+  .h3-list .h3-title {
+    font-weight: 600;
+    color: var(--ink);
+    display: block;
+    margin-bottom: 4px;
+    font-size: 15px;
+  }
+  .h3-list .h3-title::before {
+    content: "H3";
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    background: #eef3ff;
+    color: var(--accent);
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-right: 8px;
+    letter-spacing: 0.05em;
+    vertical-align: middle;
+  }
+  .h3-list .h3-direction {
+    font-size: 13px;
+    color: var(--sub);
+    line-height: 1.7;
+  }
+
+  /* エンティティリスト */
+  .entity-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: entity-counter;
+  }
+  .entity-list li {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 18px 14px 56px;
+    margin-bottom: 10px;
+    position: relative;
+    counter-increment: entity-counter;
+  }
+  .entity-list li::before {
+    content: counter(entity-counter);
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .entity-name {
+    display: block;
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 2px;
+  }
+  .entity-url {
+    display: block;
+    font-size: 12px;
+    color: var(--accent);
+    text-decoration: none;
+    word-break: break-all;
+  }
+  .entity-url:hover { text-decoration: underline; }
+
+  /* 印刷対応 */
+  @media print {
+    body { background: #fff; font-size: 12pt; }
+    .container { padding: 20px; max-width: 100%; }
+    .h2-block, .info-table, .director-note, .needs, .directions li, .entity-list li {
+      page-break-inside: avoid;
+      box-shadow: none;
+    }
+    h2.section { page-break-after: avoid; }
+  }
+
+  /* モバイル対応 */
+  @media (max-width: 640px) {
+    .container { padding: 24px 16px 64px; }
+    .header h1 { font-size: 24px; }
+    h2.section { font-size: 18px; margin: 40px 0 16px; }
+    .info-table dl { grid-template-columns: 1fr; }
+    .info-table dt { border-bottom: none; padding-bottom: 4px; }
+    .info-table dd { padding-top: 4px; }
+    .h2-block { padding: 20px; }
+    .h2-block h3.h2-title { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ヘッダー -->
+  <header class="header">
+    <span class="eyebrow">WRITER'S BRIEF</span>
+    <h1>記事構成指示書: bubble 開発会社</h1>
+  </header>
+
+  <!-- ディレクターからの個別指示 -->
+  <div class="director-note">
+    <p>Bubble 公式代理店として、必ずOpt.dev様を紹介すること</p>
+  </div>
+
+  <!-- 基本情報 -->
+  <h2 class="section"><span class="num">01</span>基本情報</h2>
+  <div class="info-table">
+    <dl>
+      <dt>キーワード</dt>
+      <dd>bubble 開発会社</dd>
+
+      <dt>タイトル案</dt>
+      <dd>Bubble開発会社10社比較｜目的別に3社に絞り込む選び方</dd>
+
+      <dt>メタディスクリプション案</dt>
+      <dd>ノーコード開発ツールBubbleに強い開発会社を10社厳選して紹介。各社の得意領域・規模・実績・選び方のポイントまで徹底解説。MVP開発・業務システム・AI連携など目的別に最適な依頼先を見つけられる比較記事。</dd>
+
+      <dt>目標文字数</dt>
+      <dd>約 9,800 字</dd>
+    </dl>
+  </div>
+
+  <!-- ユーザーニーズ -->
+  <h2 class="section"><span class="num">02</span>ユーザーニーズ</h2>
+  <div class="needs">Bubbleでアプリ開発を依頼したい事業責任者・プロダクトマネージャ・スタートアップ創業者が「どの開発会社に頼めばいいのか」を比較検討している。既に「ノーコードで作りたい」という意思は決まっていて、次は「実績・価格・得意領域の観点からどこを選ぶか」を決めるフェーズ。読後は「候補を3社程度に絞り込み、問い合わせ・見積依頼に進める」状態を目指す。</div>
+
+  <!-- 全体の方向性 -->
+  <h2 class="section"><span class="num">03</span>全体の方向性</h2>
+  <ul class="directions">
+    <li>上位記事で共通して紹介されている Bubble 公式代理店・実績豊富な企業を中心に10社を厳選して紹介する</li>
+    <li>各社セクションでは「得意領域」「会社規模」「実績の特徴」「向いている依頼者像」の4点を必ず押さえる</li>
+    <li>上位記事で手薄な「発注前に確認すべき質問リスト」「見積もり比較の観点」を入れると差別化になる</li>
+    <li>紹介する会社は上位記事で実際に言及されたもののみ。LLMの一般知識で「有名そうな会社」を勝手に追加しない</li>
+    <li>価格帯や実績数は公式サイトに記載のあるもののみを使い、推測で数字を書かない（ライターには各社公式サイトでの確認を依頼する前提）</li>
+    <li>「Bubble公式代理店（Silver/Gold Agency）認定の有無」に触れ、信頼性の判断材料にしてもらう</li>
+    <li>読後にユーザーが候補を3社に絞って問い合わせに進める状態を目指す</li>
+  </ul>
+
+  <!-- 記事構成 -->
+  <h2 class="section"><span class="num">04</span>記事構成（アウトライン）</h2>
+  <p class="outline-intro">以下の構成で本文を執筆してください。各 H2 の下の「方向性」は各セクションで触れる要点を示しています。H3 の順序は変更せず、そのまま採用してください。</p>
+
+  <div class="h2-block">
+    <h3 class="h2-title">Bubble開発会社を選ぶ前に押さえておきたい基礎知識</h3>
+    <p class="direction">比較の前提となる基礎知識を揃える導入セクション。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">Bubble開発会社に依頼するメリット</span>
+        <span class="h3-direction">学習コストの削減、スピード納品、運用サポートの継続性などを簡潔に紹介。</span>
+      </li>
+      <li>
+        <span class="h3-title">Bubble開発を外注する際の相場感</span>
+        <span class="h3-direction">月額・プロジェクト単位の相場の目安を示す（公式サイトの記載があるもののみ）。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">Bubble開発会社10社 比較表</h3>
+    <p class="direction">結論ファースト。全社を一覧できる比較表で読者の判断を助けるセクション。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">比較表の見方</span>
+        <span class="h3-direction">会社名・得意領域・規模・実績の特徴を3軸で読み取れるように補足する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">EPICs株式会社｜Bubble公式代理店</h3>
+    <p class="direction">公式代理店として複数の上位記事で最初に紹介されている会社。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">特徴と得意領域</span>
+        <span class="h3-direction">公式代理店としての立ち位置と、対応可能な開発領域を紹介。</span>
+      </li>
+      <li>
+        <span class="h3-title">こんな企業におすすめ</span>
+        <span class="h3-direction">品質重視で公式認定のある会社を探している依頼者に向いている旨を説明。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">シースリーレーヴ株式会社｜国内最大級のノーコード開発実績</h3>
+    <p class="direction">複数の上位記事で紹介されている実績豊富な開発会社。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">特徴と得意領域</span>
+        <span class="h3-direction">開発実績の多さとBubbleシルバーエージェンシー認定を紹介。</span>
+      </li>
+      <li>
+        <span class="h3-title">こんな企業におすすめ</span>
+        <span class="h3-direction">低コストでスピーディに開発したい依頼者に向いている旨を説明。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">Swooo（株式会社ゼロイチスタート）</h3>
+    <p class="direction">複数の上位記事で紹介されている注目の開発会社。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">特徴と得意領域</span>
+        <span class="h3-direction">自社メディア運営と受託開発の両輪で情報発信が豊富な点を紹介。</span>
+      </li>
+      <li>
+        <span class="h3-title">こんな企業におすすめ</span>
+        <span class="h3-direction">公式の開発知見に触れながら依頼したい企業に向いている旨を説明。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">株式会社Walkers</h3>
+    <p class="direction">複数の上位記事で「スピード開発」の文脈で紹介されている会社。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">特徴と得意領域</span>
+        <span class="h3-direction">低コスト・短納期を強みとする点を紹介。</span>
+      </li>
+      <li>
+        <span class="h3-title">こんな企業におすすめ</span>
+        <span class="h3-direction">MVPを短期間で形にしたいスタートアップに向いている旨を説明。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">ツクル事業部（株式会社For A-career）</h3>
+    <p class="direction">複数の上位記事で実績豊富な会社として紹介されている。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">特徴と得意領域</span>
+        <span class="h3-direction">幅広い業種・用途に対応できる点を紹介。</span>
+      </li>
+      <li>
+        <span class="h3-title">こんな企業におすすめ</span>
+        <span class="h3-direction">業務システム系の開発実績を重視する依頼者に向いている旨を説明。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">パーソルAVCテクノロジー株式会社</h3>
+    <p class="direction">大規模開発向けとして複数の上位記事で紹介されている。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">特徴と得意領域</span>
+        <span class="h3-direction">大手パーソルグループの一社としての安心感と大規模案件対応力を紹介。</span>
+      </li>
+      <li>
+        <span class="h3-title">こんな企業におすすめ</span>
+        <span class="h3-direction">エンタープライズ向けの大規模開発を検討する企業に向いている旨を説明。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">株式会社マイスター・ギルド</h3>
+    <p class="direction">大規模開発向けとして複数の上位記事で紹介されている。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">特徴と得意領域</span>
+        <span class="h3-direction">システム開発実績とBubble開発の組み合わせによる安定感を紹介。</span>
+      </li>
+      <li>
+        <span class="h3-title">こんな企業におすすめ</span>
+        <span class="h3-direction">従来型のシステム開発品質を求めつつノーコードも活用したい依頼者に向いている旨を説明。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">アステリア株式会社</h3>
+    <p class="direction">上場企業としての信頼感から複数の上位記事で紹介されている。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">特徴と得意領域</span>
+        <span class="h3-direction">ASTERIAブランドの企業向けシステム知見とBubble開発の組み合わせを紹介。</span>
+      </li>
+      <li>
+        <span class="h3-title">こんな企業におすすめ</span>
+        <span class="h3-direction">上場企業品質のセキュリティ・ガバナンスを重視する企業に向いている旨を説明。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">株式会社Spovisor</h3>
+    <p class="direction">小〜中規模開発向けとして上位記事で紹介されている。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">特徴と得意領域</span>
+        <span class="h3-direction">機動力の高さと柔軟な開発体制を紹介。</span>
+      </li>
+      <li>
+        <span class="h3-title">こんな企業におすすめ</span>
+        <span class="h3-direction">中規模までのプロジェクトを柔軟に進めたい依頼者に向いている旨を説明。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">株式会社ノーコード総合研究所</h3>
+    <p class="direction">複数の上位記事でノーコード専門の研究機関的な位置付けで紹介されている。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">特徴と得意領域</span>
+        <span class="h3-direction">ノーコード領域全般への深い知見と情報発信力を紹介。</span>
+      </li>
+      <li>
+        <span class="h3-title">こんな企業におすすめ</span>
+        <span class="h3-direction">Bubble 以外のノーコードツールとの比較検討も含めて相談したい依頼者に向いている旨を説明。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">Bubble開発会社を選ぶ5つのポイント</h3>
+    <p class="direction">上位記事で共通して扱われている選定基準をまとめる実用セクション。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">得意な分野・業界が合っているか</span>
+        <span class="h3-direction">MVP向け・業務システム向けなど、得意領域の見極めを説明。</span>
+      </li>
+      <li>
+        <span class="h3-title">開発実績が具体的に公表されているか</span>
+        <span class="h3-direction">実績の透明性が信頼性の判断材料になる旨を説明。</span>
+      </li>
+      <li>
+        <span class="h3-title">納品後の運用・保守体制</span>
+        <span class="h3-direction">リリース後のサポート有無を確認する重要性を説明。</span>
+      </li>
+      <li>
+        <span class="h3-title">Bubble以外の技術にも対応しているか</span>
+        <span class="h3-direction">複雑な要件が出た際の拡張性を確認する観点を説明。</span>
+      </li>
+      <li>
+        <span class="h3-title">担当者との相性・コミュニケーション</span>
+        <span class="h3-direction">長期的なプロジェクトになる前提でのコミュニケーションの重要性を説明。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">発注前に確認しておきたい質問リスト</h3>
+    <p class="direction">差別化セクション。読者がそのまま使える実務的な質問集を提示。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">技術力・実績に関する質問</span>
+        <span class="h3-direction">Bubbleの認定資格・過去の類似案件など。</span>
+      </li>
+      <li>
+        <span class="h3-title">価格・見積もりに関する質問</span>
+        <span class="h3-direction">追加費用の有無・WU（ワークロードユニット）の扱いなど。</span>
+      </li>
+      <li>
+        <span class="h3-title">運用・契約に関する質問</span>
+        <span class="h3-direction">保守範囲・ソースコード所有権・契約終了時の引き継ぎなど。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">目的別のおすすめ開発会社</h3>
+    <p class="direction">読者のユースケース別に会社を逆引きで推薦する差別化セクション。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">MVP・新規事業立ち上げ向け</span>
+        <span class="h3-direction">スピード重視の依頼者に向く会社を2〜3社推薦。</span>
+      </li>
+      <li>
+        <span class="h3-title">業務効率化・社内DX向け</span>
+        <span class="h3-direction">社内システム開発実績のある会社を2〜3社推薦。</span>
+      </li>
+      <li>
+        <span class="h3-title">大規模・エンタープライズ向け</span>
+        <span class="h3-direction">大手グループ系・上場企業系の会社を2〜3社推薦。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">よくある質問（FAQ）</h3>
+    <p class="direction">上位記事で共通して扱われている読者の疑問をまとめる。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">Bubble公式代理店とそれ以外で何が違う？</span>
+        <span class="h3-direction">認定基準と実務上の違いを説明。</span>
+      </li>
+      <li>
+        <span class="h3-title">見積もり相場はいくらくらい？</span>
+        <span class="h3-direction">プロジェクト規模別の目安を回答。</span>
+      </li>
+      <li>
+        <span class="h3-title">自社開発と外注、どちらが安い？</span>
+        <span class="h3-direction">学習コストを含めたTCO視点で回答。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">まとめ｜3社に絞って問い合わせてみよう</h3>
+    <p class="direction">本文の要点を再確認し、読者を「3社に絞って実際に問い合わせる」次の行動に誘導する。</p>
+
+  </div>
+
+  <h2 class="section"><span class="num">05</span>登場させるエンティティ</h2>
+  <p class="outline-intro">⚠️ このリスト以外の店舗名・サービス名・ブランド名を記事に登場させないでください。</p>
+  <ol class="entity-list">
+    <li>
+      <span class="entity-name">EPICs株式会社</span><a class="entity-url" href="https://www.epics.tokyo/" target="_blank" rel="noopener noreferrer">https://www.epics.tokyo/</a>
+    </li>
+    <li>
+      <span class="entity-name">シースリーレーヴ株式会社</span><a class="entity-url" href="https://c3reve.co.jp/" target="_blank" rel="noopener noreferrer">https://c3reve.co.jp/</a>
+    </li>
+    <li>
+      <span class="entity-name">Swooo（株式会社ゼロイチスタート）</span><a class="entity-url" href="https://swooo.net/" target="_blank" rel="noopener noreferrer">https://swooo.net/</a>
+    </li>
+    <li>
+      <span class="entity-name">株式会社Walkers</span><a class="entity-url" href="https://walker-s.co.jp/" target="_blank" rel="noopener noreferrer">https://walker-s.co.jp/</a>
+    </li>
+    <li>
+      <span class="entity-name">ツクル事業部（株式会社For A-career）</span><a class="entity-url" href="https://for-a-career.com/" target="_blank" rel="noopener noreferrer">https://for-a-career.com/</a>
+    </li>
+    <li>
+      <span class="entity-name">パーソルAVCテクノロジー株式会社</span><a class="entity-url" href="https://persol-avc.co.jp/" target="_blank" rel="noopener noreferrer">https://persol-avc.co.jp/</a>
+    </li>
+    <li>
+      <span class="entity-name">株式会社マイスター・ギルド</span><a class="entity-url" href="https://www.meister-g.co.jp/" target="_blank" rel="noopener noreferrer">https://www.meister-g.co.jp/</a>
+    </li>
+    <li>
+      <span class="entity-name">アステリア株式会社</span><a class="entity-url" href="https://www.asteria.com/" target="_blank" rel="noopener noreferrer">https://www.asteria.com/</a>
+    </li>
+    <li>
+      <span class="entity-name">株式会社Spovisor</span><a class="entity-url" href="https://spovisor.co.jp/" target="_blank" rel="noopener noreferrer">https://spovisor.co.jp/</a>
+    </li>
+    <li>
+      <span class="entity-name">株式会社ノーコード総合研究所</span><a class="entity-url" href="https://nocode-japan.com/" target="_blank" rel="noopener noreferrer">https://nocode-japan.com/</a>
+    </li>
+  </ol>
+</div>
+</body>
+</html>

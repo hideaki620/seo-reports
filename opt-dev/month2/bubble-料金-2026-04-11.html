@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>記事構成指示書: bubble 料金</title>
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --sub: #555;
+    --muted: #888;
+    --line: #e5e5e5;
+    --line-strong: #d0d0d0;
+    --accent: #0a6efd;
+    --accent-soft: #eef3ff;
+    --bg: #fafaf8;
+    --card: #ffffff;
+    --highlight: #fff8e1;
+    --highlight-border: #f0c800;
+    --code-bg: #f4f4f4;
+    --h2-bar: #0a6efd;
+    --h3-bar: #8ab4ff;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 48px 32px 96px;
+  }
+
+  /* ヘッダー */
+  .header {
+    border-bottom: 3px solid var(--ink);
+    padding-bottom: 24px;
+    margin-bottom: 40px;
+  }
+  .header .eyebrow {
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    color: var(--sub);
+    background: #fff;
+    padding: 4px 10px;
+    border: 1px solid var(--line-strong);
+    border-radius: 3px;
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+  .header h1 {
+    font-size: 32px;
+    line-height: 1.4;
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+
+  /* セクション見出し */
+  h2.section {
+    font-size: 22px;
+    font-weight: 800;
+    margin: 56px 0 20px;
+    padding: 12px 0 12px 16px;
+    border-left: 6px solid var(--h2-bar);
+    letter-spacing: -0.01em;
+    line-height: 1.4;
+  }
+  h2.section .num {
+    display: inline-block;
+    font-size: 14px;
+    color: var(--accent);
+    margin-right: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  /* 個別指示（目立たせる） */
+  .director-note {
+    background: var(--highlight);
+    border: 2px solid var(--highlight-border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 0 0 40px;
+  }
+  .director-note::before {
+    content: "📋 ディレクターからの個別指示";
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: #8a6d00;
+    margin-bottom: 10px;
+    letter-spacing: 0.03em;
+  }
+  .director-note p {
+    margin: 0 0 10px;
+    font-size: 15px;
+    line-height: 1.9;
+    color: #5a4a00;
+  }
+  .director-note p:last-child { margin-bottom: 0; }
+  .director-note a {
+    color: #0a5bd2;
+    text-decoration: underline;
+    word-break: break-all;
+  }
+  .director-note a:hover { color: #063d8f; }
+
+  /* 基本情報テーブル */
+  .info-table {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .info-table dl {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 180px 1fr;
+  }
+  .info-table dt {
+    background: #f7f7f5;
+    padding: 14px 20px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--sub);
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+  }
+  .info-table dd {
+    margin: 0;
+    padding: 14px 20px;
+    font-size: 15px;
+    border-bottom: 1px solid var(--line);
+    line-height: 1.6;
+  }
+  .info-table dl > *:nth-last-child(-n+2) {
+    border-bottom: none;
+  }
+  .info-table dd strong {
+    color: var(--accent);
+  }
+
+  /* ユーザーニーズ */
+  .needs {
+    background: var(--card);
+    border-left: 4px solid var(--accent);
+    padding: 20px 28px;
+    border-radius: 0 8px 8px 0;
+    font-size: 15px;
+    line-height: 2;
+    color: var(--ink);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    white-space: pre-wrap;
+  }
+
+  /* 全体の方向性チェックリスト */
+  .directions {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .directions li {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 14px 16px 14px 48px;
+    margin-bottom: 10px;
+    position: relative;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  .directions li::before {
+    content: "✓";
+    position: absolute;
+    left: 16px;
+    top: 14px;
+    width: 22px;
+    height: 22px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 1;
+  }
+
+  /* アウトライン */
+  .outline-intro {
+    color: var(--sub);
+    font-size: 14px;
+    margin-bottom: 20px;
+    padding: 12px 16px;
+    background: var(--accent-soft);
+    border-radius: 6px;
+    border-left: 3px solid var(--accent);
+  }
+  .h2-block {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin-bottom: 18px;
+    position: relative;
+  }
+  .h2-block::before {
+    content: "H2";
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+  }
+  .h2-block h3.h2-title {
+    font-size: 19px;
+    font-weight: 700;
+    margin: 4px 0 8px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .h2-block > .direction {
+    font-size: 14px;
+    color: var(--sub);
+    margin: 0 0 16px;
+    line-height: 1.7;
+  }
+  .h3-list {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 0;
+    border-top: 1px dashed var(--line);
+    padding-top: 14px;
+  }
+  .h3-list li {
+    padding: 10px 0 10px 24px;
+    position: relative;
+    font-size: 15px;
+    line-height: 1.6;
+    border-bottom: 1px dashed var(--line);
+  }
+  .h3-list li:last-child {
+    border-bottom: none;
+    padding-bottom: 4px;
+  }
+  .h3-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 19px;
+    width: 12px;
+    height: 2px;
+    background: var(--h3-bar);
+  }
+  .h3-list .h3-title {
+    font-weight: 600;
+    color: var(--ink);
+    display: block;
+    margin-bottom: 4px;
+    font-size: 15px;
+  }
+  .h3-list .h3-title::before {
+    content: "H3";
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    background: #eef3ff;
+    color: var(--accent);
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-right: 8px;
+    letter-spacing: 0.05em;
+    vertical-align: middle;
+  }
+  .h3-list .h3-direction {
+    font-size: 13px;
+    color: var(--sub);
+    line-height: 1.7;
+  }
+
+  /* エンティティリスト */
+  .entity-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: entity-counter;
+  }
+  .entity-list li {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 18px 14px 56px;
+    margin-bottom: 10px;
+    position: relative;
+    counter-increment: entity-counter;
+  }
+  .entity-list li::before {
+    content: counter(entity-counter);
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .entity-name {
+    display: block;
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 2px;
+  }
+  .entity-url {
+    display: block;
+    font-size: 12px;
+    color: var(--accent);
+    text-decoration: none;
+    word-break: break-all;
+  }
+  .entity-url:hover { text-decoration: underline; }
+
+  /* 印刷対応 */
+  @media print {
+    body { background: #fff; font-size: 12pt; }
+    .container { padding: 20px; max-width: 100%; }
+    .h2-block, .info-table, .director-note, .needs, .directions li, .entity-list li {
+      page-break-inside: avoid;
+      box-shadow: none;
+    }
+    h2.section { page-break-after: avoid; }
+  }
+
+  /* モバイル対応 */
+  @media (max-width: 640px) {
+    .container { padding: 24px 16px 64px; }
+    .header h1 { font-size: 24px; }
+    h2.section { font-size: 18px; margin: 40px 0 16px; }
+    .info-table dl { grid-template-columns: 1fr; }
+    .info-table dt { border-bottom: none; padding-bottom: 4px; }
+    .info-table dd { padding-top: 4px; }
+    .h2-block { padding: 20px; }
+    .h2-block h3.h2-title { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ヘッダー -->
+  <header class="header">
+    <span class="eyebrow">WRITER'S BRIEF</span>
+    <h1>記事構成指示書: bubble 料金</h1>
+  </header>
+
+  <!-- 基本情報 -->
+  <h2 class="section"><span class="num">01</span>基本情報</h2>
+  <div class="info-table">
+    <dl>
+      <dt>キーワード</dt>
+      <dd>bubble 料金</dd>
+
+      <dt>タイトル案</dt>
+      <dd>Bubble料金プラン完全解剖｜5プランの選び方と月額費用</dd>
+
+      <dt>メタディスクリプション案</dt>
+      <dd>ノーコード開発ツールBubbleの料金プラン（Free・Starter・Growth・Team・Agency）を徹底解説。ワークロードユニットの仕組み、無料でできること・できないこと、目的別のおすすめプラン、契約前の注意点まで網羅。</dd>
+
+      <dt>目標文字数</dt>
+      <dd>約 12,000 字</dd>
+    </dl>
+  </div>
+
+  <!-- ユーザーニーズ -->
+  <h2 class="section"><span class="num">02</span>ユーザーニーズ</h2>
+  <div class="needs">Bubbleを使ってアプリ開発をしたい、または既に触り始めている人が「自分はどのプランを選ぶべきか」を判断したくて検索している。特に「無料プランでどこまでやれるか」「有料にするタイミング」「ワークロードユニットという新しい課金指標が何を意味するのか」を知りたい意図が強い。経営者・プロダクトマネージャ層は「月額費用がいくら発生するのか、事業計画に乗せられるか」を把握したい。読後は「自分の用途に合うプランを1つ選べて、月額の概算費用が頭に入る」状態を目指す。</div>
+
+  <!-- 全体の方向性 -->
+  <h2 class="section"><span class="num">03</span>全体の方向性</h2>
+  <ul class="directions">
+    <li>上位記事で共通する「プラン一覧表」「ワークロードユニットの説明」「無料プランでできること・できないこと」を必ず押さえる</li>
+    <li>ワークロードユニット（WU）の仕組みを早い段階で図解的に説明する（読者の最大の混乱ポイント）</li>
+    <li>上位記事で手薄な「月額いくらかかるかの実感値」「どのタイミングで有料化するべきか」の判断基準を具体的に示す</li>
+    <li>Bubbleの料金改定履歴（2023年5月の新料金体系移行）に触れ、古い情報との混同を避ける</li>
+    <li>プランごとの価格表記は公式サイト（bubble.io/pricing）の最新値を参照する前提で書き、ライターには必ず公式で最新値を確認してもらう旨を共有事項として添える</li>
+    <li>「アプリ単位で課金される」という非エンジニアが誤解しやすい点を強調する</li>
+    <li>読後にユーザーが「自分に合うプランが1つ決まり、月額概算が頭に入る」状態を目指す</li>
+  </ul>
+
+  <!-- 記事構成 -->
+  <h2 class="section"><span class="num">04</span>記事構成（アウトライン）</h2>
+  <p class="outline-intro">以下の構成で本文を執筆してください。各 H2 の下の「方向性」は各セクションで触れる要点を示しています。H3 の順序は変更せず、そのまま採用してください。</p>
+
+  <div class="h2-block">
+    <h3 class="h2-title">Bubbleの料金プランの全体像</h3>
+    <p class="direction">記事冒頭で全プランを俯瞰できる導入セクション。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">現在のBubbleの料金プラン一覧</span>
+        <span class="h3-direction">Free / Starter / Growth / Team / Agency の5プラン（またはその時点の最新構成）を表形式で紹介。</span>
+      </li>
+      <li>
+        <span class="h3-title">料金改定の経緯（旧プランとの違い）</span>
+        <span class="h3-direction">2023年5月にワークロードユニット制に移行した経緯を簡潔に説明し、古い情報との混同を避ける。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">Bubbleの料金体系の特徴｜契約前に知るべき3つのこと</h3>
+    <p class="direction">読者の理解を早めるための前提知識セクション。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">アプリ単位で料金が発生する</span>
+        <span class="h3-direction">複数アプリを作る場合、アプリごとに有料プランが必要になる点を強調。</span>
+      </li>
+      <li>
+        <span class="h3-title">月額契約と年額契約の違い</span>
+        <span class="h3-direction">年額契約の割引メリットを説明。</span>
+      </li>
+      <li>
+        <span class="h3-title">無料プランから有料プランへの切り替えタイミング</span>
+        <span class="h3-direction">いつ有料化すべきかの判断基準を簡潔に示す。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">ワークロードユニット（WU）とは？新料金体系の仕組み</h3>
+    <p class="direction">本記事の差別化セクション。読者が最もつまずくポイントを丁寧に説明する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">ワークロードユニットの基本概念</span>
+        <span class="h3-direction">ワークフロー実行・データベース操作などで消費される単位であることを説明。</span>
+      </li>
+      <li>
+        <span class="h3-title">プラン別の月間WU上限</span>
+        <span class="h3-direction">各プランに付与されるWUの目安と、超過時の従量課金ルールを説明。</span>
+      </li>
+      <li>
+        <span class="h3-title">WUが足りなくなったらどうなる？</span>
+        <span class="h3-direction">アプリが止まるのか、追加購入できるのかを正直に説明。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">各料金プランの詳細と選び方</h3>
+    <p class="direction">プランごとの特徴を深掘りするメインセクション。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">Freeプラン（無料プラン）の特徴と制限</span>
+        <span class="h3-direction">学習・テスト用途に限定される旨と、アプリ公開できない点を説明。</span>
+      </li>
+      <li>
+        <span class="h3-title">Starterプランの特徴</span>
+        <span class="h3-direction">個人開発・小規模MVPに適したプランであることを説明。</span>
+      </li>
+      <li>
+        <span class="h3-title">Growthプランの特徴</span>
+        <span class="h3-direction">本格運用・チーム開発に適したプランであることを説明。</span>
+      </li>
+      <li>
+        <span class="h3-title">Teamプランの特徴</span>
+        <span class="h3-direction">サブアプリ作成など、大規模プロジェクト向けの機能を説明。</span>
+      </li>
+      <li>
+        <span class="h3-title">Agencyプラン（受託開発向け）の特徴</span>
+        <span class="h3-direction">開発会社向けのプランであることを説明。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">Bubbleの無料プランでできること・できないこと</h3>
+    <p class="direction">読者が最も気になる無料プランの実力を詳細にまとめるセクション。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">無料プランでできること</span>
+        <span class="h3-direction">UI設計・データベース設計・テスト実行など、学習範囲で十分使えることを説明。</span>
+      </li>
+      <li>
+        <span class="h3-title">無料プランでできないこと</span>
+        <span class="h3-direction">アプリ公開・独自ドメイン・APIキー連携・Bubbleバナー削除など、有料プランが必要な機能を列挙。</span>
+      </li>
+      <li>
+        <span class="h3-title">無料プランをうまく使う方法</span>
+        <span class="h3-direction">プロトタイプ作成・ツール評価の用途として活用する方法を紹介。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">料金プランの機能比較｜17項目でチェック</h3>
+    <p class="direction">上位記事（EPICs）で17項目の比較が行われていた事例を参考に、主要な違いを比較しやすく整理。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">開発に関わる機能（リリース・独自ドメイン・バージョン管理など）</span>
+        <span class="h3-direction">プラン別の対応状況をまとめる。</span>
+      </li>
+      <li>
+        <span class="h3-title">チーム開発に関わる機能</span>
+        <span class="h3-direction">複数人開発、ロール管理などを比較。</span>
+      </li>
+      <li>
+        <span class="h3-title">運用に関わる機能（ストレージ・データベース数・バックアップ期間など）</span>
+        <span class="h3-direction">運用時に効いてくる制約を比較。</span>
+      </li>
+      <li>
+        <span class="h3-title">セキュリティに関わる機能</span>
+        <span class="h3-direction">二段階認証・パスワード保護などの対応状況を比較。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">目的別のおすすめプラン</h3>
+    <p class="direction">読者のユースケースに応じた選び方を提示するセクション。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">Bubbleを学習したい・触ってみたい人</span>
+        <span class="h3-direction">Freeプランで始める選択肢を推奨。</span>
+      </li>
+      <li>
+        <span class="h3-title">個人でMVPを公開したい人</span>
+        <span class="h3-direction">Starterプランの選び方を説明。</span>
+      </li>
+      <li>
+        <span class="h3-title">チームで本格開発したい企業</span>
+        <span class="h3-direction">Growth以上のプランの選び方を説明。</span>
+      </li>
+      <li>
+        <span class="h3-title">受託開発会社・代理店</span>
+        <span class="h3-direction">Agencyプランの選び方を説明。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">Bubble契約前に知っておきたい注意点</h3>
+    <p class="direction">読者が契約後に後悔しないための注意喚起セクション。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">支払い方法（クレカ・デビットカードのみ）</span>
+        <span class="h3-direction">日本円決済の注意や、為替リスクに触れる。</span>
+      </li>
+      <li>
+        <span class="h3-title">プラン変更・解約時のルール</span>
+        <span class="h3-direction">ダウングレードやキャンセル時の注意点を説明。</span>
+      </li>
+      <li>
+        <span class="h3-title">月額費用の目安（日本円換算）</span>
+        <span class="h3-direction">ドル建てであることと、おおよその日本円換算を示す。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">Bubbleと他のノーコードツールの料金比較</h3>
+    <p class="direction">参考情報として、他ツールとの料金感の違いを簡潔に比較するセクション。</p>
+
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">よくある質問（FAQ）</h3>
+    <p class="direction">上位記事で共通して扱われている料金関連の疑問をまとめる。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">無料プランだけでアプリを公開できる？</span>
+        <span class="h3-direction">できない旨を明確に回答。</span>
+      </li>
+      <li>
+        <span class="h3-title">有料プランに切り替える最適なタイミングは？</span>
+        <span class="h3-direction">公開直前・チーム参加時など判断基準を回答。</span>
+      </li>
+      <li>
+        <span class="h3-title">ワークロードユニットが不足したらアプリは止まる？</span>
+        <span class="h3-direction">有料プランでの従量課金の扱いを回答。</span>
+      </li>
+      <li>
+        <span class="h3-title">開発を外注した場合の費用感は？</span>
+        <span class="h3-direction">別記事に誘導しつつ、概算レンジを回答。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">まとめ｜自分の用途に合ったBubbleプランを選ぼう</h3>
+    <p class="direction">本文の要点を再確認し、読者を「まずは公式サイトで最新料金を確認→無料プランを試す」次の行動に誘導する。</p>
+
+  </div>
+
+</div>
+</body>
+</html>
