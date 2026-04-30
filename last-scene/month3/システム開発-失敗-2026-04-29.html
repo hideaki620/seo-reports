@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>記事構成指示書: システム開発 失敗</title>
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --sub: #555;
+    --muted: #888;
+    --line: #e5e5e5;
+    --line-strong: #d0d0d0;
+    --accent: #0a6efd;
+    --accent-soft: #eef3ff;
+    --bg: #fafaf8;
+    --card: #ffffff;
+    --highlight: #fff8e1;
+    --highlight-border: #f0c800;
+    --code-bg: #f4f4f4;
+    --h2-bar: #0a6efd;
+    --h3-bar: #8ab4ff;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 48px 32px 96px;
+  }
+
+  /* ヘッダー */
+  .header {
+    border-bottom: 3px solid var(--ink);
+    padding-bottom: 24px;
+    margin-bottom: 40px;
+  }
+  .header .eyebrow {
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    color: var(--sub);
+    background: #fff;
+    padding: 4px 10px;
+    border: 1px solid var(--line-strong);
+    border-radius: 3px;
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+  .header h1 {
+    font-size: 32px;
+    line-height: 1.4;
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+
+  /* セクション見出し */
+  h2.section {
+    font-size: 22px;
+    font-weight: 800;
+    margin: 56px 0 20px;
+    padding: 12px 0 12px 16px;
+    border-left: 6px solid var(--h2-bar);
+    letter-spacing: -0.01em;
+    line-height: 1.4;
+  }
+  h2.section .num {
+    display: inline-block;
+    font-size: 14px;
+    color: var(--accent);
+    margin-right: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  /* 個別指示（目立たせる） */
+  .director-note {
+    background: var(--highlight);
+    border: 2px solid var(--highlight-border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 0 0 40px;
+  }
+  .director-note::before {
+    content: "📋 ディレクターからの個別指示";
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: #8a6d00;
+    margin-bottom: 10px;
+    letter-spacing: 0.03em;
+  }
+  .director-note p {
+    margin: 0 0 10px;
+    font-size: 15px;
+    line-height: 1.9;
+    color: #5a4a00;
+  }
+  .director-note p:last-child { margin-bottom: 0; }
+  .director-note a {
+    color: #0a5bd2;
+    text-decoration: underline;
+    word-break: break-all;
+  }
+  .director-note a:hover { color: #063d8f; }
+
+  /* 基本情報テーブル */
+  .info-table {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .info-table dl {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 180px 1fr;
+  }
+  .info-table dt {
+    background: #f7f7f5;
+    padding: 14px 20px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--sub);
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+  }
+  .info-table dd {
+    margin: 0;
+    padding: 14px 20px;
+    font-size: 15px;
+    border-bottom: 1px solid var(--line);
+    line-height: 1.6;
+  }
+  .info-table dl > *:nth-last-child(-n+2) {
+    border-bottom: none;
+  }
+  .info-table dd strong {
+    color: var(--accent);
+  }
+
+  /* ユーザーニーズ */
+  .needs {
+    background: var(--card);
+    border-left: 4px solid var(--accent);
+    padding: 20px 28px;
+    border-radius: 0 8px 8px 0;
+    font-size: 15px;
+    line-height: 2;
+    color: var(--ink);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    white-space: pre-wrap;
+  }
+
+  /* 全体の方向性チェックリスト */
+  .directions {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .directions li {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 14px 16px 14px 48px;
+    margin-bottom: 10px;
+    position: relative;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  .directions li::before {
+    content: "✓";
+    position: absolute;
+    left: 16px;
+    top: 14px;
+    width: 22px;
+    height: 22px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 1;
+  }
+
+  /* アウトライン */
+  .outline-intro {
+    color: var(--sub);
+    font-size: 14px;
+    margin-bottom: 20px;
+    padding: 12px 16px;
+    background: var(--accent-soft);
+    border-radius: 6px;
+    border-left: 3px solid var(--accent);
+  }
+  .h2-block {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin-bottom: 18px;
+    position: relative;
+  }
+  .h2-block::before {
+    content: "H2";
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+  }
+  .h2-block h3.h2-title {
+    font-size: 19px;
+    font-weight: 700;
+    margin: 4px 0 8px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .h2-block > .direction {
+    font-size: 14px;
+    color: var(--sub);
+    margin: 0 0 16px;
+    line-height: 1.7;
+  }
+  .h3-list {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 0;
+    border-top: 1px dashed var(--line);
+    padding-top: 14px;
+  }
+  .h3-list li {
+    padding: 10px 0 10px 24px;
+    position: relative;
+    font-size: 15px;
+    line-height: 1.6;
+    border-bottom: 1px dashed var(--line);
+  }
+  .h3-list li:last-child {
+    border-bottom: none;
+    padding-bottom: 4px;
+  }
+  .h3-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 19px;
+    width: 12px;
+    height: 2px;
+    background: var(--h3-bar);
+  }
+  .h3-list .h3-title {
+    font-weight: 600;
+    color: var(--ink);
+    display: block;
+    margin-bottom: 4px;
+    font-size: 15px;
+  }
+  .h3-list .h3-title::before {
+    content: "H3";
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    background: #eef3ff;
+    color: var(--accent);
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-right: 8px;
+    letter-spacing: 0.05em;
+    vertical-align: middle;
+  }
+  .h3-list .h3-direction {
+    font-size: 13px;
+    color: var(--sub);
+    line-height: 1.7;
+  }
+
+  /* エンティティリスト */
+  .entity-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: entity-counter;
+  }
+  .entity-list li {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 18px 14px 56px;
+    margin-bottom: 10px;
+    position: relative;
+    counter-increment: entity-counter;
+  }
+  .entity-list li::before {
+    content: counter(entity-counter);
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .entity-name {
+    display: block;
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 2px;
+  }
+  .entity-url {
+    display: block;
+    font-size: 12px;
+    color: var(--accent);
+    text-decoration: none;
+    word-break: break-all;
+  }
+  .entity-url:hover { text-decoration: underline; }
+
+  /* 印刷対応 */
+  @media print {
+    body { background: #fff; font-size: 12pt; }
+    .container { padding: 20px; max-width: 100%; }
+    .h2-block, .info-table, .director-note, .needs, .directions li, .entity-list li {
+      page-break-inside: avoid;
+      box-shadow: none;
+    }
+    h2.section { page-break-after: avoid; }
+  }
+
+  /* モバイル対応 */
+  @media (max-width: 640px) {
+    .container { padding: 24px 16px 64px; }
+    .header h1 { font-size: 24px; }
+    h2.section { font-size: 18px; margin: 40px 0 16px; }
+    .info-table dl { grid-template-columns: 1fr; }
+    .info-table dt { border-bottom: none; padding-bottom: 4px; }
+    .info-table dd { padding-top: 4px; }
+    .h2-block { padding: 20px; }
+    .h2-block h3.h2-title { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ヘッダー -->
+  <header class="header">
+    <span class="eyebrow">WRITER'S BRIEF</span>
+    <h1>記事構成指示書: システム開発 失敗</h1>
+  </header>
+
+  <!-- 基本情報 -->
+  <h2 class="section"><span class="num">01</span>基本情報</h2>
+  <div class="info-table">
+    <dl>
+      <dt>キーワード</dt>
+      <dd>システム開発 失敗</dd>
+
+      <dt>タイトル案</dt>
+      <dd>システム開発が失敗する7つの原因｜事例から学ぶ工程別の防止策と成功への転換法</dd>
+
+      <dt>メタディスクリプション案</dt>
+      <dd>システム開発の失敗原因を要件定義・見積もり・設計・テストなど工程別に7つ整理。実際の失敗事例を分析し、各フェーズで取るべき防止策と失敗プロジェクトを立て直す方法を解説します。</dd>
+
+      <dt>目標文字数</dt>
+      <dd>約 11200 字</dd>
+    </dl>
+  </div>
+
+  <!-- ユーザーニーズ -->
+  <h2 class="section"><span class="num">02</span>ユーザーニーズ</h2>
+  <div class="needs">システム開発プロジェクトの担当者やPMが、過去の失敗事例から学んで自社プロジェクトの失敗を防ぎたい。
+「失敗」の定義や判断基準を明確にし、自社プロジェクトが失敗に向かっていないか確認したい。
+工程ごとに何が原因で失敗するのかを体系的に理解し、それぞれの対策を知りたい。
+すでにプロジェクトが暗礁に乗り上げている場合のリカバリー方法も探している。
+経営層への報告や改善提案に使える構造化された情報を求めている。</div>
+
+  <!-- 全体の方向性 -->
+  <h2 class="section"><span class="num">03</span>全体の方向性</h2>
+  <ul class="directions">
+    <li>「失敗」の定義を明確にする（品質・納期・コスト・導入効果の4観点）</li>
+    <li>失敗原因を工程別（見積もり→選定→要件定義→開発→テスト→運用）に整理する</li>
+    <li>発注者側・開発者側双方の責任を公平に分析する</li>
+    <li>具体的な失敗事例を複数紹介し、原因分析と教訓を引き出す</li>
+    <li>各工程での防止策を実践的なチェックリストとして提示する</li>
+    <li>失敗プロジェクトのリカバリー方法を具体的に示す（差別化ポイント）</li>
+    <li>7割のプロジェクトが何らかの問題を抱えるという統計を引用し、「失敗は珍しくない」前提で対策を語る</li>
+    <li>ノーコード・ローコードなど新しい選択肢でリスク軽減できる可能性にも触れる</li>
+  </ul>
+
+  <!-- 記事構成 -->
+  <h2 class="section"><span class="num">04</span>記事構成（アウトライン）</h2>
+  <p class="outline-intro">以下の構成で本文を執筆してください。各 H2 の下の「方向性」は各セクションで触れる要点を示しています。H3 の順序は変更せず、そのまま採用してください。</p>
+
+  <div class="h2-block">
+    <h3 class="h2-title">システム開発における「失敗」とは何か</h3>
+    <p class="direction">失敗の定義を品質・納期・コスト・導入効果の4軸で明確にする。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">失敗の判断基準は「成果物の状態」と「事業目標の達成度」</span>
+        <span class="h3-direction">品質不良だけでなく、使われないシステムも「失敗」であることを解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">表面化しない「隠れた失敗」にも注意が必要</span>
+        <span class="h3-direction">運用開始後に使われない、保守性が低いなど遅延発覚する失敗パターンを紹介する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">システム開発が失敗する7つの原因を工程別に解説</h3>
+    <p class="direction">最も多い失敗原因を工程の流れに沿って整理する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">目的が曖昧なまま開発をスタートさせた</span>
+        <span class="h3-direction">課題とゴールの不明確さが全工程に波及するリスクを説明する。</span>
+      </li>
+      <li>
+        <span class="h3-title">要件定義で発注者・開発者間の認識がズレていた</span>
+        <span class="h3-direction">要件の抜け漏れや解釈違いが手戻りを生むメカニズムを解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">見積もりが不明瞭で予算超過が発生した</span>
+        <span class="h3-direction">見積もり精度の低さがコスト問題に直結する原因を分析する。</span>
+      </li>
+      <li>
+        <span class="h3-title">技術選定・設計判断の甘さで品質が崩壊した</span>
+        <span class="h3-direction">不適切な技術選定がプロジェクト全体に与える影響を説明する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">代表的なシステム開発の失敗事例</h3>
+    <p class="direction">実際に起きた失敗事例から教訓を引き出す。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">要件定義の不備で手戻りが連続し開発が破綻した事例</span>
+        <span class="h3-direction">上流工程の失敗がどこまで影響を広げるかを具体的に示す。</span>
+      </li>
+      <li>
+        <span class="h3-title">ベンダー選定ミスで使い物にならないシステムが納品された事例</span>
+        <span class="h3-direction">技術力の見極め不足がもたらした結末を分析する。</span>
+      </li>
+      <li>
+        <span class="h3-title">追加仕様が止まらずスコープクリープで予算が倍増した事例</span>
+        <span class="h3-direction">変更管理の不在がプロジェクトを崩壊させた過程を説明する。</span>
+      </li>
+      <li>
+        <span class="h3-title">導入後に現場が使わず投資効果がゼロだった事例</span>
+        <span class="h3-direction">運用設計の不足と現場巻き込みの欠如が招いた失敗を紹介する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">失敗の原因を「発注者」「開発者」で整理する</h3>
+    <p class="direction">責任の所在を明確にし、双方が取るべきアクションを示す。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">発注者側の典型的な問題行動とその改善策</span>
+        <span class="h3-direction">丸投げ・決裁遅延・現場不参加など発注者起因の問題を整理する。</span>
+      </li>
+      <li>
+        <span class="h3-title">開発者側の典型的な問題行動とその改善策</span>
+        <span class="h3-direction">要望の鵜呑み・早期警告の欠如・過少見積もりなど開発者起因の問題を整理する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">システム開発の失敗を防ぐための具体策</h3>
+    <p class="direction">工程横断で使える防止策を実践的に提示する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">要件定義書の読み合わせで認識のズレをなくす</span>
+        <span class="h3-direction">基本設計前に必ず実施すべき合意形成の方法を解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">品質基準・テスト計画を開発着手前に確定する</span>
+        <span class="h3-direction">テスト設計を後回しにしないことの重要性を説明する。</span>
+      </li>
+      <li>
+        <span class="h3-title">スケジュールに余裕を持たせリスクバッファを組み込む</span>
+        <span class="h3-direction">現実的なスケジュール設計のポイントを示す。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">失敗プロジェクトを立て直すリカバリー方法</h3>
+    <p class="direction">すでに問題が発生しているプロジェクトの救済策を具体的に解説する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">現状の正確な把握と問題の優先順位付け</span>
+        <span class="h3-direction">何から手をつけるべきかの判断フレームワークを提供する。</span>
+      </li>
+      <li>
+        <span class="h3-title">別ベンダーへの引き継ぎ・リビルドの進め方</span>
+        <span class="h3-direction">ベンダー切り替えの具体的な手順と注意点を解説する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">まとめ｜失敗は防げる、だが「ゼロ」にはできない</h3>
+    <p class="direction">失敗リスクを最小化するための心構えと、実践すべきアクションを総括する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">失敗を前提にしたプロジェクト設計の考え方</span>
+        <span class="h3-direction">リスクマネジメントの基本姿勢と記事全体の要点を振り返る。</span>
+      </li>
+    </ul>
+  </div>
+
+</div>
+</body>
+</html>

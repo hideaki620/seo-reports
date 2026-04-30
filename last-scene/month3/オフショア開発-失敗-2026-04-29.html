@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>記事構成指示書: オフショア開発 失敗</title>
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --sub: #555;
+    --muted: #888;
+    --line: #e5e5e5;
+    --line-strong: #d0d0d0;
+    --accent: #0a6efd;
+    --accent-soft: #eef3ff;
+    --bg: #fafaf8;
+    --card: #ffffff;
+    --highlight: #fff8e1;
+    --highlight-border: #f0c800;
+    --code-bg: #f4f4f4;
+    --h2-bar: #0a6efd;
+    --h3-bar: #8ab4ff;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 48px 32px 96px;
+  }
+
+  /* ヘッダー */
+  .header {
+    border-bottom: 3px solid var(--ink);
+    padding-bottom: 24px;
+    margin-bottom: 40px;
+  }
+  .header .eyebrow {
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    color: var(--sub);
+    background: #fff;
+    padding: 4px 10px;
+    border: 1px solid var(--line-strong);
+    border-radius: 3px;
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+  .header h1 {
+    font-size: 32px;
+    line-height: 1.4;
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+
+  /* セクション見出し */
+  h2.section {
+    font-size: 22px;
+    font-weight: 800;
+    margin: 56px 0 20px;
+    padding: 12px 0 12px 16px;
+    border-left: 6px solid var(--h2-bar);
+    letter-spacing: -0.01em;
+    line-height: 1.4;
+  }
+  h2.section .num {
+    display: inline-block;
+    font-size: 14px;
+    color: var(--accent);
+    margin-right: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  /* 個別指示（目立たせる） */
+  .director-note {
+    background: var(--highlight);
+    border: 2px solid var(--highlight-border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 0 0 40px;
+  }
+  .director-note::before {
+    content: "📋 ディレクターからの個別指示";
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: #8a6d00;
+    margin-bottom: 10px;
+    letter-spacing: 0.03em;
+  }
+  .director-note p {
+    margin: 0 0 10px;
+    font-size: 15px;
+    line-height: 1.9;
+    color: #5a4a00;
+  }
+  .director-note p:last-child { margin-bottom: 0; }
+  .director-note a {
+    color: #0a5bd2;
+    text-decoration: underline;
+    word-break: break-all;
+  }
+  .director-note a:hover { color: #063d8f; }
+
+  /* 基本情報テーブル */
+  .info-table {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .info-table dl {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 180px 1fr;
+  }
+  .info-table dt {
+    background: #f7f7f5;
+    padding: 14px 20px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--sub);
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+  }
+  .info-table dd {
+    margin: 0;
+    padding: 14px 20px;
+    font-size: 15px;
+    border-bottom: 1px solid var(--line);
+    line-height: 1.6;
+  }
+  .info-table dl > *:nth-last-child(-n+2) {
+    border-bottom: none;
+  }
+  .info-table dd strong {
+    color: var(--accent);
+  }
+
+  /* ユーザーニーズ */
+  .needs {
+    background: var(--card);
+    border-left: 4px solid var(--accent);
+    padding: 20px 28px;
+    border-radius: 0 8px 8px 0;
+    font-size: 15px;
+    line-height: 2;
+    color: var(--ink);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    white-space: pre-wrap;
+  }
+
+  /* 全体の方向性チェックリスト */
+  .directions {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .directions li {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 14px 16px 14px 48px;
+    margin-bottom: 10px;
+    position: relative;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  .directions li::before {
+    content: "✓";
+    position: absolute;
+    left: 16px;
+    top: 14px;
+    width: 22px;
+    height: 22px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 1;
+  }
+
+  /* アウトライン */
+  .outline-intro {
+    color: var(--sub);
+    font-size: 14px;
+    margin-bottom: 20px;
+    padding: 12px 16px;
+    background: var(--accent-soft);
+    border-radius: 6px;
+    border-left: 3px solid var(--accent);
+  }
+  .h2-block {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin-bottom: 18px;
+    position: relative;
+  }
+  .h2-block::before {
+    content: "H2";
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+  }
+  .h2-block h3.h2-title {
+    font-size: 19px;
+    font-weight: 700;
+    margin: 4px 0 8px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .h2-block > .direction {
+    font-size: 14px;
+    color: var(--sub);
+    margin: 0 0 16px;
+    line-height: 1.7;
+  }
+  .h3-list {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 0;
+    border-top: 1px dashed var(--line);
+    padding-top: 14px;
+  }
+  .h3-list li {
+    padding: 10px 0 10px 24px;
+    position: relative;
+    font-size: 15px;
+    line-height: 1.6;
+    border-bottom: 1px dashed var(--line);
+  }
+  .h3-list li:last-child {
+    border-bottom: none;
+    padding-bottom: 4px;
+  }
+  .h3-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 19px;
+    width: 12px;
+    height: 2px;
+    background: var(--h3-bar);
+  }
+  .h3-list .h3-title {
+    font-weight: 600;
+    color: var(--ink);
+    display: block;
+    margin-bottom: 4px;
+    font-size: 15px;
+  }
+  .h3-list .h3-title::before {
+    content: "H3";
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    background: #eef3ff;
+    color: var(--accent);
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-right: 8px;
+    letter-spacing: 0.05em;
+    vertical-align: middle;
+  }
+  .h3-list .h3-direction {
+    font-size: 13px;
+    color: var(--sub);
+    line-height: 1.7;
+  }
+
+  /* エンティティリスト */
+  .entity-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: entity-counter;
+  }
+  .entity-list li {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 18px 14px 56px;
+    margin-bottom: 10px;
+    position: relative;
+    counter-increment: entity-counter;
+  }
+  .entity-list li::before {
+    content: counter(entity-counter);
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .entity-name {
+    display: block;
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 2px;
+  }
+  .entity-url {
+    display: block;
+    font-size: 12px;
+    color: var(--accent);
+    text-decoration: none;
+    word-break: break-all;
+  }
+  .entity-url:hover { text-decoration: underline; }
+
+  /* 印刷対応 */
+  @media print {
+    body { background: #fff; font-size: 12pt; }
+    .container { padding: 20px; max-width: 100%; }
+    .h2-block, .info-table, .director-note, .needs, .directions li, .entity-list li {
+      page-break-inside: avoid;
+      box-shadow: none;
+    }
+    h2.section { page-break-after: avoid; }
+  }
+
+  /* モバイル対応 */
+  @media (max-width: 640px) {
+    .container { padding: 24px 16px 64px; }
+    .header h1 { font-size: 24px; }
+    h2.section { font-size: 18px; margin: 40px 0 16px; }
+    .info-table dl { grid-template-columns: 1fr; }
+    .info-table dt { border-bottom: none; padding-bottom: 4px; }
+    .info-table dd { padding-top: 4px; }
+    .h2-block { padding: 20px; }
+    .h2-block h3.h2-title { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ヘッダー -->
+  <header class="header">
+    <span class="eyebrow">WRITER'S BRIEF</span>
+    <h1>記事構成指示書: オフショア開発 失敗</h1>
+  </header>
+
+  <!-- 基本情報 -->
+  <h2 class="section"><span class="num">01</span>基本情報</h2>
+  <div class="info-table">
+    <dl>
+      <dt>キーワード</dt>
+      <dd>オフショア開発 失敗</dd>
+
+      <dt>タイトル案</dt>
+      <dd>オフショア開発の失敗事例8選｜原因別に防止策と撤退判断基準を整理</dd>
+
+      <dt>メタディスクリプション案</dt>
+      <dd>オフショア開発でよくある失敗事例を品質・コミュニケーション・コスト超過など原因別に分類。失敗を防ぐチェックシートと撤退すべきタイミングの判断基準まで解説します。</dd>
+
+      <dt>目標文字数</dt>
+      <dd>約 9800 字</dd>
+    </dl>
+  </div>
+
+  <!-- ユーザーニーズ -->
+  <h2 class="section"><span class="num">02</span>ユーザーニーズ</h2>
+  <div class="needs">オフショア開発の導入を検討中、または実施中の企業担当者が「失敗するのではないか」という不安を解消したい検索意図。
+具体的な失敗パターンと原因を知ることで、自社が同じ轍を踏まないための予防策を得たい。
+すでに問題が起きている場合は、状況を改善できるか・撤退すべきかの判断材料を求めている。
+委託先の国や会社の選び方に失敗の原因があるのか、自社の管理体制に問題があるのかを切り分けたいニーズもある。</div>
+
+  <!-- 全体の方向性 -->
+  <h2 class="section"><span class="num">03</span>全体の方向性</h2>
+  <ul class="directions">
+    <li>失敗事例を「品質」「納期」「コスト」「コミュニケーション」「人材」の5カテゴリに整理して網羅性を持たせる</li>
+    <li>失敗原因を「発注者側の問題」と「開発会社側の問題」に切り分けて解説する</li>
+    <li>具体的な失敗事例を交えながら、読者が自社の状況と照合できるようにする</li>
+    <li>各失敗パターンに対して具体的な防止策を1対1で提示する</li>
+    <li>委託先国ごとの特性（ベトナム・インド・中国等）と失敗リスクの関係を整理する</li>
+    <li>失敗を未然に防ぐためのチェックシートを提供する</li>
+    <li>「失敗＝全否定」ではなく、オフショア開発のメリットも公平に伝えるバランス設計にする</li>
+    <li>撤退判断の基準を明示し、損切りのタイミングに言及する（差別化ポイント）</li>
+  </ul>
+
+  <!-- 記事構成 -->
+  <h2 class="section"><span class="num">04</span>記事構成（アウトライン）</h2>
+  <p class="outline-intro">以下の構成で本文を執筆してください。各 H2 の下の「方向性」は各セクションで触れる要点を示しています。H3 の順序は変更せず、そのまま採用してください。</p>
+
+  <div class="h2-block">
+    <h3 class="h2-title">オフショア開発でよくある5つの失敗パターン</h3>
+    <p class="direction">代表的な失敗を品質・納期・コスト・コミュニケーション・人材流動の5つに分類して概観する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">成果物の品質が想定を大きく下回る</span>
+        <span class="h3-direction">コーディング規約違反やバグ多発など、品質面の失敗がなぜ起こるかを解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">納期遅延が常態化し開発が進まない</span>
+        <span class="h3-direction">インフラ事情や働き方の違いから生じる納期遅延の構造的要因を説明する。</span>
+      </li>
+      <li>
+        <span class="h3-title">コスト削減のはずが結果的に割高になる</span>
+        <span class="h3-direction">手戻り・追加開発・為替変動で当初見積もりを大幅に超えるパターンを紹介する。</span>
+      </li>
+      <li>
+        <span class="h3-title">言語・文化の壁でコミュニケーションが断絶する</span>
+        <span class="h3-direction">「よしなに」が通じない、仕様の解釈違いなど日本特有のハイコンテクスト文化との衝突を解説する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">実際にあったオフショア開発の失敗事例</h3>
+    <p class="direction">複数の実例を取り上げ、何が起き、どこに原因があったかを具体的に分析する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">ブリッジSEの技量不足で品質崩壊し撤退した事例</span>
+        <span class="h3-direction">ブリッジSEの当たり外れが大きい問題と、撤退に至る経緯を紹介する。</span>
+      </li>
+      <li>
+        <span class="h3-title">設計と全く違うものが納品されてしまった事例</span>
+        <span class="h3-direction">仕様書の粒度不足と文化的解釈の違いが重なった失敗を分析する。</span>
+      </li>
+      <li>
+        <span class="h3-title">人件費高騰と為替変動でコストメリットが消失した事例</span>
+        <span class="h3-direction">経済環境の変化によるオフショアの費用優位性崩壊パターンを解説する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">オフショア開発が失敗する根本原因を発注側・開発側で整理</h3>
+    <p class="direction">失敗の責任がどこにあるかを構造的に分析し、読者が自社の改善ポイントを特定できるようにする。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">発注側の管理不足・丸投げ体質が招くリスク</span>
+        <span class="h3-direction">要件の曖昧さや進捗管理の放棄がもたらす影響を指摘する。</span>
+      </li>
+      <li>
+        <span class="h3-title">開発側の技術力・実績不足を見抜けなかった選定ミス</span>
+        <span class="h3-direction">実績確認や技術テストを怠ったことで起こる問題を解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">委託先国のミスマッチが失敗を引き起こすケース</span>
+        <span class="h3-direction">国民性・技術特性・インフラ水準と自社案件の相性を検討する重要性を説明する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">オフショア開発を成功に導く7つの防止策</h3>
+    <p class="direction">上位記事の共通見解を踏まえた実践的な対策を提示する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">仕様書は曖昧な日本語を排除して詳細に作り込む</span>
+        <span class="h3-direction">ハイコンテクスト表現を避け、具体的な数値・条件・画面遷移を明記する方法を説明する。</span>
+      </li>
+      <li>
+        <span class="h3-title">コミュニケーション頻度と手段を事前に設計する</span>
+        <span class="h3-direction">定例会議・チャット・管理ツール共有など、コミュニケーション設計の具体策を示す。</span>
+      </li>
+      <li>
+        <span class="h3-title">担当メンバーの固定と進捗の可視化を契約に盛り込む</span>
+        <span class="h3-direction">人材の流動を防ぐ契約条件と、進捗管理ツールの共有方法を解説する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">失敗しないためのオフショア開発チェックシート</h3>
+    <p class="direction">発注前・開発中・納品時の3フェーズで使えるチェックリストを提供する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">発注前に確認すべき10項目</span>
+        <span class="h3-direction">会社選定・契約・仕様書に関する事前チェック項目をまとめる。</span>
+      </li>
+      <li>
+        <span class="h3-title">開発中に監視すべきポイント</span>
+        <span class="h3-direction">進捗確認・品質レビュー・コスト管理の運用チェック項目を整理する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">それでもオフショア開発を選ぶべき理由</h3>
+    <p class="direction">失敗リスクを踏まえてもオフショアを選択するメリットを公平に提示する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">国内IT人材不足と採用コスト高騰という構造的課題</span>
+        <span class="h3-direction">日本のエンジニア不足の現状とオフショアが解決策となる背景を解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">正しい管理体制があれば投資対効果は高い</span>
+        <span class="h3-direction">失敗しない体制を構築すればコストメリットを享受できることを示す。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">撤退すべきタイミングの判断基準</h3>
+    <p class="direction">継続か撤退かを判断するための具体的な基準を提示する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">損切りラインの設定方法</span>
+        <span class="h3-direction">品質改善の見込み・コスト超過率・スケジュール遅延率から撤退判断する方法を説明する。</span>
+      </li>
+      <li>
+        <span class="h3-title">撤退後のリカバリープランの立て方</span>
+        <span class="h3-direction">国内切り替え・別国への移管など、撤退後の選択肢と進め方を解説する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">まとめ｜失敗パターンを知ることがオフショア開発成功への第一歩</h3>
+    <p class="direction">失敗事例と対策の要点を振り返り、次のアクションを促す。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">自社に合った委託先の選び方を再確認する</span>
+        <span class="h3-direction">記事内容を踏まえて、読者が取るべき具体的なステップを提示する。</span>
+      </li>
+    </ul>
+  </div>
+
+</div>
+</body>
+</html>
