@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>記事構成指示書: 予約システム 比較</title>
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --sub: #555;
+    --muted: #888;
+    --line: #e5e5e5;
+    --line-strong: #d0d0d0;
+    --accent: #0a6efd;
+    --accent-soft: #eef3ff;
+    --bg: #fafaf8;
+    --card: #ffffff;
+    --highlight: #fff8e1;
+    --highlight-border: #f0c800;
+    --code-bg: #f4f4f4;
+    --h2-bar: #0a6efd;
+    --h3-bar: #8ab4ff;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 48px 32px 96px;
+  }
+
+  /* ヘッダー */
+  .header {
+    border-bottom: 3px solid var(--ink);
+    padding-bottom: 24px;
+    margin-bottom: 40px;
+  }
+  .header .eyebrow {
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    color: var(--sub);
+    background: #fff;
+    padding: 4px 10px;
+    border: 1px solid var(--line-strong);
+    border-radius: 3px;
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+  .header h1 {
+    font-size: 32px;
+    line-height: 1.4;
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+
+  /* セクション見出し */
+  h2.section {
+    font-size: 22px;
+    font-weight: 800;
+    margin: 56px 0 20px;
+    padding: 12px 0 12px 16px;
+    border-left: 6px solid var(--h2-bar);
+    letter-spacing: -0.01em;
+    line-height: 1.4;
+  }
+  h2.section .num {
+    display: inline-block;
+    font-size: 14px;
+    color: var(--accent);
+    margin-right: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  /* 個別指示（目立たせる） */
+  .director-note {
+    background: var(--highlight);
+    border: 2px solid var(--highlight-border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 0 0 40px;
+  }
+  .director-note::before {
+    content: "📋 ディレクターからの個別指示";
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: #8a6d00;
+    margin-bottom: 10px;
+    letter-spacing: 0.03em;
+  }
+  .director-note p {
+    margin: 0 0 10px;
+    font-size: 15px;
+    line-height: 1.9;
+    color: #5a4a00;
+  }
+  .director-note p:last-child { margin-bottom: 0; }
+  .director-note a {
+    color: #0a5bd2;
+    text-decoration: underline;
+    word-break: break-all;
+  }
+  .director-note a:hover { color: #063d8f; }
+
+  /* 基本情報テーブル */
+  .info-table {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .info-table dl {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 180px 1fr;
+  }
+  .info-table dt {
+    background: #f7f7f5;
+    padding: 14px 20px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--sub);
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+  }
+  .info-table dd {
+    margin: 0;
+    padding: 14px 20px;
+    font-size: 15px;
+    border-bottom: 1px solid var(--line);
+    line-height: 1.6;
+  }
+  .info-table dl > *:nth-last-child(-n+2) {
+    border-bottom: none;
+  }
+  .info-table dd strong {
+    color: var(--accent);
+  }
+
+  /* ユーザーニーズ */
+  .needs {
+    background: var(--card);
+    border-left: 4px solid var(--accent);
+    padding: 20px 28px;
+    border-radius: 0 8px 8px 0;
+    font-size: 15px;
+    line-height: 2;
+    color: var(--ink);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    white-space: pre-wrap;
+  }
+
+  /* 全体の方向性チェックリスト */
+  .directions {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .directions li {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 14px 16px 14px 48px;
+    margin-bottom: 10px;
+    position: relative;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  .directions li::before {
+    content: "✓";
+    position: absolute;
+    left: 16px;
+    top: 14px;
+    width: 22px;
+    height: 22px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 1;
+  }
+
+  /* アウトライン */
+  .outline-intro {
+    color: var(--sub);
+    font-size: 14px;
+    margin-bottom: 20px;
+    padding: 12px 16px;
+    background: var(--accent-soft);
+    border-radius: 6px;
+    border-left: 3px solid var(--accent);
+  }
+  .h2-block {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin-bottom: 18px;
+    position: relative;
+  }
+  .h2-block::before {
+    content: "H2";
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+  }
+  .h2-block h3.h2-title {
+    font-size: 19px;
+    font-weight: 700;
+    margin: 4px 0 8px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .h2-block > .direction {
+    font-size: 14px;
+    color: var(--sub);
+    margin: 0 0 16px;
+    line-height: 1.7;
+  }
+  .h3-list {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 0;
+    border-top: 1px dashed var(--line);
+    padding-top: 14px;
+  }
+  .h3-list li {
+    padding: 10px 0 10px 24px;
+    position: relative;
+    font-size: 15px;
+    line-height: 1.6;
+    border-bottom: 1px dashed var(--line);
+  }
+  .h3-list li:last-child {
+    border-bottom: none;
+    padding-bottom: 4px;
+  }
+  .h3-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 19px;
+    width: 12px;
+    height: 2px;
+    background: var(--h3-bar);
+  }
+  .h3-list .h3-title {
+    font-weight: 600;
+    color: var(--ink);
+    display: block;
+    margin-bottom: 4px;
+    font-size: 15px;
+  }
+  .h3-list .h3-title::before {
+    content: "H3";
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    background: #eef3ff;
+    color: var(--accent);
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-right: 8px;
+    letter-spacing: 0.05em;
+    vertical-align: middle;
+  }
+  .h3-list .h3-direction {
+    font-size: 13px;
+    color: var(--sub);
+    line-height: 1.7;
+  }
+
+  /* エンティティリスト */
+  .entity-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: entity-counter;
+  }
+  .entity-list li {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 18px 14px 56px;
+    margin-bottom: 10px;
+    position: relative;
+    counter-increment: entity-counter;
+  }
+  .entity-list li::before {
+    content: counter(entity-counter);
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .entity-name {
+    display: block;
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 2px;
+  }
+  .entity-url {
+    display: block;
+    font-size: 12px;
+    color: var(--accent);
+    text-decoration: none;
+    word-break: break-all;
+  }
+  .entity-url:hover { text-decoration: underline; }
+
+  /* 印刷対応 */
+  @media print {
+    body { background: #fff; font-size: 12pt; }
+    .container { padding: 20px; max-width: 100%; }
+    .h2-block, .info-table, .director-note, .needs, .directions li, .entity-list li {
+      page-break-inside: avoid;
+      box-shadow: none;
+    }
+    h2.section { page-break-after: avoid; }
+  }
+
+  /* モバイル対応 */
+  @media (max-width: 640px) {
+    .container { padding: 24px 16px 64px; }
+    .header h1 { font-size: 24px; }
+    h2.section { font-size: 18px; margin: 40px 0 16px; }
+    .info-table dl { grid-template-columns: 1fr; }
+    .info-table dt { border-bottom: none; padding-bottom: 4px; }
+    .info-table dd { padding-top: 4px; }
+    .h2-block { padding: 20px; }
+    .h2-block h3.h2-title { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ヘッダー -->
+  <header class="header">
+    <span class="eyebrow">WRITER'S BRIEF</span>
+    <h1>記事構成指示書: 予約システム 比較</h1>
+  </header>
+
+  <!-- 基本情報 -->
+  <h2 class="section"><span class="num">01</span>基本情報</h2>
+  <div class="info-table">
+    <dl>
+      <dt>キーワード</dt>
+      <dd>予約システム 比較</dd>
+
+      <dt>タイトル案</dt>
+      <dd>予約管理システム18選を費用・機能・業種別に徹底比較【2026年版】</dd>
+
+      <dt>メタディスクリプション案</dt>
+      <dd>予約管理システム18製品を汎用型・業種特化型・LINE対応型に分類し、費用・機能・口コミを比較。無料プランの有無や選び方のポイントも解説します。</dd>
+
+      <dt>目標文字数</dt>
+      <dd>約 15000 字</dd>
+    </dl>
+  </div>
+
+  <!-- ユーザーニーズ -->
+  <h2 class="section"><span class="num">02</span>ユーザーニーズ</h2>
+  <div class="needs">店舗やサービス業の予約管理を効率化したく、複数の予約システムを比較検討している。
+業種（美容・飲食・スクール・施設等）に合ったシステムを見つけたい。
+無料プランや低コストで始められるシステムがあるか知りたい。
+オンライン決済・LINE連携・顧客管理など、予約以外の付加機能も重視して選びたい。
+導入後の運用負荷や無断キャンセル対策まで含めた実用的な情報を求めている。</div>
+
+  <!-- 全体の方向性 -->
+  <h2 class="section"><span class="num">03</span>全体の方向性</h2>
+  <ul class="directions">
+    <li>冒頭に主要システムの比較一覧表（費用・無料プラン有無・対応業種）を設置する</li>
+    <li>「汎用型」「業種特化型」「LINE特化型」の3タイプに分類して製品を整理する</li>
+    <li>無料プランで始められるシステムを明確に示し、スモールスタートを支援する</li>
+    <li>無断キャンセル対策（事前決済・リマインド機能）を選定ポイントとして強調する</li>
+    <li>業種別の導入事例や活用シーンを具体的に提示する</li>
+    <li>費用相場を無料〜有料まで段階的に示す</li>
+    <li>集客・顧客管理・リピート促進など売上向上に繋がる機能にも言及する</li>
+  </ul>
+
+  <!-- 記事構成 -->
+  <h2 class="section"><span class="num">04</span>記事構成（アウトライン）</h2>
+  <p class="outline-intro">以下の構成で本文を執筆してください。各 H2 の下の「方向性」は各セクションで触れる要点を示しています。H3 の順序は変更せず、そのまま採用してください。</p>
+
+  <div class="h2-block">
+    <h3 class="h2-title">予約管理システム18選 比較一覧表</h3>
+    <p class="direction">主要18製品の費用・無料プラン有無・対応業種・主要機能を一覧表で提示する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">比較表の読み方</span>
+        <span class="h3-direction">各比較項目の意味と、自社に合ったシステムを絞り込む際の着目点を補足する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">予約管理システムとは？導入メリット3つ</h3>
+    <p class="direction">予約管理システムの基本概要と導入によって得られる具体的な効果を整理する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">24時間自動予約受付による機会損失の防止</span>
+        <span class="h3-direction">電話対応不要で予約を取りこぼさない仕組みを解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">予約・顧客データの蓄積によるリピート促進</span>
+        <span class="h3-direction">顧客情報の自動記録と分析がリピート率向上に繋がる仕組みを解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">管理業務の自動化によるスタッフ負荷の軽減</span>
+        <span class="h3-direction">予約台帳・リマインド・決済の自動化がもたらす業務効率化を解説する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">予約管理システムの3タイプと選び方</h3>
+    <p class="direction">自社の業種・規模に合ったシステムを選ぶための分類軸を提示する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">汎用型：幅広い業種に対応</span>
+        <span class="h3-direction">多業種で使える汎用型の特徴と向いている事業者を解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">業種特化型：美容・飲食・スクールなど</span>
+        <span class="h3-direction">特定業種の業務フローに最適化されたシステムの利点を解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">LINE特化型：LINE公式アカウント連携</span>
+        <span class="h3-direction">LINEをベースに予約導線を構築するタイプの特徴を解説する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">予約管理システムを選ぶ6つのチェックポイント</h3>
+    <p class="direction">選定時に確認すべき重要な評価軸を優先度順に解説する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">自社の予約タイプ（時間枠・イベント・スタッフ指名）への対応</span>
+        <span class="h3-direction">予約形式がシステムに合っているかの確認方法を示す。</span>
+      </li>
+      <li>
+        <span class="h3-title">無断キャンセル対策（事前決済・リマインド）</span>
+        <span class="h3-direction">キャンセル率を下げるための機能を確認するポイントを解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">外部連携（決済・Googleカレンダー・POSレジ）</span>
+        <span class="h3-direction">既存ツールとの連携可否が運用効率に与える影響を解説する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">汎用型の予約管理システム</h3>
+    <p class="direction">幅広い業種で利用できる汎用型システムを個別に紹介する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">RESERVA</span>
+        <span class="h3-direction">200以上の業種に対応し無料プランから始められる点を解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">STORES 予約</span>
+        <span class="h3-direction">事前決済・月謝管理に強く、スクール系にも対応する特徴を解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">Airリザーブ</span>
+        <span class="h3-direction">Airビジネスツールズとの連携による一元管理の利点を解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">Square 予約</span>
+        <span class="h3-direction">POSレジ・決済との統合で小規模店舗に適した特徴を解説する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">業種特化型の予約管理システム</h3>
+    <p class="direction">特定業種向けに最適化されたシステムを紹介する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">トレタ予約台帳（飲食店向け）</span>
+        <span class="h3-direction">飲食店の予約台帳として特化した機能の特徴を解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">リザービア（美容サロン向け）</span>
+        <span class="h3-direction">美容サロン特有のスタッフ指名・メニュー管理への対応を解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">Smart Hello（会費制施設向け）</span>
+        <span class="h3-direction">フィットネス・スクールなど会費制ビジネスに特化した特徴を解説する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">LINE特化型の予約管理システム</h3>
+    <p class="direction">LINE連携で予約導線を構築するシステムを紹介する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">リピッテ</span>
+        <span class="h3-direction">LINE公式アカウントと連携した予約・リマインド自動化の特徴を解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">KAKERU</span>
+        <span class="h3-direction">LINE上で予約フローを完結させるカスタマイズ性を解説する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">無料で使える予約管理システムの選び方</h3>
+    <p class="direction">無料プランの制限事項を理解したうえで賢く活用する方法を解説する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">無料プランでできること・できないこと</span>
+        <span class="h3-direction">無料プランの機能制限や登録数上限を整理する。</span>
+      </li>
+      <li>
+        <span class="h3-title">有料プランへの移行タイミング</span>
+        <span class="h3-direction">事業拡大に伴い有料プランに切り替えるべき判断基準を示す。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">予約管理システムの費用相場</h3>
+    <p class="direction">無料〜月額数万円の料金レンジを導入規模別に整理する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">初期費用・月額費用の目安</span>
+        <span class="h3-direction">導入形態別の費用レンジを具体的な数字で示す。</span>
+      </li>
+      <li>
+        <span class="h3-title">費用対効果を最大化する選び方</span>
+        <span class="h3-direction">予約数や売上増加の効果から費用対効果を考える視点を提示する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">予約管理システム導入を成功させるステップ</h3>
+    <p class="direction">導入から定着までの実践的なプロセスを解説する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">無料トライアルで操作性を確認する</span>
+        <span class="h3-direction">導入前の検証で失敗を防ぐ方法を解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">スタッフへの周知と運用ルールの策定</span>
+        <span class="h3-direction">現場に定着させるための社内対応を解説する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">まとめ：自社の業種・規模に合った予約管理システムを選ぼう</h3>
+    <p class="direction">記事の要点を振り返り、タイプ別のおすすめを簡潔に再提示する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">タイプ別おすすめ早見表</span>
+        <span class="h3-direction">業種・規模ごとの推奨システムを表形式で提示する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <h2 class="section"><span class="num">05</span>登場させるエンティティ</h2>
+  <p class="outline-intro">⚠️ このリスト以外の店舗名・サービス名・ブランド名を記事に登場させないでください。</p>
+  <ol class="entity-list">
+    <li>
+      <span class="entity-name">RESERVA</span><a class="entity-url" href="https://reserva.be/" target="_blank" rel="noopener noreferrer">https://reserva.be/</a>
+    </li>
+    <li>
+      <span class="entity-name">STORES 予約</span><a class="entity-url" href="https://stores.jp/reserve" target="_blank" rel="noopener noreferrer">https://stores.jp/reserve</a>
+    </li>
+    <li>
+      <span class="entity-name">Airリザーブ</span><a class="entity-url" href="https://airregi.jp/reserve/" target="_blank" rel="noopener noreferrer">https://airregi.jp/reserve/</a>
+    </li>
+    <li>
+      <span class="entity-name">ChoiceRESERVE</span><a class="entity-url" href="https://yoyaku.choicereserve.com/" target="_blank" rel="noopener noreferrer">https://yoyaku.choicereserve.com/</a>
+    </li>
+    <li>
+      <span class="entity-name">SelectType</span><a class="entity-url" href="https://select-type.com/" target="_blank" rel="noopener noreferrer">https://select-type.com/</a>
+    </li>
+    <li>
+      <span class="entity-name">Square 予約</span><a class="entity-url" href="https://squareup.com/jp/appointments" target="_blank" rel="noopener noreferrer">https://squareup.com/jp/appointments</a>
+    </li>
+    <li>
+      <span class="entity-name">リザエン</span><a class="entity-url" href="https://www.riza-en.jp/" target="_blank" rel="noopener noreferrer">https://www.riza-en.jp/</a>
+    </li>
+    <li>
+      <span class="entity-name">SuperSaaS</span><a class="entity-url" href="https://www.supersaas.jp/" target="_blank" rel="noopener noreferrer">https://www.supersaas.jp/</a>
+    </li>
+    <li>
+      <span class="entity-name">トレタ予約台帳</span><a class="entity-url" href="https://toreta.in/" target="_blank" rel="noopener noreferrer">https://toreta.in/</a>
+    </li>
+    <li>
+      <span class="entity-name">リザービア</span><a class="entity-url" href="https://rsvia.co.jp/" target="_blank" rel="noopener noreferrer">https://rsvia.co.jp/</a>
+    </li>
+    <li>
+      <span class="entity-name">Smart Hello</span><a class="entity-url" href="https://www.systemd.co.jp/smart_hello" target="_blank" rel="noopener noreferrer">https://www.systemd.co.jp/smart_hello</a>
+    </li>
+    <li>
+      <span class="entity-name">ワンモアハンド</span><a class="entity-url" href="https://pr.onemorehand.jp/" target="_blank" rel="noopener noreferrer">https://pr.onemorehand.jp/</a>
+    </li>
+    <li>
+      <span class="entity-name">リピッテ</span><a class="entity-url" href="https://ripitte.com/" target="_blank" rel="noopener noreferrer">https://ripitte.com/</a>
+    </li>
+    <li>
+      <span class="entity-name">WTE</span><a class="entity-url" href="https://wte.jp/" target="_blank" rel="noopener noreferrer">https://wte.jp/</a>
+    </li>
+    <li>
+      <span class="entity-name">KAKERU</span><a class="entity-url" href="https://www.miraic.jp/kakeru" target="_blank" rel="noopener noreferrer">https://www.miraic.jp/kakeru</a>
+    </li>
+    <li>
+      <span class="entity-name">EDISONE</span><a class="entity-url" href="https://edisone.jp/" target="_blank" rel="noopener noreferrer">https://edisone.jp/</a>
+    </li>
+    <li>
+      <span class="entity-name">モアリザ</span><a class="entity-url" href="https://www.hanshin-ip.co.jp/moriza/" target="_blank" rel="noopener noreferrer">https://www.hanshin-ip.co.jp/moriza/</a>
+    </li>
+    <li>
+      <span class="entity-name">eReserve</span><a class="entity-url" href="https://www.asj.ne.jp/ereserve/" target="_blank" rel="noopener noreferrer">https://www.asj.ne.jp/ereserve/</a>
+    </li>
+  </ol>
+</div>
+</body>
+</html>
