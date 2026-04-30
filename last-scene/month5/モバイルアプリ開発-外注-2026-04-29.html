@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>記事構成指示書: モバイルアプリ開発 外注</title>
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --sub: #555;
+    --muted: #888;
+    --line: #e5e5e5;
+    --line-strong: #d0d0d0;
+    --accent: #0a6efd;
+    --accent-soft: #eef3ff;
+    --bg: #fafaf8;
+    --card: #ffffff;
+    --highlight: #fff8e1;
+    --highlight-border: #f0c800;
+    --code-bg: #f4f4f4;
+    --h2-bar: #0a6efd;
+    --h3-bar: #8ab4ff;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 48px 32px 96px;
+  }
+
+  /* ヘッダー */
+  .header {
+    border-bottom: 3px solid var(--ink);
+    padding-bottom: 24px;
+    margin-bottom: 40px;
+  }
+  .header .eyebrow {
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    color: var(--sub);
+    background: #fff;
+    padding: 4px 10px;
+    border: 1px solid var(--line-strong);
+    border-radius: 3px;
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+  .header h1 {
+    font-size: 32px;
+    line-height: 1.4;
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+
+  /* セクション見出し */
+  h2.section {
+    font-size: 22px;
+    font-weight: 800;
+    margin: 56px 0 20px;
+    padding: 12px 0 12px 16px;
+    border-left: 6px solid var(--h2-bar);
+    letter-spacing: -0.01em;
+    line-height: 1.4;
+  }
+  h2.section .num {
+    display: inline-block;
+    font-size: 14px;
+    color: var(--accent);
+    margin-right: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  /* 個別指示（目立たせる） */
+  .director-note {
+    background: var(--highlight);
+    border: 2px solid var(--highlight-border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 0 0 40px;
+  }
+  .director-note::before {
+    content: "📋 ディレクターからの個別指示";
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: #8a6d00;
+    margin-bottom: 10px;
+    letter-spacing: 0.03em;
+  }
+  .director-note p {
+    margin: 0 0 10px;
+    font-size: 15px;
+    line-height: 1.9;
+    color: #5a4a00;
+  }
+  .director-note p:last-child { margin-bottom: 0; }
+  .director-note a {
+    color: #0a5bd2;
+    text-decoration: underline;
+    word-break: break-all;
+  }
+  .director-note a:hover { color: #063d8f; }
+
+  /* 基本情報テーブル */
+  .info-table {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .info-table dl {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 180px 1fr;
+  }
+  .info-table dt {
+    background: #f7f7f5;
+    padding: 14px 20px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--sub);
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+  }
+  .info-table dd {
+    margin: 0;
+    padding: 14px 20px;
+    font-size: 15px;
+    border-bottom: 1px solid var(--line);
+    line-height: 1.6;
+  }
+  .info-table dl > *:nth-last-child(-n+2) {
+    border-bottom: none;
+  }
+  .info-table dd strong {
+    color: var(--accent);
+  }
+
+  /* ユーザーニーズ */
+  .needs {
+    background: var(--card);
+    border-left: 4px solid var(--accent);
+    padding: 20px 28px;
+    border-radius: 0 8px 8px 0;
+    font-size: 15px;
+    line-height: 2;
+    color: var(--ink);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    white-space: pre-wrap;
+  }
+
+  /* 全体の方向性チェックリスト */
+  .directions {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .directions li {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 14px 16px 14px 48px;
+    margin-bottom: 10px;
+    position: relative;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  .directions li::before {
+    content: "✓";
+    position: absolute;
+    left: 16px;
+    top: 14px;
+    width: 22px;
+    height: 22px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 1;
+  }
+
+  /* アウトライン */
+  .outline-intro {
+    color: var(--sub);
+    font-size: 14px;
+    margin-bottom: 20px;
+    padding: 12px 16px;
+    background: var(--accent-soft);
+    border-radius: 6px;
+    border-left: 3px solid var(--accent);
+  }
+  .h2-block {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin-bottom: 18px;
+    position: relative;
+  }
+  .h2-block::before {
+    content: "H2";
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+  }
+  .h2-block h3.h2-title {
+    font-size: 19px;
+    font-weight: 700;
+    margin: 4px 0 8px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .h2-block > .direction {
+    font-size: 14px;
+    color: var(--sub);
+    margin: 0 0 16px;
+    line-height: 1.7;
+  }
+  .h3-list {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 0;
+    border-top: 1px dashed var(--line);
+    padding-top: 14px;
+  }
+  .h3-list li {
+    padding: 10px 0 10px 24px;
+    position: relative;
+    font-size: 15px;
+    line-height: 1.6;
+    border-bottom: 1px dashed var(--line);
+  }
+  .h3-list li:last-child {
+    border-bottom: none;
+    padding-bottom: 4px;
+  }
+  .h3-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 19px;
+    width: 12px;
+    height: 2px;
+    background: var(--h3-bar);
+  }
+  .h3-list .h3-title {
+    font-weight: 600;
+    color: var(--ink);
+    display: block;
+    margin-bottom: 4px;
+    font-size: 15px;
+  }
+  .h3-list .h3-title::before {
+    content: "H3";
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    background: #eef3ff;
+    color: var(--accent);
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-right: 8px;
+    letter-spacing: 0.05em;
+    vertical-align: middle;
+  }
+  .h3-list .h3-direction {
+    font-size: 13px;
+    color: var(--sub);
+    line-height: 1.7;
+  }
+
+  /* エンティティリスト */
+  .entity-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: entity-counter;
+  }
+  .entity-list li {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 18px 14px 56px;
+    margin-bottom: 10px;
+    position: relative;
+    counter-increment: entity-counter;
+  }
+  .entity-list li::before {
+    content: counter(entity-counter);
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .entity-name {
+    display: block;
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 2px;
+  }
+  .entity-url {
+    display: block;
+    font-size: 12px;
+    color: var(--accent);
+    text-decoration: none;
+    word-break: break-all;
+  }
+  .entity-url:hover { text-decoration: underline; }
+
+  /* 印刷対応 */
+  @media print {
+    body { background: #fff; font-size: 12pt; }
+    .container { padding: 20px; max-width: 100%; }
+    .h2-block, .info-table, .director-note, .needs, .directions li, .entity-list li {
+      page-break-inside: avoid;
+      box-shadow: none;
+    }
+    h2.section { page-break-after: avoid; }
+  }
+
+  /* モバイル対応 */
+  @media (max-width: 640px) {
+    .container { padding: 24px 16px 64px; }
+    .header h1 { font-size: 24px; }
+    h2.section { font-size: 18px; margin: 40px 0 16px; }
+    .info-table dl { grid-template-columns: 1fr; }
+    .info-table dt { border-bottom: none; padding-bottom: 4px; }
+    .info-table dd { padding-top: 4px; }
+    .h2-block { padding: 20px; }
+    .h2-block h3.h2-title { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ヘッダー -->
+  <header class="header">
+    <span class="eyebrow">WRITER'S BRIEF</span>
+    <h1>記事構成指示書: モバイルアプリ開発 外注</h1>
+  </header>
+
+  <!-- 基本情報 -->
+  <h2 class="section"><span class="num">01</span>基本情報</h2>
+  <div class="info-table">
+    <dl>
+      <dt>キーワード</dt>
+      <dd>モバイルアプリ開発 外注</dd>
+
+      <dt>タイトル案</dt>
+      <dd>モバイルアプリ開発の外注ガイド｜費用相場・開発会社22社・失敗しない選び方</dd>
+
+      <dt>メタディスクリプション案</dt>
+      <dd>モバイルアプリ開発を外注する際の費用相場、開発会社22社の比較、選び方のポイント、依頼から公開までの流れを網羅的に解説します。</dd>
+
+      <dt>目標文字数</dt>
+      <dd>約 15000 字</dd>
+    </dl>
+  </div>
+
+  <!-- ユーザーニーズ -->
+  <h2 class="section"><span class="num">02</span>ユーザーニーズ</h2>
+  <div class="needs">モバイルアプリの開発を外部に委託したい企業担当者が主なターゲット。
+「外注と自社開発どちらがよいか」という根本的な判断材料を求めている。
+外注する場合の費用相場をジャンル別（ゲーム・EC・業務系等）に把握したい。
+信頼できる開発会社を得意分野別に比較・検討したいニーズがある。
+外注の流れ（企画→見積もり→契約→開発→テスト→ストア公開）の全体像も知りたい。
+費用を抑える方法や、外注時の注意点・よくある失敗パターンも把握しておきたい。</div>
+
+  <!-- 全体の方向性 -->
+  <h2 class="section"><span class="num">03</span>全体の方向性</h2>
+  <ul class="directions">
+    <li>外注 vs 自社開発のメリット・デメリットを比較する</li>
+    <li>ジャンル別の費用相場を具体的な金額で示す</li>
+    <li>開発会社を得意分野別（汎用・コスト特化・ゲーム・運用サポート）に分類して紹介する</li>
+    <li>外注先の選び方のポイントを体系的に解説する</li>
+    <li>企画から公開までの5ステップを時系列で説明する</li>
+    <li>コスト削減の具体策を提示する</li>
+    <li>クロスプラットフォーム開発やノーコード活用による効率化にも触れる</li>
+  </ul>
+
+  <!-- 記事構成 -->
+  <h2 class="section"><span class="num">04</span>記事構成（アウトライン）</h2>
+  <p class="outline-intro">以下の構成で本文を執筆してください。各 H2 の下の「方向性」は各セクションで触れる要点を示しています。H3 の順序は変更せず、そのまま採用してください。</p>
+
+  <div class="h2-block">
+    <h3 class="h2-title">モバイルアプリ開発は外注すべきか？自社開発との比較</h3>
+    <p class="direction">外注・自社開発それぞれのメリット・デメリットを整理する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">外注のメリット（専門性・スピード・リソース柔軟性）</span>
+        <span class="h3-direction">自社にエンジニアがいない場合の外注メリットを具体的に示す。</span>
+      </li>
+      <li>
+        <span class="h3-title">自社開発のメリット（ノウハウ蓄積・柔軟な仕様変更）</span>
+        <span class="h3-direction">長期的な視点での自社開発のメリットとコスト構造を説明する。</span>
+      </li>
+      <li>
+        <span class="h3-title">判断基準｜外注が適しているケースと自社開発が適しているケース</span>
+        <span class="h3-direction">プロジェクト特性に応じた選択のフレームワークを提示する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">モバイルアプリ開発の外注費用相場｜ジャンル別一覧</h3>
+    <p class="direction">ジャンル・開発方法別の費用レンジを比較表で示す。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">ショッピング・SNS・ゲーム・業務アプリの費用目安</span>
+        <span class="h3-direction">主要4ジャンルの費用レンジを具体的に提示する。</span>
+      </li>
+      <li>
+        <span class="h3-title">開発方法別の費用差（ネイティブ・クロスプラットフォーム・ノーコード）</span>
+        <span class="h3-direction">Flutter・React Nativeなどクロスプラットフォーム開発の費用メリットを示す。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">全体比較表｜モバイルアプリ開発会社22社</h3>
+    <p class="direction">22社を得意分野・費用感・対応ジャンルで一覧比較する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">カテゴリ別の特徴まとめ</span>
+        <span class="h3-direction">4カテゴリ（汎用・コスト特化・ゲーム・運用サポート）の違いを概説する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">幅広いジャンルを扱うアプリ開発会社6社</h3>
+    <p class="direction">多様なジャンルに対応できる汎用型の開発会社を紹介する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">各社の強み・実績・対応ジャンル</span>
+        <span class="h3-direction">会社ごとに特徴を簡潔にまとめる。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">コストダウンに強みを持つアプリ開発会社6社</h3>
+    <p class="direction">低コストでの開発を得意とする会社を紹介する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">各社の強み・費用の特徴</span>
+        <span class="h3-direction">コスト削減の仕組み（テンプレート活用・オフショア等）を会社ごとに示す。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">ゲームに特化したアプリ開発会社5社</h3>
+    <p class="direction">ゲームアプリ開発を専門とする会社を紹介する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">各社の強み・対応プラットフォーム</span>
+        <span class="h3-direction">Unityなどの対応エンジンや開発実績を会社ごとに示す。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">運用サポートにも対応したアプリ開発会社5社</h3>
+    <p class="direction">開発後の保守運用まで一貫対応できる会社を紹介する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">各社の強み・サポート体制</span>
+        <span class="h3-direction">保守運用の対応範囲と費用体系を会社ごとに示す。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">アプリ開発の外注先を選ぶ際の5つのポイント</h3>
+    <p class="direction">選定で失敗しないための基準を体系的に解説する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">実績・技術力・コミュニケーションの確認</span>
+        <span class="h3-direction">技術的な適合性を評価する3つの軸を示す。</span>
+      </li>
+      <li>
+        <span class="h3-title">費用の透明性と保守運用のカバー範囲</span>
+        <span class="h3-direction">初期費用だけでなくランニングコストも含めた総合判断の重要性を説明する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">アプリ開発の外注プロセス｜企画からストア公開までの5ステップ</h3>
+    <p class="direction">外注の全体像を時系列で解説する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">企画立案→パートナー選定→契約</span>
+        <span class="h3-direction">前半3ステップでの確認事項をまとめる。</span>
+      </li>
+      <li>
+        <span class="h3-title">開発・テスト→ストア申請・公開</span>
+        <span class="h3-direction">後半2ステップでの注意点を整理する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">アプリ開発の外注費用を抑える4つの方法</h3>
+    <p class="direction">具体的なコスト削減策を解説する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">機能の最適化とMVPアプローチ</span>
+        <span class="h3-direction">最小限の機能で始めて段階的に拡張する考え方を示す。</span>
+      </li>
+      <li>
+        <span class="h3-title">クロスプラットフォーム開発・ノーコード活用</span>
+        <span class="h3-direction">iOS/Android同時開発による工数削減と、ノーコード活用の可能性を示す。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">モバイルアプリ開発の外注に関するよくある質問</h3>
+    <p class="direction">外注時の疑問にFAQ形式で回答する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">外注した場合のアプリの著作権はどうなる？</span>
+        <span class="h3-direction">知的財産権の取り扱いについて契約時の注意点を示す。</span>
+      </li>
+      <li>
+        <span class="h3-title">開発期間はどれくらいかかる？</span>
+        <span class="h3-direction">ジャンル・規模別の目安期間を示す。</span>
+      </li>
+    </ul>
+  </div>
+
+  <h2 class="section"><span class="num">05</span>登場させるエンティティ</h2>
+  <p class="outline-intro">⚠️ このリスト以外の店舗名・サービス名・ブランド名を記事に登場させないでください。</p>
+  <ol class="entity-list">
+    <li>
+      <span class="entity-name">株式会社ジークス</span><a class="entity-url" href="https://geechs.com/" target="_blank" rel="noopener noreferrer">https://geechs.com/</a>
+    </li>
+    <li>
+      <span class="entity-name">株式会社CyberCats</span><a class="entity-url" href="https://cybercats.jp/" target="_blank" rel="noopener noreferrer">https://cybercats.jp/</a>
+    </li>
+    <li>
+      <span class="entity-name">株式会社シンプルメーカー</span><a class="entity-url" href="https://simplemaker.co.jp/" target="_blank" rel="noopener noreferrer">https://simplemaker.co.jp/</a>
+    </li>
+    <li>
+      <span class="entity-name">株式会社ブレイブソフト</span><a class="entity-url" href="https://www.bravesoft.co.jp/" target="_blank" rel="noopener noreferrer">https://www.bravesoft.co.jp/</a>
+    </li>
+    <li>
+      <span class="entity-name">6etアプリ株式会社</span><a class="entity-url" href="https://6et.co.jp/" target="_blank" rel="noopener noreferrer">https://6et.co.jp/</a>
+    </li>
+    <li>
+      <span class="entity-name">株式会社ゆめみ</span><a class="entity-url" href="https://www.yumemi.co.jp/" target="_blank" rel="noopener noreferrer">https://www.yumemi.co.jp/</a>
+    </li>
+    <li>
+      <span class="entity-name">株式会社ティーガイア</span><a class="entity-url" href="https://www.t-gaia.co.jp/" target="_blank" rel="noopener noreferrer">https://www.t-gaia.co.jp/</a>
+    </li>
+    <li>
+      <span class="entity-name">株式会社アプリクッキング</span><a class="entity-url" href="https://appcooking.jp/" target="_blank" rel="noopener noreferrer">https://appcooking.jp/</a>
+    </li>
+    <li>
+      <span class="entity-name">株式会社 USEN</span><a class="entity-url" href="https://www.usen.com/" target="_blank" rel="noopener noreferrer">https://www.usen.com/</a>
+    </li>
+    <li>
+      <span class="entity-name">株式会社インサイトコア</span><a class="entity-url" href="https://insightcore.jp/" target="_blank" rel="noopener noreferrer">https://insightcore.jp/</a>
+    </li>
+    <li>
+      <span class="entity-name">GMOデジタルラボ株式会社</span><a class="entity-url" href="https://gmodigitallab.co.jp/" target="_blank" rel="noopener noreferrer">https://gmodigitallab.co.jp/</a>
+    </li>
+    <li>
+      <span class="entity-name">アイユー株式会社</span><a class="entity-url" href="https://aiyu.co.jp/" target="_blank" rel="noopener noreferrer">https://aiyu.co.jp/</a>
+    </li>
+    <li>
+      <span class="entity-name">株式会社マリエッタ</span><a class="entity-url" href="https://marietta-inc.com/" target="_blank" rel="noopener noreferrer">https://marietta-inc.com/</a>
+    </li>
+    <li>
+      <span class="entity-name">株式会社シリアルゲームズ</span><a class="entity-url" href="https://serialgames.co.jp/" target="_blank" rel="noopener noreferrer">https://serialgames.co.jp/</a>
+    </li>
+    <li>
+      <span class="entity-name">株式会社クロスゲームズ</span><a class="entity-url" href="https://www.crossgames.jp/" target="_blank" rel="noopener noreferrer">https://www.crossgames.jp/</a>
+    </li>
+    <li>
+      <span class="entity-name">株式会社Funseek</span><a class="entity-url" href="https://funseek.co.jp/" target="_blank" rel="noopener noreferrer">https://funseek.co.jp/</a>
+    </li>
+    <li>
+      <span class="entity-name">株式会社クレアンスメアード</span><a class="entity-url" href="https://www.creansmerd.co.jp/" target="_blank" rel="noopener noreferrer">https://www.creansmerd.co.jp/</a>
+    </li>
+    <li>
+      <span class="entity-name">株式会社クリエイテラ</span><a class="entity-url" href="https://createra.jp/" target="_blank" rel="noopener noreferrer">https://createra.jp/</a>
+    </li>
+    <li>
+      <span class="entity-name">株式会社コアモバイル</span><a class="entity-url" href="https://coremobile.co.jp/" target="_blank" rel="noopener noreferrer">https://coremobile.co.jp/</a>
+    </li>
+    <li>
+      <span class="entity-name">ブライテクノ株式会社</span><a class="entity-url" href="https://brigh-techno.com/" target="_blank" rel="noopener noreferrer">https://brigh-techno.com/</a>
+    </li>
+    <li>
+      <span class="entity-name">株式会社モンスター・ラボ</span><a class="entity-url" href="https://monstar-lab.com/" target="_blank" rel="noopener noreferrer">https://monstar-lab.com/</a>
+    </li>
+    <li>
+      <span class="entity-name">フェンリル株式会社</span><a class="entity-url" href="https://www.fenrir-inc.com/" target="_blank" rel="noopener noreferrer">https://www.fenrir-inc.com/</a>
+    </li>
+  </ol>
+</div>
+</body>
+</html>

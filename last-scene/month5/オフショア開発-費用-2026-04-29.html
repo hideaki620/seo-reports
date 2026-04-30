@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>記事構成指示書: オフショア開発 費用</title>
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --sub: #555;
+    --muted: #888;
+    --line: #e5e5e5;
+    --line-strong: #d0d0d0;
+    --accent: #0a6efd;
+    --accent-soft: #eef3ff;
+    --bg: #fafaf8;
+    --card: #ffffff;
+    --highlight: #fff8e1;
+    --highlight-border: #f0c800;
+    --code-bg: #f4f4f4;
+    --h2-bar: #0a6efd;
+    --h3-bar: #8ab4ff;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 48px 32px 96px;
+  }
+
+  /* ヘッダー */
+  .header {
+    border-bottom: 3px solid var(--ink);
+    padding-bottom: 24px;
+    margin-bottom: 40px;
+  }
+  .header .eyebrow {
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    color: var(--sub);
+    background: #fff;
+    padding: 4px 10px;
+    border: 1px solid var(--line-strong);
+    border-radius: 3px;
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+  .header h1 {
+    font-size: 32px;
+    line-height: 1.4;
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+
+  /* セクション見出し */
+  h2.section {
+    font-size: 22px;
+    font-weight: 800;
+    margin: 56px 0 20px;
+    padding: 12px 0 12px 16px;
+    border-left: 6px solid var(--h2-bar);
+    letter-spacing: -0.01em;
+    line-height: 1.4;
+  }
+  h2.section .num {
+    display: inline-block;
+    font-size: 14px;
+    color: var(--accent);
+    margin-right: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  /* 個別指示（目立たせる） */
+  .director-note {
+    background: var(--highlight);
+    border: 2px solid var(--highlight-border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 0 0 40px;
+  }
+  .director-note::before {
+    content: "📋 ディレクターからの個別指示";
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: #8a6d00;
+    margin-bottom: 10px;
+    letter-spacing: 0.03em;
+  }
+  .director-note p {
+    margin: 0 0 10px;
+    font-size: 15px;
+    line-height: 1.9;
+    color: #5a4a00;
+  }
+  .director-note p:last-child { margin-bottom: 0; }
+  .director-note a {
+    color: #0a5bd2;
+    text-decoration: underline;
+    word-break: break-all;
+  }
+  .director-note a:hover { color: #063d8f; }
+
+  /* 基本情報テーブル */
+  .info-table {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .info-table dl {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 180px 1fr;
+  }
+  .info-table dt {
+    background: #f7f7f5;
+    padding: 14px 20px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--sub);
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+  }
+  .info-table dd {
+    margin: 0;
+    padding: 14px 20px;
+    font-size: 15px;
+    border-bottom: 1px solid var(--line);
+    line-height: 1.6;
+  }
+  .info-table dl > *:nth-last-child(-n+2) {
+    border-bottom: none;
+  }
+  .info-table dd strong {
+    color: var(--accent);
+  }
+
+  /* ユーザーニーズ */
+  .needs {
+    background: var(--card);
+    border-left: 4px solid var(--accent);
+    padding: 20px 28px;
+    border-radius: 0 8px 8px 0;
+    font-size: 15px;
+    line-height: 2;
+    color: var(--ink);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    white-space: pre-wrap;
+  }
+
+  /* 全体の方向性チェックリスト */
+  .directions {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .directions li {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 14px 16px 14px 48px;
+    margin-bottom: 10px;
+    position: relative;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  .directions li::before {
+    content: "✓";
+    position: absolute;
+    left: 16px;
+    top: 14px;
+    width: 22px;
+    height: 22px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 1;
+  }
+
+  /* アウトライン */
+  .outline-intro {
+    color: var(--sub);
+    font-size: 14px;
+    margin-bottom: 20px;
+    padding: 12px 16px;
+    background: var(--accent-soft);
+    border-radius: 6px;
+    border-left: 3px solid var(--accent);
+  }
+  .h2-block {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin-bottom: 18px;
+    position: relative;
+  }
+  .h2-block::before {
+    content: "H2";
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+  }
+  .h2-block h3.h2-title {
+    font-size: 19px;
+    font-weight: 700;
+    margin: 4px 0 8px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .h2-block > .direction {
+    font-size: 14px;
+    color: var(--sub);
+    margin: 0 0 16px;
+    line-height: 1.7;
+  }
+  .h3-list {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 0;
+    border-top: 1px dashed var(--line);
+    padding-top: 14px;
+  }
+  .h3-list li {
+    padding: 10px 0 10px 24px;
+    position: relative;
+    font-size: 15px;
+    line-height: 1.6;
+    border-bottom: 1px dashed var(--line);
+  }
+  .h3-list li:last-child {
+    border-bottom: none;
+    padding-bottom: 4px;
+  }
+  .h3-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 19px;
+    width: 12px;
+    height: 2px;
+    background: var(--h3-bar);
+  }
+  .h3-list .h3-title {
+    font-weight: 600;
+    color: var(--ink);
+    display: block;
+    margin-bottom: 4px;
+    font-size: 15px;
+  }
+  .h3-list .h3-title::before {
+    content: "H3";
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    background: #eef3ff;
+    color: var(--accent);
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-right: 8px;
+    letter-spacing: 0.05em;
+    vertical-align: middle;
+  }
+  .h3-list .h3-direction {
+    font-size: 13px;
+    color: var(--sub);
+    line-height: 1.7;
+  }
+
+  /* エンティティリスト */
+  .entity-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: entity-counter;
+  }
+  .entity-list li {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 18px 14px 56px;
+    margin-bottom: 10px;
+    position: relative;
+    counter-increment: entity-counter;
+  }
+  .entity-list li::before {
+    content: counter(entity-counter);
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .entity-name {
+    display: block;
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 2px;
+  }
+  .entity-url {
+    display: block;
+    font-size: 12px;
+    color: var(--accent);
+    text-decoration: none;
+    word-break: break-all;
+  }
+  .entity-url:hover { text-decoration: underline; }
+
+  /* 印刷対応 */
+  @media print {
+    body { background: #fff; font-size: 12pt; }
+    .container { padding: 20px; max-width: 100%; }
+    .h2-block, .info-table, .director-note, .needs, .directions li, .entity-list li {
+      page-break-inside: avoid;
+      box-shadow: none;
+    }
+    h2.section { page-break-after: avoid; }
+  }
+
+  /* モバイル対応 */
+  @media (max-width: 640px) {
+    .container { padding: 24px 16px 64px; }
+    .header h1 { font-size: 24px; }
+    h2.section { font-size: 18px; margin: 40px 0 16px; }
+    .info-table dl { grid-template-columns: 1fr; }
+    .info-table dt { border-bottom: none; padding-bottom: 4px; }
+    .info-table dd { padding-top: 4px; }
+    .h2-block { padding: 20px; }
+    .h2-block h3.h2-title { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ヘッダー -->
+  <header class="header">
+    <span class="eyebrow">WRITER'S BRIEF</span>
+    <h1>記事構成指示書: オフショア開発 費用</h1>
+  </header>
+
+  <!-- 基本情報 -->
+  <h2 class="section"><span class="num">01</span>基本情報</h2>
+  <div class="info-table">
+    <dl>
+      <dt>キーワード</dt>
+      <dd>オフショア開発 費用</dd>
+
+      <dt>タイトル案</dt>
+      <dd>オフショア開発の費用相場を6カ国×職種別に比較｜2026年最新の人月単価と節約術</dd>
+
+      <dt>メタディスクリプション案</dt>
+      <dd>オフショア開発の費用をベトナム・インド・中国など6カ国の人月単価で徹底比較。費用内訳・コスト削減の5つのポイント・見積もり時の注意点まで2026年最新データで解説します。</dd>
+
+      <dt>目標文字数</dt>
+      <dd>約 10800 字</dd>
+    </dl>
+  </div>
+
+  <!-- ユーザーニーズ -->
+  <h2 class="section"><span class="num">02</span>ユーザーニーズ</h2>
+  <div class="needs">オフショア開発を検討中の企業担当者が、国別・職種別の費用相場を把握して予算計画を立てたい。
+国内開発と比較してどの程度コストダウンできるかの具体的な数字を求めている。
+見積もりの妥当性を判断するための相場観と、費用内訳の読み方を知りたい。
+安さだけで選んで失敗しないための判断基準も併せて必要としている。
+ラボ型・請負型など契約形態による費用の違いも理解したい。</div>
+
+  <!-- 全体の方向性 -->
+  <h2 class="section"><span class="num">03</span>全体の方向性</h2>
+  <ul class="directions">
+    <li>6カ国（ベトナム・中国・インド・フィリピン・ミャンマー・バングラデシュ）の最新単価を表形式で一覧化する</li>
+    <li>職種別（PG・SE・PM・ブリッジSE・テスター）の単価レンジを提示する</li>
+    <li>費用の内訳を人件費・設計費・ディレクション費・諸経費に分解して解説する</li>
+    <li>国内開発との費用比較を具体的な数字で示す</li>
+    <li>ラボ型と請負型の費用構造の違いを解説する</li>
+    <li>費用を安く抑える具体的な方法を実践的に提示する</li>
+    <li>「安さだけで選ぶリスク」を失敗事例とともに警告する</li>
+    <li>2026年の為替・人件費高騰トレンドを踏まえた最新情報にする</li>
+  </ul>
+
+  <!-- 記事構成 -->
+  <h2 class="section"><span class="num">04</span>記事構成（アウトライン）</h2>
+  <p class="outline-intro">以下の構成で本文を執筆してください。各 H2 の下の「方向性」は各セクションで触れる要点を示しています。H3 の順序は変更せず、そのまま採用してください。</p>
+
+  <div class="h2-block">
+    <h3 class="h2-title">オフショア開発費用の内訳と計算方法</h3>
+    <p class="direction">費用がどのような構成要素で成り立っているかを分解して解説する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">人件費（人月単価）が全体の7〜8割を占める</span>
+        <span class="h3-direction">人月単価の考え方と、スキルレベルによる単価差を説明する。</span>
+      </li>
+      <li>
+        <span class="h3-title">設計費・ディレクション費の相場感</span>
+        <span class="h3-direction">上流工程にかかるコストの目安と、省略した場合のリスクを解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">見落としがちな追加費用（通信費・渡航費・管理ツール）</span>
+        <span class="h3-direction">人件費以外に発生する諸経費の内訳と予算への組み込み方を示す。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">【2026年最新】国別オフショア開発の人月単価比較</h3>
+    <p class="direction">主要6カ国の最新単価を表で比較し、それぞれの特徴を解説する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">ベトナム（32万〜58万円）｜コスパと品質のバランスが最も良い</span>
+        <span class="h3-direction">最も人気のある委託先としてのベトナムの特徴と単価推移を紹介する。</span>
+      </li>
+      <li>
+        <span class="h3-title">中国（42万〜86万円）｜日本語力が高いが人件費は上昇傾向</span>
+        <span class="h3-direction">日本語対応力の高さと近年の単価上昇について解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">インド（35万〜84万円）｜世界トップクラスの技術力</span>
+        <span class="h3-direction">高い技術力を持つインドエンジニアの単価帯と向き不向きを解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">フィリピン・ミャンマー・バングラデシュの単価と特徴</span>
+        <span class="h3-direction">コスト重視の選択肢として3カ国の比較情報を提供する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">職種別の費用相場｜ブリッジSE・PMの上乗せコストに注意</h3>
+    <p class="direction">職種ごとの単価差を理解し、チーム編成のコスト感を掴めるようにする。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">プログラマー・SEの国別単価レンジ</span>
+        <span class="h3-direction">実装を担うメンバーの標準的な費用感を整理する。</span>
+      </li>
+      <li>
+        <span class="h3-title">ブリッジSE・コミュニケーターの費用が意外と高い理由</span>
+        <span class="h3-direction">オフショア特有の中間コストの必要性と削れない理由を解説する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">国内開発との費用比較｜本当にオフショアは安いのか</h3>
+    <p class="direction">国内エンジニアの単価と並べて、実質的なコスト削減幅を検証する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">国内エンジニアの人月単価との差額シミュレーション</span>
+        <span class="h3-direction">同規模プロジェクトでの概算比較を示す。</span>
+      </li>
+      <li>
+        <span class="h3-title">隠れコストを含めた実質的な削減率</span>
+        <span class="h3-direction">管理工数・コミュニケーションコスト込みでの現実的な数字を提示する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">ラボ型と請負型で変わるオフショア開発の費用構造</h3>
+    <p class="direction">契約形態の選択が費用に与える影響を整理する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">ラボ型開発の月額費用の考え方</span>
+        <span class="h3-direction">固定チームを維持するランニングコストの構造を解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">請負型開発の見積もり方法と注意点</span>
+        <span class="h3-direction">成果物ベースの費用設定における追加費用リスクを説明する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">オフショア開発の費用を抑える5つのポイント</h3>
+    <p class="direction">実践的なコスト削減策を優先度順に提示する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">開発期間を短くして人件費総額を圧縮する</span>
+        <span class="h3-direction">スコープ管理と段階リリースによる期間短縮の方法を説明する。</span>
+      </li>
+      <li>
+        <span class="h3-title">余分な機能を省いてMVPで開始する</span>
+        <span class="h3-direction">必要最小限の機能でスタートし、追加開発は検証後に行うアプローチを提案する。</span>
+      </li>
+      <li>
+        <span class="h3-title">自社ニーズに合う得意分野の開発会社を選ぶ</span>
+        <span class="h3-direction">得意分野のマッチングでムダな工数を削減できる理由を解説する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">安さだけで選ぶと失敗する｜費用対効果の正しい評価軸</h3>
+    <p class="direction">価格だけで判断した際に起きる典型的な失敗と、正しい評価の仕方を示す。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">安すぎる見積もりに潜むリスク</span>
+        <span class="h3-direction">相場を大幅に下回る見積もりの裏側にある品質リスクを解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">IT投資としてのROIで費用対効果を測る</span>
+        <span class="h3-direction">単純な開発費比較ではなく、事業成果ベースで判断する視点を提供する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">まとめ｜費用相場を正しく理解してオフショア開発を成功させる</h3>
+    <p class="direction">記事の要点を整理し、見積もり取得時の具体的なアクションを提示する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">見積もり比較時のチェックポイント</span>
+        <span class="h3-direction">複数社の見積もりを比較する際に見るべきポイントを最終確認する。</span>
+      </li>
+    </ul>
+  </div>
+
+</div>
+</body>
+</html>
