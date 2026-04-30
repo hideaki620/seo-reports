@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>記事構成指示書: Webシステム開発 外注</title>
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --sub: #555;
+    --muted: #888;
+    --line: #e5e5e5;
+    --line-strong: #d0d0d0;
+    --accent: #0a6efd;
+    --accent-soft: #eef3ff;
+    --bg: #fafaf8;
+    --card: #ffffff;
+    --highlight: #fff8e1;
+    --highlight-border: #f0c800;
+    --code-bg: #f4f4f4;
+    --h2-bar: #0a6efd;
+    --h3-bar: #8ab4ff;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 48px 32px 96px;
+  }
+
+  /* ヘッダー */
+  .header {
+    border-bottom: 3px solid var(--ink);
+    padding-bottom: 24px;
+    margin-bottom: 40px;
+  }
+  .header .eyebrow {
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    color: var(--sub);
+    background: #fff;
+    padding: 4px 10px;
+    border: 1px solid var(--line-strong);
+    border-radius: 3px;
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+  .header h1 {
+    font-size: 32px;
+    line-height: 1.4;
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+
+  /* セクション見出し */
+  h2.section {
+    font-size: 22px;
+    font-weight: 800;
+    margin: 56px 0 20px;
+    padding: 12px 0 12px 16px;
+    border-left: 6px solid var(--h2-bar);
+    letter-spacing: -0.01em;
+    line-height: 1.4;
+  }
+  h2.section .num {
+    display: inline-block;
+    font-size: 14px;
+    color: var(--accent);
+    margin-right: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  /* 個別指示（目立たせる） */
+  .director-note {
+    background: var(--highlight);
+    border: 2px solid var(--highlight-border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 0 0 40px;
+  }
+  .director-note::before {
+    content: "📋 ディレクターからの個別指示";
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: #8a6d00;
+    margin-bottom: 10px;
+    letter-spacing: 0.03em;
+  }
+  .director-note p {
+    margin: 0 0 10px;
+    font-size: 15px;
+    line-height: 1.9;
+    color: #5a4a00;
+  }
+  .director-note p:last-child { margin-bottom: 0; }
+  .director-note a {
+    color: #0a5bd2;
+    text-decoration: underline;
+    word-break: break-all;
+  }
+  .director-note a:hover { color: #063d8f; }
+
+  /* 基本情報テーブル */
+  .info-table {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .info-table dl {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 180px 1fr;
+  }
+  .info-table dt {
+    background: #f7f7f5;
+    padding: 14px 20px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--sub);
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+  }
+  .info-table dd {
+    margin: 0;
+    padding: 14px 20px;
+    font-size: 15px;
+    border-bottom: 1px solid var(--line);
+    line-height: 1.6;
+  }
+  .info-table dl > *:nth-last-child(-n+2) {
+    border-bottom: none;
+  }
+  .info-table dd strong {
+    color: var(--accent);
+  }
+
+  /* ユーザーニーズ */
+  .needs {
+    background: var(--card);
+    border-left: 4px solid var(--accent);
+    padding: 20px 28px;
+    border-radius: 0 8px 8px 0;
+    font-size: 15px;
+    line-height: 2;
+    color: var(--ink);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    white-space: pre-wrap;
+  }
+
+  /* 全体の方向性チェックリスト */
+  .directions {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .directions li {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 14px 16px 14px 48px;
+    margin-bottom: 10px;
+    position: relative;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  .directions li::before {
+    content: "✓";
+    position: absolute;
+    left: 16px;
+    top: 14px;
+    width: 22px;
+    height: 22px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 1;
+  }
+
+  /* アウトライン */
+  .outline-intro {
+    color: var(--sub);
+    font-size: 14px;
+    margin-bottom: 20px;
+    padding: 12px 16px;
+    background: var(--accent-soft);
+    border-radius: 6px;
+    border-left: 3px solid var(--accent);
+  }
+  .h2-block {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin-bottom: 18px;
+    position: relative;
+  }
+  .h2-block::before {
+    content: "H2";
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+  }
+  .h2-block h3.h2-title {
+    font-size: 19px;
+    font-weight: 700;
+    margin: 4px 0 8px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .h2-block > .direction {
+    font-size: 14px;
+    color: var(--sub);
+    margin: 0 0 16px;
+    line-height: 1.7;
+  }
+  .h3-list {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 0;
+    border-top: 1px dashed var(--line);
+    padding-top: 14px;
+  }
+  .h3-list li {
+    padding: 10px 0 10px 24px;
+    position: relative;
+    font-size: 15px;
+    line-height: 1.6;
+    border-bottom: 1px dashed var(--line);
+  }
+  .h3-list li:last-child {
+    border-bottom: none;
+    padding-bottom: 4px;
+  }
+  .h3-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 19px;
+    width: 12px;
+    height: 2px;
+    background: var(--h3-bar);
+  }
+  .h3-list .h3-title {
+    font-weight: 600;
+    color: var(--ink);
+    display: block;
+    margin-bottom: 4px;
+    font-size: 15px;
+  }
+  .h3-list .h3-title::before {
+    content: "H3";
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    background: #eef3ff;
+    color: var(--accent);
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-right: 8px;
+    letter-spacing: 0.05em;
+    vertical-align: middle;
+  }
+  .h3-list .h3-direction {
+    font-size: 13px;
+    color: var(--sub);
+    line-height: 1.7;
+  }
+
+  /* エンティティリスト */
+  .entity-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: entity-counter;
+  }
+  .entity-list li {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 18px 14px 56px;
+    margin-bottom: 10px;
+    position: relative;
+    counter-increment: entity-counter;
+  }
+  .entity-list li::before {
+    content: counter(entity-counter);
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .entity-name {
+    display: block;
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 2px;
+  }
+  .entity-url {
+    display: block;
+    font-size: 12px;
+    color: var(--accent);
+    text-decoration: none;
+    word-break: break-all;
+  }
+  .entity-url:hover { text-decoration: underline; }
+
+  /* 印刷対応 */
+  @media print {
+    body { background: #fff; font-size: 12pt; }
+    .container { padding: 20px; max-width: 100%; }
+    .h2-block, .info-table, .director-note, .needs, .directions li, .entity-list li {
+      page-break-inside: avoid;
+      box-shadow: none;
+    }
+    h2.section { page-break-after: avoid; }
+  }
+
+  /* モバイル対応 */
+  @media (max-width: 640px) {
+    .container { padding: 24px 16px 64px; }
+    .header h1 { font-size: 24px; }
+    h2.section { font-size: 18px; margin: 40px 0 16px; }
+    .info-table dl { grid-template-columns: 1fr; }
+    .info-table dt { border-bottom: none; padding-bottom: 4px; }
+    .info-table dd { padding-top: 4px; }
+    .h2-block { padding: 20px; }
+    .h2-block h3.h2-title { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ヘッダー -->
+  <header class="header">
+    <span class="eyebrow">WRITER'S BRIEF</span>
+    <h1>記事構成指示書: Webシステム開発 外注</h1>
+  </header>
+
+  <!-- 基本情報 -->
+  <h2 class="section"><span class="num">01</span>基本情報</h2>
+  <div class="info-table">
+    <dl>
+      <dt>キーワード</dt>
+      <dd>Webシステム開発 外注</dd>
+
+      <dt>タイトル案</dt>
+      <dd>Webシステム開発の外注で損しない方法｜費用相場・選び方・トラブル回避策</dd>
+
+      <dt>メタディスクリプション案</dt>
+      <dd>Webシステム開発を外注する際の費用相場・依頼先の選び方・よくあるトラブルと回避策を解説。補助金活用や受託型・常駐型の違いまで、初めての外注でも失敗しないポイントをまとめました。</dd>
+
+      <dt>目標文字数</dt>
+      <dd>約 10000 字</dd>
+    </dl>
+  </div>
+
+  <!-- ユーザーニーズ -->
+  <h2 class="section"><span class="num">02</span>ユーザーニーズ</h2>
+  <div class="needs">Webシステム開発の外注を初めて検討している企業担当者が主なターゲット。「どこに頼めばいいか」「いくらかかるか」「失敗しないためにどうすればよいか」という3つの不安を同時に解消したい。
+開発会社の探し方、費用感、依頼から納品までの流れを一通り把握し、社内稟議や上司への説明に使える知識を得たい意図が強い。
+外注先の比較検討フェーズにある層と、まず全体像を掴みたい情報収集フェーズの層が混在している。</div>
+
+  <!-- 全体の方向性 -->
+  <h2 class="section"><span class="num">03</span>全体の方向性</h2>
+  <ul class="directions">
+    <li>外注の手段（マッチングサイト・直接探索・フリーランス）ごとのメリット・デメリットを整理する</li>
+    <li>費用相場は「人月単価×機能別」のマトリクスで具体的に提示する</li>
+    <li>依頼先選定のチェックリストを実用的な形で提供する</li>
+    <li>依頼から納品・運用までの全体フローを時系列で解説する</li>
+    <li>よくあるトラブル事例と、契約段階で防げるポイントを紐づける</li>
+    <li>受託型と常駐型（SES）の違いを意思決定に直結する形で比較する</li>
+    <li>補助金・助成金（IT導入補助金・ものづくり補助金等）の活用方法を紹介する</li>
+  </ul>
+
+  <!-- 記事構成 -->
+  <h2 class="section"><span class="num">04</span>記事構成（アウトライン）</h2>
+  <p class="outline-intro">以下の構成で本文を執筆してください。各 H2 の下の「方向性」は各セクションで触れる要点を示しています。H3 の順序は変更せず、そのまま採用してください。</p>
+
+  <div class="h2-block">
+    <h3 class="h2-title">Webシステム開発を外注する3つの方法</h3>
+    <p class="direction">外注先の探し方として、マッチングサイト活用・自力検索・フリーランス活用の3パターンを俯瞰する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">マッチングサイトで探すメリットと注意点</span>
+        <span class="h3-direction">専門マッチングサイトを使えば比較が容易だが、手数料構造を理解しておく必要がある。</span>
+      </li>
+      <li>
+        <span class="h3-title">自力でシステム開発会社を探す方法</span>
+        <span class="h3-direction">検索・展示会・紹介など独力で探す手段と、それぞれの精度・効率を比較する。</span>
+      </li>
+      <li>
+        <span class="h3-title">フリーランスエンジニアに外注する選択肢</span>
+        <span class="h3-direction">コスト削減効果と品質・継続性リスクのトレードオフを解説する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">外注先のシステム開発会社を選ぶ5つのチェックポイント</h3>
+    <p class="direction">選定基準を「得意分野」「業界理解度」「見積もり妥当性」「コミュニケーション」「保守体制」の5軸で整理する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">得意分野と開発実績の確認方法</span>
+        <span class="h3-direction">ポートフォリオや事例の見方、技術スタックの適合性を判断する視点を示す。</span>
+      </li>
+      <li>
+        <span class="h3-title">相見積もりで適正価格を見極めるコツ</span>
+        <span class="h3-direction">最低3社からの見積もり取得と、見積もり項目の読み方を解説する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">Webシステム開発の費用相場｜規模・機能別の目安</h3>
+    <p class="direction">規模別（小規模〜大規模）・機能別の費用レンジを具体的に提示する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">人月単価の仕組みと計算方法</span>
+        <span class="h3-direction">「人月」の意味を初心者向けに解説し、エンジニアのスキルレベルによる単価差を示す。</span>
+      </li>
+      <li>
+        <span class="h3-title">機能別の追加費用目安</span>
+        <span class="h3-direction">ログイン機能・決済・外部API連携など、よくある機能ごとの追加コスト感を提示する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">外注の依頼から納品・運用までの全体フロー</h3>
+    <p class="direction">依頼→ヒアリング→要件定義→開発→テスト→納品→運用の各ステップを時系列で解説する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">要件定義で押さえるべきポイント</span>
+        <span class="h3-direction">あいまいな要件が費用膨張の主因になるため、要件定義書の必須項目を示す。</span>
+      </li>
+      <li>
+        <span class="h3-title">開発期間の目安と進捗管理の方法</span>
+        <span class="h3-direction">規模別の期間目安と、進捗の可視化手法（アジャイル/ウォーターフォール）を紹介する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">受託型と常駐型（SES）の違い｜どちらを選ぶべきか</h3>
+    <p class="direction">2つの契約形態のメリット・デメリットを比較し、プロジェクト特性に応じた選択基準を示す。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">受託開発が向いているケース</span>
+        <span class="h3-direction">要件が明確でまとまった発注ができる場合に受託が適する理由を説明する。</span>
+      </li>
+      <li>
+        <span class="h3-title">常駐型（SES）が向いているケース</span>
+        <span class="h3-direction">長期開発や社内チームとの連携が必要な場合にSESが有利になる理由を説明する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">外注時によくあるトラブルと回避策</h3>
+    <p class="direction">実際に起きやすいトラブル事例と、契約・コミュニケーションで防ぐ方法を解説する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">納期遅延・費用超過の防ぎ方</span>
+        <span class="h3-direction">マイルストーン設定と中間レビューの重要性を具体的に示す。</span>
+      </li>
+      <li>
+        <span class="h3-title">納品物の品質ギャップを防ぐ方法</span>
+        <span class="h3-direction">プロトタイプ確認やテスト工程の明文化など、品質を担保する契約上の工夫を紹介する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">外注費用を抑える3つの方法</h3>
+    <p class="direction">コスト削減の具体的な手段を示す。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">補助金・助成金を活用する</span>
+        <span class="h3-direction">IT導入補助金・ものづくり補助金・事業再構築補助金の概要と申請時の注意点を示す。</span>
+      </li>
+      <li>
+        <span class="h3-title">MVP開発でスモールスタートする</span>
+        <span class="h3-direction">最小限の機能から始めて段階的に拡張するアプローチの有効性を解説する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">Webシステム開発の外注でよくある質問</h3>
+    <p class="direction">FAQ形式で疑問に回答する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">開発期間の目安はどれくらい？</span>
+        <span class="h3-direction">小規模（1〜3ヶ月）〜大規模（6ヶ月〜1年）の目安を示す。</span>
+      </li>
+      <li>
+        <span class="h3-title">既存システムの改修も外注できる？</span>
+        <span class="h3-direction">改修案件の注意点とコスト構造の違いを解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">WebシステムとアプリどちらにすべきかH3</span>
+        <span class="h3-direction">用途・ターゲットに応じた判断基準を示す。</span>
+      </li>
+    </ul>
+  </div>
+
+</div>
+</body>
+</html>

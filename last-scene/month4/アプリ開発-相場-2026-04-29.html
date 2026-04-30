@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>記事構成指示書: アプリ開発 相場</title>
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --sub: #555;
+    --muted: #888;
+    --line: #e5e5e5;
+    --line-strong: #d0d0d0;
+    --accent: #0a6efd;
+    --accent-soft: #eef3ff;
+    --bg: #fafaf8;
+    --card: #ffffff;
+    --highlight: #fff8e1;
+    --highlight-border: #f0c800;
+    --code-bg: #f4f4f4;
+    --h2-bar: #0a6efd;
+    --h3-bar: #8ab4ff;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 48px 32px 96px;
+  }
+
+  /* ヘッダー */
+  .header {
+    border-bottom: 3px solid var(--ink);
+    padding-bottom: 24px;
+    margin-bottom: 40px;
+  }
+  .header .eyebrow {
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    color: var(--sub);
+    background: #fff;
+    padding: 4px 10px;
+    border: 1px solid var(--line-strong);
+    border-radius: 3px;
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+  .header h1 {
+    font-size: 32px;
+    line-height: 1.4;
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+
+  /* セクション見出し */
+  h2.section {
+    font-size: 22px;
+    font-weight: 800;
+    margin: 56px 0 20px;
+    padding: 12px 0 12px 16px;
+    border-left: 6px solid var(--h2-bar);
+    letter-spacing: -0.01em;
+    line-height: 1.4;
+  }
+  h2.section .num {
+    display: inline-block;
+    font-size: 14px;
+    color: var(--accent);
+    margin-right: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  /* 個別指示（目立たせる） */
+  .director-note {
+    background: var(--highlight);
+    border: 2px solid var(--highlight-border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 0 0 40px;
+  }
+  .director-note::before {
+    content: "📋 ディレクターからの個別指示";
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: #8a6d00;
+    margin-bottom: 10px;
+    letter-spacing: 0.03em;
+  }
+  .director-note p {
+    margin: 0 0 10px;
+    font-size: 15px;
+    line-height: 1.9;
+    color: #5a4a00;
+  }
+  .director-note p:last-child { margin-bottom: 0; }
+  .director-note a {
+    color: #0a5bd2;
+    text-decoration: underline;
+    word-break: break-all;
+  }
+  .director-note a:hover { color: #063d8f; }
+
+  /* 基本情報テーブル */
+  .info-table {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .info-table dl {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 180px 1fr;
+  }
+  .info-table dt {
+    background: #f7f7f5;
+    padding: 14px 20px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--sub);
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+  }
+  .info-table dd {
+    margin: 0;
+    padding: 14px 20px;
+    font-size: 15px;
+    border-bottom: 1px solid var(--line);
+    line-height: 1.6;
+  }
+  .info-table dl > *:nth-last-child(-n+2) {
+    border-bottom: none;
+  }
+  .info-table dd strong {
+    color: var(--accent);
+  }
+
+  /* ユーザーニーズ */
+  .needs {
+    background: var(--card);
+    border-left: 4px solid var(--accent);
+    padding: 20px 28px;
+    border-radius: 0 8px 8px 0;
+    font-size: 15px;
+    line-height: 2;
+    color: var(--ink);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    white-space: pre-wrap;
+  }
+
+  /* 全体の方向性チェックリスト */
+  .directions {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .directions li {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 14px 16px 14px 48px;
+    margin-bottom: 10px;
+    position: relative;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  .directions li::before {
+    content: "✓";
+    position: absolute;
+    left: 16px;
+    top: 14px;
+    width: 22px;
+    height: 22px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 1;
+  }
+
+  /* アウトライン */
+  .outline-intro {
+    color: var(--sub);
+    font-size: 14px;
+    margin-bottom: 20px;
+    padding: 12px 16px;
+    background: var(--accent-soft);
+    border-radius: 6px;
+    border-left: 3px solid var(--accent);
+  }
+  .h2-block {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin-bottom: 18px;
+    position: relative;
+  }
+  .h2-block::before {
+    content: "H2";
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+  }
+  .h2-block h3.h2-title {
+    font-size: 19px;
+    font-weight: 700;
+    margin: 4px 0 8px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .h2-block > .direction {
+    font-size: 14px;
+    color: var(--sub);
+    margin: 0 0 16px;
+    line-height: 1.7;
+  }
+  .h3-list {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 0;
+    border-top: 1px dashed var(--line);
+    padding-top: 14px;
+  }
+  .h3-list li {
+    padding: 10px 0 10px 24px;
+    position: relative;
+    font-size: 15px;
+    line-height: 1.6;
+    border-bottom: 1px dashed var(--line);
+  }
+  .h3-list li:last-child {
+    border-bottom: none;
+    padding-bottom: 4px;
+  }
+  .h3-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 19px;
+    width: 12px;
+    height: 2px;
+    background: var(--h3-bar);
+  }
+  .h3-list .h3-title {
+    font-weight: 600;
+    color: var(--ink);
+    display: block;
+    margin-bottom: 4px;
+    font-size: 15px;
+  }
+  .h3-list .h3-title::before {
+    content: "H3";
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    background: #eef3ff;
+    color: var(--accent);
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-right: 8px;
+    letter-spacing: 0.05em;
+    vertical-align: middle;
+  }
+  .h3-list .h3-direction {
+    font-size: 13px;
+    color: var(--sub);
+    line-height: 1.7;
+  }
+
+  /* エンティティリスト */
+  .entity-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: entity-counter;
+  }
+  .entity-list li {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 18px 14px 56px;
+    margin-bottom: 10px;
+    position: relative;
+    counter-increment: entity-counter;
+  }
+  .entity-list li::before {
+    content: counter(entity-counter);
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .entity-name {
+    display: block;
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 2px;
+  }
+  .entity-url {
+    display: block;
+    font-size: 12px;
+    color: var(--accent);
+    text-decoration: none;
+    word-break: break-all;
+  }
+  .entity-url:hover { text-decoration: underline; }
+
+  /* 印刷対応 */
+  @media print {
+    body { background: #fff; font-size: 12pt; }
+    .container { padding: 20px; max-width: 100%; }
+    .h2-block, .info-table, .director-note, .needs, .directions li, .entity-list li {
+      page-break-inside: avoid;
+      box-shadow: none;
+    }
+    h2.section { page-break-after: avoid; }
+  }
+
+  /* モバイル対応 */
+  @media (max-width: 640px) {
+    .container { padding: 24px 16px 64px; }
+    .header h1 { font-size: 24px; }
+    h2.section { font-size: 18px; margin: 40px 0 16px; }
+    .info-table dl { grid-template-columns: 1fr; }
+    .info-table dt { border-bottom: none; padding-bottom: 4px; }
+    .info-table dd { padding-top: 4px; }
+    .h2-block { padding: 20px; }
+    .h2-block h3.h2-title { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ヘッダー -->
+  <header class="header">
+    <span class="eyebrow">WRITER'S BRIEF</span>
+    <h1>記事構成指示書: アプリ開発 相場</h1>
+  </header>
+
+  <!-- 基本情報 -->
+  <h2 class="section"><span class="num">01</span>基本情報</h2>
+  <div class="info-table">
+    <dl>
+      <dt>キーワード</dt>
+      <dd>アプリ開発 相場</dd>
+
+      <dt>タイトル案</dt>
+      <dd>アプリ開発の相場を種類・機能・委託先別に総整理｜見積もりの読み方も解説</dd>
+
+      <dt>メタディスクリプション案</dt>
+      <dd>アプリ開発の費用相場をジャンル別・機能別・委託先別に網羅的に整理。費用の決まり方、見積書の読み方、コスト削減のコツ、運用後の維持費まで、予算策定に必要な全情報をまとめました。</dd>
+
+      <dt>目標文字数</dt>
+      <dd>約 14600 字</dd>
+    </dl>
+  </div>
+
+  <!-- ユーザーニーズ -->
+  <h2 class="section"><span class="num">02</span>ユーザーニーズ</h2>
+  <div class="needs">アプリ開発の予算策定や見積もりの妥当性判断をしたい企業担当者・経営者が主な検索者。「自社が作りたいアプリはいくらかかるのか」を具体的に知りたい意図が強い。ジャンル別（ECアプリ、マッチングアプリ等）や機能別（ログイン、プッシュ通知等）で相場を確認し、見積もりの適正価格を判断するための基準を求めている。初期費用だけでなく維持費も含めたトータルコストを把握したい。</div>
+
+  <!-- 全体の方向性 -->
+  <h2 class="section"><span class="num">03</span>全体の方向性</h2>
+  <ul class="directions">
+    <li>費用相場を「ジャンル別」「機能別」「委託先別」「開発手法別」の4切り口で整理し、読者が自社のケースに当てはめやすくする</li>
+    <li>費用が決まる仕組み（人月単価×工数）を非エンジニア向けにわかりやすく解説する</li>
+    <li>実際の見積もり事例を交え、見積書の読み方と妥当性の判断方法を示す</li>
+    <li>上位記事で手薄な「見積もりが会社によって異なる理由」「予算オーバーを防ぐ方法」を差別化ポイントにする</li>
+    <li>初期開発費だけでなくランニングコスト（保守、サーバー、ストア手数料）を独立セクションで扱う</li>
+    <li>費用削減の方法を実践的に紹介する</li>
+  </ul>
+
+  <!-- 記事構成 -->
+  <h2 class="section"><span class="num">04</span>記事構成（アウトライン）</h2>
+  <p class="outline-intro">以下の構成で本文を執筆してください。各 H2 の下の「方向性」は各セクションで触れる要点を示しています。H3 の順序は変更せず、そのまま採用してください。</p>
+
+  <div class="h2-block">
+    <h3 class="h2-title">アプリ開発の費用相場一覧｜早見表で全体像を把握</h3>
+    <p class="direction">ジャンル別・規模別の相場レンジを早見表で提示する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">規模別の費用レンジ（小規模/中規模/大規模）</span>
+        <span class="h3-direction">シンプルなアプリ（100〜300万円）から大規模アプリ（1,000万円〜）までのレンジを示す。</span>
+      </li>
+      <li>
+        <span class="h3-title">ジャンル別の費用目安（EC/マッチング/業務/ゲーム等）</span>
+        <span class="h3-direction">代表的なアプリジャンルごとの相場と、費用差が生まれる理由を解説する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">アプリ開発費用の決まり方｜「人月単価×工数」の仕組み</h3>
+    <p class="direction">費用構造の基本を解説し、なぜ見積もりに幅が出るかを理解させる。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">人月単価とは？エンジニアの単価相場</span>
+        <span class="h3-direction">エンジニアのスキルレベルや職種による単価の違いを説明する。</span>
+      </li>
+      <li>
+        <span class="h3-title">工数の算出方法と見積もりのばらつきの原因</span>
+        <span class="h3-direction">同じ要件でも会社によって工数が異なる理由を構造的に説明する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">機能別のアプリ開発費用一覧</h3>
+    <p class="direction">主要な機能ごとの開発費用目安をリスト形式で提示する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">基本機能（ログイン/プッシュ通知/決済等）の費用</span>
+        <span class="h3-direction">ほとんどのアプリで必要になる基本機能の費用目安を示す。</span>
+      </li>
+      <li>
+        <span class="h3-title">高度機能（AI/AR/チャット/マップ連携等）の費用</span>
+        <span class="h3-direction">技術的に複雑な機能の費用目安と、なぜ高額になるかを説明する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">委託先別のアプリ開発費用比較</h3>
+    <p class="direction">開発会社・フリーランス・オフショアの費用差とその理由を比較する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">開発会社（大手/中小/ベンチャー）の費用レンジ</span>
+        <span class="h3-direction">会社の規模による費用差と、その背景（品質管理体制、間接費等）を説明する。</span>
+      </li>
+      <li>
+        <span class="h3-title">フリーランス・オフショア開発の費用メリットと注意点</span>
+        <span class="h3-direction">コストが抑えられる反面、リスク管理が必要な点を公平に解説する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">開発手法別の費用比較｜ネイティブ・ハイブリッド・ノーコード</h3>
+    <p class="direction">開発手法の選択が費用にどう影響するかを解説する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">ネイティブ開発の費用と特徴</span>
+        <span class="h3-direction">iOS/Androidそれぞれ開発する場合の費用とメリットを説明する。</span>
+      </li>
+      <li>
+        <span class="h3-title">ハイブリッド・ノーコード開発の費用と制約</span>
+        <span class="h3-direction">コスト削減効果と、カスタマイズ性の制約をトレードオフとして示す。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">見積書の読み方と妥当性の判断方法</h3>
+    <p class="direction">受け取った見積もりが適正かどうかを判断するための実践的なガイド。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">見積書でチェックすべき5つの項目</span>
+        <span class="h3-direction">人月単価、工数、工程別の内訳、保守費用、追加費用条件を確認するポイントを列挙する。</span>
+      </li>
+      <li>
+        <span class="h3-title">相見積もりの取り方と比較のコツ</span>
+        <span class="h3-direction">3社程度に見積もりを依頼し、金額だけでなく提案内容で比較する方法を説明する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">アプリ開発後にかかるランニングコスト</h3>
+    <p class="direction">初期開発費以外に継続的にかかる費用を整理する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">保守・運用費用の相場（月額15〜40万円が目安）</span>
+        <span class="h3-direction">保守契約の一般的な費用感と、含まれるサービス内容を説明する。</span>
+      </li>
+      <li>
+        <span class="h3-title">サーバー費用・ストア手数料・アップデート費</span>
+        <span class="h3-direction">インフラ費用とストア維持費の年間コスト目安を示す。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">アプリ開発費用を抑える7つの方法</h3>
+    <p class="direction">品質を落とさずにコストを削減する実践的なアプローチを紹介する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">MVP開発で初期投資を最小化する</span>
+        <span class="h3-direction">最小限の機能でリリースし、段階的に拡張するアプローチを説明する。</span>
+      </li>
+      <li>
+        <span class="h3-title">ノーコード活用・オフショア・補助金の活用</span>
+        <span class="h3-direction">複数のコスト削減手段を具体的に紹介する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">まとめ｜アプリ開発の相場を理解して適正な予算を組む</h3>
+    <p class="direction">全体の要点を振り返り、予算策定から発注までの行動ステップを示す。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">予算策定のためのアクションリスト</span>
+        <span class="h3-direction">初期費用＋維持費のトータルコストで予算を組み、複数社に見積もりを取る手順を示す。</span>
+      </li>
+    </ul>
+  </div>
+
+</div>
+</body>
+</html>

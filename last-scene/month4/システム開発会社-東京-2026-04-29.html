@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>記事構成指示書: システム開発会社 東京</title>
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --sub: #555;
+    --muted: #888;
+    --line: #e5e5e5;
+    --line-strong: #d0d0d0;
+    --accent: #0a6efd;
+    --accent-soft: #eef3ff;
+    --bg: #fafaf8;
+    --card: #ffffff;
+    --highlight: #fff8e1;
+    --highlight-border: #f0c800;
+    --code-bg: #f4f4f4;
+    --h2-bar: #0a6efd;
+    --h3-bar: #8ab4ff;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 48px 32px 96px;
+  }
+
+  /* ヘッダー */
+  .header {
+    border-bottom: 3px solid var(--ink);
+    padding-bottom: 24px;
+    margin-bottom: 40px;
+  }
+  .header .eyebrow {
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    color: var(--sub);
+    background: #fff;
+    padding: 4px 10px;
+    border: 1px solid var(--line-strong);
+    border-radius: 3px;
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+  .header h1 {
+    font-size: 32px;
+    line-height: 1.4;
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+
+  /* セクション見出し */
+  h2.section {
+    font-size: 22px;
+    font-weight: 800;
+    margin: 56px 0 20px;
+    padding: 12px 0 12px 16px;
+    border-left: 6px solid var(--h2-bar);
+    letter-spacing: -0.01em;
+    line-height: 1.4;
+  }
+  h2.section .num {
+    display: inline-block;
+    font-size: 14px;
+    color: var(--accent);
+    margin-right: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  /* 個別指示（目立たせる） */
+  .director-note {
+    background: var(--highlight);
+    border: 2px solid var(--highlight-border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 0 0 40px;
+  }
+  .director-note::before {
+    content: "📋 ディレクターからの個別指示";
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: #8a6d00;
+    margin-bottom: 10px;
+    letter-spacing: 0.03em;
+  }
+  .director-note p {
+    margin: 0 0 10px;
+    font-size: 15px;
+    line-height: 1.9;
+    color: #5a4a00;
+  }
+  .director-note p:last-child { margin-bottom: 0; }
+  .director-note a {
+    color: #0a5bd2;
+    text-decoration: underline;
+    word-break: break-all;
+  }
+  .director-note a:hover { color: #063d8f; }
+
+  /* 基本情報テーブル */
+  .info-table {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .info-table dl {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 180px 1fr;
+  }
+  .info-table dt {
+    background: #f7f7f5;
+    padding: 14px 20px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--sub);
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+  }
+  .info-table dd {
+    margin: 0;
+    padding: 14px 20px;
+    font-size: 15px;
+    border-bottom: 1px solid var(--line);
+    line-height: 1.6;
+  }
+  .info-table dl > *:nth-last-child(-n+2) {
+    border-bottom: none;
+  }
+  .info-table dd strong {
+    color: var(--accent);
+  }
+
+  /* ユーザーニーズ */
+  .needs {
+    background: var(--card);
+    border-left: 4px solid var(--accent);
+    padding: 20px 28px;
+    border-radius: 0 8px 8px 0;
+    font-size: 15px;
+    line-height: 2;
+    color: var(--ink);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    white-space: pre-wrap;
+  }
+
+  /* 全体の方向性チェックリスト */
+  .directions {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .directions li {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 14px 16px 14px 48px;
+    margin-bottom: 10px;
+    position: relative;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  .directions li::before {
+    content: "✓";
+    position: absolute;
+    left: 16px;
+    top: 14px;
+    width: 22px;
+    height: 22px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 1;
+  }
+
+  /* アウトライン */
+  .outline-intro {
+    color: var(--sub);
+    font-size: 14px;
+    margin-bottom: 20px;
+    padding: 12px 16px;
+    background: var(--accent-soft);
+    border-radius: 6px;
+    border-left: 3px solid var(--accent);
+  }
+  .h2-block {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin-bottom: 18px;
+    position: relative;
+  }
+  .h2-block::before {
+    content: "H2";
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+  }
+  .h2-block h3.h2-title {
+    font-size: 19px;
+    font-weight: 700;
+    margin: 4px 0 8px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .h2-block > .direction {
+    font-size: 14px;
+    color: var(--sub);
+    margin: 0 0 16px;
+    line-height: 1.7;
+  }
+  .h3-list {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 0;
+    border-top: 1px dashed var(--line);
+    padding-top: 14px;
+  }
+  .h3-list li {
+    padding: 10px 0 10px 24px;
+    position: relative;
+    font-size: 15px;
+    line-height: 1.6;
+    border-bottom: 1px dashed var(--line);
+  }
+  .h3-list li:last-child {
+    border-bottom: none;
+    padding-bottom: 4px;
+  }
+  .h3-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 19px;
+    width: 12px;
+    height: 2px;
+    background: var(--h3-bar);
+  }
+  .h3-list .h3-title {
+    font-weight: 600;
+    color: var(--ink);
+    display: block;
+    margin-bottom: 4px;
+    font-size: 15px;
+  }
+  .h3-list .h3-title::before {
+    content: "H3";
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    background: #eef3ff;
+    color: var(--accent);
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-right: 8px;
+    letter-spacing: 0.05em;
+    vertical-align: middle;
+  }
+  .h3-list .h3-direction {
+    font-size: 13px;
+    color: var(--sub);
+    line-height: 1.7;
+  }
+
+  /* エンティティリスト */
+  .entity-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: entity-counter;
+  }
+  .entity-list li {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 18px 14px 56px;
+    margin-bottom: 10px;
+    position: relative;
+    counter-increment: entity-counter;
+  }
+  .entity-list li::before {
+    content: counter(entity-counter);
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .entity-name {
+    display: block;
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 2px;
+  }
+  .entity-url {
+    display: block;
+    font-size: 12px;
+    color: var(--accent);
+    text-decoration: none;
+    word-break: break-all;
+  }
+  .entity-url:hover { text-decoration: underline; }
+
+  /* 印刷対応 */
+  @media print {
+    body { background: #fff; font-size: 12pt; }
+    .container { padding: 20px; max-width: 100%; }
+    .h2-block, .info-table, .director-note, .needs, .directions li, .entity-list li {
+      page-break-inside: avoid;
+      box-shadow: none;
+    }
+    h2.section { page-break-after: avoid; }
+  }
+
+  /* モバイル対応 */
+  @media (max-width: 640px) {
+    .container { padding: 24px 16px 64px; }
+    .header h1 { font-size: 24px; }
+    h2.section { font-size: 18px; margin: 40px 0 16px; }
+    .info-table dl { grid-template-columns: 1fr; }
+    .info-table dt { border-bottom: none; padding-bottom: 4px; }
+    .info-table dd { padding-top: 4px; }
+    .h2-block { padding: 20px; }
+    .h2-block h3.h2-title { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ヘッダー -->
+  <header class="header">
+    <span class="eyebrow">WRITER'S BRIEF</span>
+    <h1>記事構成指示書: システム開発会社 東京</h1>
+  </header>
+
+  <!-- 基本情報 -->
+  <h2 class="section"><span class="num">01</span>基本情報</h2>
+  <div class="info-table">
+    <dl>
+      <dt>キーワード</dt>
+      <dd>システム開発会社 東京</dd>
+
+      <dt>タイトル案</dt>
+      <dd>東京のシステム開発会社おすすめ25社｜エリア・得意分野別に厳選</dd>
+
+      <dt>メタディスクリプション案</dt>
+      <dd>東京のシステム開発会社をエリア・得意分野別に25社厳選。選定ポイント、費用相場、依頼の流れまで発注担当者が知るべき情報をまとめました。</dd>
+
+      <dt>目標文字数</dt>
+      <dd>約 12000 字</dd>
+    </dl>
+  </div>
+
+  <!-- ユーザーニーズ -->
+  <h2 class="section"><span class="num">02</span>ユーザーニーズ</h2>
+  <div class="needs">東京エリアでシステム開発を外注したい企業担当者が、信頼できるパートナー候補を探している。
+地理的な近さによる打ち合わせのしやすさを重視しつつ、得意分野や実績で絞り込みたいニーズがある。
+費用感の目安や、開発会社に依頼する際の流れ・注意点も同時に把握したいと考えている。
+初めてシステム開発を外注する担当者も多く、選定基準自体を知りたいという基礎的なニーズもある。</div>
+
+  <!-- 全体の方向性 -->
+  <h2 class="section"><span class="num">03</span>全体の方向性</h2>
+  <ul class="directions">
+    <li>エリア別（千代田区・中央区・港区・新宿区・渋谷区等）に開発会社を整理する</li>
+    <li>各社の得意分野・対応技術・実績を簡潔にまとめる</li>
+    <li>選定時に確認すべきポイント（実績・自社開発・対応範囲・コミュニケーション）を解説する</li>
+    <li>費用相場の目安を開発種類別に示す</li>
+    <li>依頼から納品までの一般的な流れを解説する</li>
+    <li>東京ならではの特徴（会社数の多さ、専門特化型の存在）を活かした選び方を提案する</li>
+  </ul>
+
+  <!-- 記事構成 -->
+  <h2 class="section"><span class="num">04</span>記事構成（アウトライン）</h2>
+  <p class="outline-intro">以下の構成で本文を執筆してください。各 H2 の下の「方向性」は各セクションで触れる要点を示しています。H3 の順序は変更せず、そのまま採用してください。</p>
+
+  <div class="h2-block">
+    <h3 class="h2-title">東京のシステム開発会社を選ぶ前に押さえるべきポイント</h3>
+    <p class="direction">選定基準を先に整理し、以降の会社紹介を読む視点を提供する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">得意分野と開発実績で絞り込む方法</span>
+        <span class="h3-direction">業務系・Web系・アプリ系など得意領域の確認方法を示す。</span>
+      </li>
+      <li>
+        <span class="h3-title">自社開発体制とコミュニケーション品質の確認方法</span>
+        <span class="h3-direction">下請け構造のリスクと、担当者との相性チェックの重要性を説明する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">【千代田区・中央区】東京のおすすめシステム開発会社</h3>
+    <p class="direction">該当エリアの開発会社を概要・強み・対応領域とともに紹介する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">各社の特徴と得意分野</span>
+        <span class="h3-direction">会社ごとに所在地・設立・対応領域・強みを簡潔にまとめる。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">【港区・新宿区】東京のおすすめシステム開発会社</h3>
+    <p class="direction">該当エリアの開発会社を紹介する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">各社の特徴と得意分野</span>
+        <span class="h3-direction">会社ごとに所在地・設立・対応領域・強みを簡潔にまとめる。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">【渋谷区・品川区・目黒区】東京のおすすめシステム開発会社</h3>
+    <p class="direction">該当エリアの開発会社を紹介する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">各社の特徴と得意分野</span>
+        <span class="h3-direction">会社ごとに所在地・設立・対応領域・強みを簡潔にまとめる。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">【豊島区・台東区・その他エリア】東京のおすすめシステム開発会社</h3>
+    <p class="direction">その他エリアの開発会社を紹介する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">各社の特徴と得意分野</span>
+        <span class="h3-direction">会社ごとに所在地・設立・対応領域・強みを簡潔にまとめる。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">東京のシステム開発会社に依頼する際の費用相場</h3>
+    <p class="direction">種類別の費用レンジを表で示す。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">業務システム・Webシステム・アプリ開発の費用目安</span>
+        <span class="h3-direction">代表的なシステム種別ごとに費用レンジを提示する。</span>
+      </li>
+      <li>
+        <span class="h3-title">費用を抑えるためのポイント</span>
+        <span class="h3-direction">要件定義の精度、パッケージ活用、補助金の活用を簡潔に触れる。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">システム開発会社への依頼から納品までの流れ</h3>
+    <p class="direction">問い合わせ→ヒアリング→見積もり→開発→テスト→納品の6ステップを解説する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">各フェーズで発注者が確認すべきこと</span>
+        <span class="h3-direction">フェーズごとのチェックポイントをまとめる。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">東京のシステム開発会社選びでよくある質問</h3>
+    <p class="direction">初めての外注で生じやすい疑問にFAQ形式で回答する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">東京以外の会社に依頼するのとの違いは？</span>
+        <span class="h3-direction">地理的メリットとリモート開発の比較を整理する。</span>
+      </li>
+      <li>
+        <span class="h3-title">小規模な開発でも対応してもらえる？</span>
+        <span class="h3-direction">小規模案件に強い会社の特徴と探し方を示す。</span>
+      </li>
+    </ul>
+  </div>
+
+  <h2 class="section"><span class="num">05</span>登場させるエンティティ</h2>
+  <p class="outline-intro">⚠️ このリスト以外の店舗名・サービス名・ブランド名を記事に登場させないでください。</p>
+  <ol class="entity-list">
+    <li>
+      <span class="entity-name">東京システム開発株式会社</span><a class="entity-url" href="https://www.tokyosystem.co.jp/" target="_blank" rel="noopener noreferrer">https://www.tokyosystem.co.jp/</a>
+    </li>
+    <li>
+      <span class="entity-name">株式会社オープンアップシステム</span><a class="entity-url" href="https://hnavi.co.jp/knowledge/blog/tokyo_system_companies/" target="_blank" rel="noopener noreferrer">https://hnavi.co.jp/knowledge/blog/tokyo_system_companies/</a>
+    </li>
+    <li>
+      <span class="entity-name">株式会社アンサー</span><a class="entity-url" href="https://hnavi.co.jp/knowledge/blog/tokyo_system_companies/" target="_blank" rel="noopener noreferrer">https://hnavi.co.jp/knowledge/blog/tokyo_system_companies/</a>
+    </li>
+    <li>
+      <span class="entity-name">株式会社やどかり</span><a class="entity-url" href="https://hnavi.co.jp/knowledge/blog/tokyo_system_companies/" target="_blank" rel="noopener noreferrer">https://hnavi.co.jp/knowledge/blog/tokyo_system_companies/</a>
+    </li>
+    <li>
+      <span class="entity-name">有限会社ナンタック</span><a class="entity-url" href="https://hnavi.co.jp/knowledge/blog/tokyo_system_companies/" target="_blank" rel="noopener noreferrer">https://hnavi.co.jp/knowledge/blog/tokyo_system_companies/</a>
+    </li>
+    <li>
+      <span class="entity-name">株式会社ベンジャミン</span><a class="entity-url" href="https://hnavi.co.jp/knowledge/blog/tokyo_system_companies/" target="_blank" rel="noopener noreferrer">https://hnavi.co.jp/knowledge/blog/tokyo_system_companies/</a>
+    </li>
+    <li>
+      <span class="entity-name">株式会社シーメイプル</span><a class="entity-url" href="https://hnavi.co.jp/knowledge/blog/tokyo_system_companies/" target="_blank" rel="noopener noreferrer">https://hnavi.co.jp/knowledge/blog/tokyo_system_companies/</a>
+    </li>
+    <li>
+      <span class="entity-name">株式会社インプレス</span><a class="entity-url" href="https://hnavi.co.jp/knowledge/blog/tokyo_system_companies/" target="_blank" rel="noopener noreferrer">https://hnavi.co.jp/knowledge/blog/tokyo_system_companies/</a>
+    </li>
+    <li>
+      <span class="entity-name">株式会社カサレアル</span><a class="entity-url" href="https://hnavi.co.jp/knowledge/blog/tokyo_system_companies/" target="_blank" rel="noopener noreferrer">https://hnavi.co.jp/knowledge/blog/tokyo_system_companies/</a>
+    </li>
+    <li>
+      <span class="entity-name">KUSSHU合同会社</span><a class="entity-url" href="https://hnavi.co.jp/knowledge/blog/tokyo_system_companies/" target="_blank" rel="noopener noreferrer">https://hnavi.co.jp/knowledge/blog/tokyo_system_companies/</a>
+    </li>
+    <li>
+      <span class="entity-name">シグニフィ株式会社</span><a class="entity-url" href="https://hnavi.co.jp/knowledge/blog/tokyo_system_companies/" target="_blank" rel="noopener noreferrer">https://hnavi.co.jp/knowledge/blog/tokyo_system_companies/</a>
+    </li>
+    <li>
+      <span class="entity-name">株式会社アスネット</span><a class="entity-url" href="https://hnavi.co.jp/knowledge/blog/tokyo_system_companies/" target="_blank" rel="noopener noreferrer">https://hnavi.co.jp/knowledge/blog/tokyo_system_companies/</a>
+    </li>
+    <li>
+      <span class="entity-name">株式会社DEPARTURE</span><a class="entity-url" href="https://hnavi.co.jp/knowledge/blog/tokyo_system_companies/" target="_blank" rel="noopener noreferrer">https://hnavi.co.jp/knowledge/blog/tokyo_system_companies/</a>
+    </li>
+    <li>
+      <span class="entity-name">株式会社ジーニアス</span><a class="entity-url" href="https://hnavi.co.jp/knowledge/blog/tokyo_system_companies/" target="_blank" rel="noopener noreferrer">https://hnavi.co.jp/knowledge/blog/tokyo_system_companies/</a>
+    </li>
+    <li>
+      <span class="entity-name">株式会社GOSPA</span><a class="entity-url" href="https://hnavi.co.jp/knowledge/blog/tokyo_system_companies/" target="_blank" rel="noopener noreferrer">https://hnavi.co.jp/knowledge/blog/tokyo_system_companies/</a>
+    </li>
+    <li>
+      <span class="entity-name">株式会社アイ・エス・ビー</span><a class="entity-url" href="https://hnavi.co.jp/knowledge/blog/tokyo_system_companies/" target="_blank" rel="noopener noreferrer">https://hnavi.co.jp/knowledge/blog/tokyo_system_companies/</a>
+    </li>
+    <li>
+      <span class="entity-name">株式会社Border Z</span><a class="entity-url" href="https://hnavi.co.jp/knowledge/blog/tokyo_system_companies/" target="_blank" rel="noopener noreferrer">https://hnavi.co.jp/knowledge/blog/tokyo_system_companies/</a>
+    </li>
+    <li>
+      <span class="entity-name">株式会社サンテック</span><a class="entity-url" href="https://hnavi.co.jp/knowledge/blog/tokyo_system_companies/" target="_blank" rel="noopener noreferrer">https://hnavi.co.jp/knowledge/blog/tokyo_system_companies/</a>
+    </li>
+    <li>
+      <span class="entity-name">株式会社ヒィズ</span><a class="entity-url" href="https://hnavi.co.jp/knowledge/blog/tokyo_system_companies/" target="_blank" rel="noopener noreferrer">https://hnavi.co.jp/knowledge/blog/tokyo_system_companies/</a>
+    </li>
+    <li>
+      <span class="entity-name">SIA Inc.</span><a class="entity-url" href="https://www.siainc.jp/" target="_blank" rel="noopener noreferrer">https://www.siainc.jp/</a>
+    </li>
+    <li>
+      <span class="entity-name">テクノファーム株式会社</span><a class="entity-url" href="https://www.techfirm.co.jp/" target="_blank" rel="noopener noreferrer">https://www.techfirm.co.jp/</a>
+    </li>
+    <li>
+      <span class="entity-name">TSL株式会社</span><a class="entity-url" href="https://www.tsl.co.jp/" target="_blank" rel="noopener noreferrer">https://www.tsl.co.jp/</a>
+    </li>
+  </ol>
+</div>
+</body>
+</html>
