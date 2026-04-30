@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>記事構成指示書: 基幹システム 再構築</title>
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --sub: #555;
+    --muted: #888;
+    --line: #e5e5e5;
+    --line-strong: #d0d0d0;
+    --accent: #0a6efd;
+    --accent-soft: #eef3ff;
+    --bg: #fafaf8;
+    --card: #ffffff;
+    --highlight: #fff8e1;
+    --highlight-border: #f0c800;
+    --code-bg: #f4f4f4;
+    --h2-bar: #0a6efd;
+    --h3-bar: #8ab4ff;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 48px 32px 96px;
+  }
+
+  /* ヘッダー */
+  .header {
+    border-bottom: 3px solid var(--ink);
+    padding-bottom: 24px;
+    margin-bottom: 40px;
+  }
+  .header .eyebrow {
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    color: var(--sub);
+    background: #fff;
+    padding: 4px 10px;
+    border: 1px solid var(--line-strong);
+    border-radius: 3px;
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+  .header h1 {
+    font-size: 32px;
+    line-height: 1.4;
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+
+  /* セクション見出し */
+  h2.section {
+    font-size: 22px;
+    font-weight: 800;
+    margin: 56px 0 20px;
+    padding: 12px 0 12px 16px;
+    border-left: 6px solid var(--h2-bar);
+    letter-spacing: -0.01em;
+    line-height: 1.4;
+  }
+  h2.section .num {
+    display: inline-block;
+    font-size: 14px;
+    color: var(--accent);
+    margin-right: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  /* 個別指示（目立たせる） */
+  .director-note {
+    background: var(--highlight);
+    border: 2px solid var(--highlight-border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 0 0 40px;
+  }
+  .director-note::before {
+    content: "📋 ディレクターからの個別指示";
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: #8a6d00;
+    margin-bottom: 10px;
+    letter-spacing: 0.03em;
+  }
+  .director-note p {
+    margin: 0 0 10px;
+    font-size: 15px;
+    line-height: 1.9;
+    color: #5a4a00;
+  }
+  .director-note p:last-child { margin-bottom: 0; }
+  .director-note a {
+    color: #0a5bd2;
+    text-decoration: underline;
+    word-break: break-all;
+  }
+  .director-note a:hover { color: #063d8f; }
+
+  /* 基本情報テーブル */
+  .info-table {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .info-table dl {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 180px 1fr;
+  }
+  .info-table dt {
+    background: #f7f7f5;
+    padding: 14px 20px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--sub);
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+  }
+  .info-table dd {
+    margin: 0;
+    padding: 14px 20px;
+    font-size: 15px;
+    border-bottom: 1px solid var(--line);
+    line-height: 1.6;
+  }
+  .info-table dl > *:nth-last-child(-n+2) {
+    border-bottom: none;
+  }
+  .info-table dd strong {
+    color: var(--accent);
+  }
+
+  /* ユーザーニーズ */
+  .needs {
+    background: var(--card);
+    border-left: 4px solid var(--accent);
+    padding: 20px 28px;
+    border-radius: 0 8px 8px 0;
+    font-size: 15px;
+    line-height: 2;
+    color: var(--ink);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    white-space: pre-wrap;
+  }
+
+  /* 全体の方向性チェックリスト */
+  .directions {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .directions li {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 14px 16px 14px 48px;
+    margin-bottom: 10px;
+    position: relative;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  .directions li::before {
+    content: "✓";
+    position: absolute;
+    left: 16px;
+    top: 14px;
+    width: 22px;
+    height: 22px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 1;
+  }
+
+  /* アウトライン */
+  .outline-intro {
+    color: var(--sub);
+    font-size: 14px;
+    margin-bottom: 20px;
+    padding: 12px 16px;
+    background: var(--accent-soft);
+    border-radius: 6px;
+    border-left: 3px solid var(--accent);
+  }
+  .h2-block {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin-bottom: 18px;
+    position: relative;
+  }
+  .h2-block::before {
+    content: "H2";
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+  }
+  .h2-block h3.h2-title {
+    font-size: 19px;
+    font-weight: 700;
+    margin: 4px 0 8px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .h2-block > .direction {
+    font-size: 14px;
+    color: var(--sub);
+    margin: 0 0 16px;
+    line-height: 1.7;
+  }
+  .h3-list {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 0;
+    border-top: 1px dashed var(--line);
+    padding-top: 14px;
+  }
+  .h3-list li {
+    padding: 10px 0 10px 24px;
+    position: relative;
+    font-size: 15px;
+    line-height: 1.6;
+    border-bottom: 1px dashed var(--line);
+  }
+  .h3-list li:last-child {
+    border-bottom: none;
+    padding-bottom: 4px;
+  }
+  .h3-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 19px;
+    width: 12px;
+    height: 2px;
+    background: var(--h3-bar);
+  }
+  .h3-list .h3-title {
+    font-weight: 600;
+    color: var(--ink);
+    display: block;
+    margin-bottom: 4px;
+    font-size: 15px;
+  }
+  .h3-list .h3-title::before {
+    content: "H3";
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    background: #eef3ff;
+    color: var(--accent);
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-right: 8px;
+    letter-spacing: 0.05em;
+    vertical-align: middle;
+  }
+  .h3-list .h3-direction {
+    font-size: 13px;
+    color: var(--sub);
+    line-height: 1.7;
+  }
+
+  /* エンティティリスト */
+  .entity-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: entity-counter;
+  }
+  .entity-list li {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 18px 14px 56px;
+    margin-bottom: 10px;
+    position: relative;
+    counter-increment: entity-counter;
+  }
+  .entity-list li::before {
+    content: counter(entity-counter);
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .entity-name {
+    display: block;
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 2px;
+  }
+  .entity-url {
+    display: block;
+    font-size: 12px;
+    color: var(--accent);
+    text-decoration: none;
+    word-break: break-all;
+  }
+  .entity-url:hover { text-decoration: underline; }
+
+  /* 印刷対応 */
+  @media print {
+    body { background: #fff; font-size: 12pt; }
+    .container { padding: 20px; max-width: 100%; }
+    .h2-block, .info-table, .director-note, .needs, .directions li, .entity-list li {
+      page-break-inside: avoid;
+      box-shadow: none;
+    }
+    h2.section { page-break-after: avoid; }
+  }
+
+  /* モバイル対応 */
+  @media (max-width: 640px) {
+    .container { padding: 24px 16px 64px; }
+    .header h1 { font-size: 24px; }
+    h2.section { font-size: 18px; margin: 40px 0 16px; }
+    .info-table dl { grid-template-columns: 1fr; }
+    .info-table dt { border-bottom: none; padding-bottom: 4px; }
+    .info-table dd { padding-top: 4px; }
+    .h2-block { padding: 20px; }
+    .h2-block h3.h2-title { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ヘッダー -->
+  <header class="header">
+    <span class="eyebrow">WRITER'S BRIEF</span>
+    <h1>記事構成指示書: 基幹システム 再構築</h1>
+  </header>
+
+  <!-- 基本情報 -->
+  <h2 class="section"><span class="num">01</span>基本情報</h2>
+  <div class="info-table">
+    <dl>
+      <dt>キーワード</dt>
+      <dd>基幹システム 再構築</dd>
+
+      <dt>タイトル案</dt>
+      <dd>基幹システム再構築で失敗しない進め方｜手法・費用・成功のポイント</dd>
+
+      <dt>メタディスクリプション案</dt>
+      <dd>基幹システムの再構築が必要な理由から、リビルド・マイグレーション・ERP導入の手法比較、進め方の5ステップ、失敗パターンと回避策まで解説します。</dd>
+
+      <dt>目標文字数</dt>
+      <dd>約 6000 字</dd>
+    </dl>
+  </div>
+
+  <!-- ユーザーニーズ -->
+  <h2 class="section"><span class="num">02</span>ユーザーニーズ</h2>
+  <div class="needs">老朽化した基幹システム（レガシーシステム）の維持限界を感じ、刷新を検討している。
+リビルド・マイグレーション・ERP導入など手法の違いとメリット・デメリットを理解したい。
+「2025年の崖」を超え、DX推進の基盤となるシステムへ移行したい。
+過去の刷新失敗事例から学び、自社プロジェクトで同じ轍を踏まないようにしたい。
+経営層への提案に使える情報（なぜ今やるべきか・どう進めるか・費用感）を求めている。</div>
+
+  <!-- 全体の方向性 -->
+  <h2 class="section"><span class="num">03</span>全体の方向性</h2>
+  <ul class="directions">
+    <li>レガシーシステムの維持リスクを経営視点で明確にし、再構築の必要性を訴求する</li>
+    <li>3つの主要手法（リビルド・マイグレーション・ERP導入）を比較し、判断基準を示す</li>
+    <li>再構築プロジェクトの進め方を5ステップで解説する</li>
+    <li>よくある失敗パターン（現行踏襲の罠・ベンダー依存・要件定義不足）を具体的に示す</li>
+    <li>Fit to Standardの考え方とその落とし穴にも言及する</li>
+    <li>経営層を巻き込む推進体制の重要性を強調する</li>
+  </ul>
+
+  <!-- 記事構成 -->
+  <h2 class="section"><span class="num">04</span>記事構成（アウトライン）</h2>
+  <p class="outline-intro">以下の構成で本文を執筆してください。各 H2 の下の「方向性」は各セクションで触れる要点を示しています。H3 の順序は変更せず、そのまま採用してください。</p>
+
+  <div class="h2-block">
+    <h3 class="h2-title">基幹システムの再構築はなぜ今必要なのか</h3>
+    <p class="direction">レガシーシステムの維持がもたらすリスクと、再構築に踏み切るべき判断基準を解説する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">レガシーシステムの老朽化がもたらす経営リスク</span>
+        <span class="h3-direction">維持コスト増大・属人化・セキュリティリスクの3つの観点から危険性を示す。</span>
+      </li>
+      <li>
+        <span class="h3-title">DX推進の基盤としての基幹システム刷新</span>
+        <span class="h3-direction">「2025年の崖」の背景と、DXを実現するために基幹システム刷新が不可欠な理由を解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">再構築を検討すべき5つのサイン</span>
+        <span class="h3-direction">老朽化・担当者不在・業務不適合・サポート終了・海外展開を判断基準として示す。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">基幹システム再構築の3つの手法を比較</h3>
+    <p class="direction">リビルド・マイグレーション・ERP導入の特徴と向き不向きを整理する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">リビルド（再構築）</span>
+        <span class="h3-direction">ゼロから構築し直すメリットとリスク・コスト面の特徴を解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">マイグレーション（移行）</span>
+        <span class="h3-direction">既存資産を活かしつつ新環境に移行する手法の特徴を解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">パッケージ・クラウドERP導入</span>
+        <span class="h3-direction">Fit to Standard型のERP導入の考え方と注意点を解説する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">Fit to Standardの考え方と落とし穴</h3>
+    <p class="direction">ERP導入で主流となったFit to Standardのメリットと、陥りやすい失敗を解説する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">Fit &amp; GapからFit to Standardへの転換</span>
+        <span class="h3-direction">従来のカスタマイズ重視から標準業務への適合へ移行した背景を解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">Fit to Standardで失敗するケース</span>
+        <span class="h3-direction">現場の業務実態と乖離する場合のリスクと対処法を解説する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">基幹システム再構築の進め方5ステップ</h3>
+    <p class="direction">プロジェクトの計画から運用定着までを時系列で解説する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">ステップ1：現状分析と課題の可視化</span>
+        <span class="h3-direction">既存システムの棚卸しと業務課題の洗い出し方法を解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">ステップ2：刷新の方向性・構想策定</span>
+        <span class="h3-direction">目的設定と手法選定の考え方を解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">ステップ3：ベンダー選定と要件定義</span>
+        <span class="h3-direction">RFP作成からベンダー選定、要件定義のポイントを解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">ステップ4：設計・開発・テスト</span>
+        <span class="h3-direction">開発工程のマイルストーンとユーザー受入テストの重要性を解説する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">基幹システム再構築でよくある3つの失敗パターン</h3>
+    <p class="direction">過去の事例から学ぶべき代表的な失敗とその原因を解説する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">現行踏襲の罠：個別要件への過度な最適化</span>
+        <span class="h3-direction">既存の業務プロセスをそのままシステム化してしまう失敗を解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">ベンダー依存：主体性なく丸投げしてしまう</span>
+        <span class="h3-direction">社内の当事者意識の欠如がプロジェクトを迷走させる原因を解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">要件定義の不備：仕様の曖昧さがコスト超過を招く</span>
+        <span class="h3-direction">要件定義フェーズに十分な時間をかけないことのリスクを解説する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">基幹システム再構築を成功させる3つのポイント</h3>
+    <p class="direction">成功に導くための組織的な取り組みを解説する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">経営層を当事者として巻き込む</span>
+        <span class="h3-direction">トップダウンでの推進が不可欠な理由と具体的な巻き込み方を解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">標準化すべき領域と独自性を維持すべき領域を仕分ける</span>
+        <span class="h3-direction">業務プロセスの見直しと並行してシステム化範囲を決める方法を解説する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">まとめ：基幹システム再構築は情シスが経営パートナーへ進化する好機</h3>
+    <p class="direction">記事の要点を振り返り、最初のアクション（現状分析の着手）を促す。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">再構築プロジェクト着手前のチェックリスト</span>
+        <span class="h3-direction">プロジェクト開始前に確認すべき事項を簡潔にまとめる。</span>
+      </li>
+    </ul>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>記事構成指示書: システム開発 委託</title>
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --sub: #555;
+    --muted: #888;
+    --line: #e5e5e5;
+    --line-strong: #d0d0d0;
+    --accent: #0a6efd;
+    --accent-soft: #eef3ff;
+    --bg: #fafaf8;
+    --card: #ffffff;
+    --highlight: #fff8e1;
+    --highlight-border: #f0c800;
+    --code-bg: #f4f4f4;
+    --h2-bar: #0a6efd;
+    --h3-bar: #8ab4ff;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 48px 32px 96px;
+  }
+
+  /* ヘッダー */
+  .header {
+    border-bottom: 3px solid var(--ink);
+    padding-bottom: 24px;
+    margin-bottom: 40px;
+  }
+  .header .eyebrow {
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    color: var(--sub);
+    background: #fff;
+    padding: 4px 10px;
+    border: 1px solid var(--line-strong);
+    border-radius: 3px;
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+  .header h1 {
+    font-size: 32px;
+    line-height: 1.4;
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+
+  /* セクション見出し */
+  h2.section {
+    font-size: 22px;
+    font-weight: 800;
+    margin: 56px 0 20px;
+    padding: 12px 0 12px 16px;
+    border-left: 6px solid var(--h2-bar);
+    letter-spacing: -0.01em;
+    line-height: 1.4;
+  }
+  h2.section .num {
+    display: inline-block;
+    font-size: 14px;
+    color: var(--accent);
+    margin-right: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  /* 個別指示（目立たせる） */
+  .director-note {
+    background: var(--highlight);
+    border: 2px solid var(--highlight-border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 0 0 40px;
+  }
+  .director-note::before {
+    content: "📋 ディレクターからの個別指示";
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: #8a6d00;
+    margin-bottom: 10px;
+    letter-spacing: 0.03em;
+  }
+  .director-note p {
+    margin: 0 0 10px;
+    font-size: 15px;
+    line-height: 1.9;
+    color: #5a4a00;
+  }
+  .director-note p:last-child { margin-bottom: 0; }
+  .director-note a {
+    color: #0a5bd2;
+    text-decoration: underline;
+    word-break: break-all;
+  }
+  .director-note a:hover { color: #063d8f; }
+
+  /* 基本情報テーブル */
+  .info-table {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .info-table dl {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 180px 1fr;
+  }
+  .info-table dt {
+    background: #f7f7f5;
+    padding: 14px 20px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--sub);
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+  }
+  .info-table dd {
+    margin: 0;
+    padding: 14px 20px;
+    font-size: 15px;
+    border-bottom: 1px solid var(--line);
+    line-height: 1.6;
+  }
+  .info-table dl > *:nth-last-child(-n+2) {
+    border-bottom: none;
+  }
+  .info-table dd strong {
+    color: var(--accent);
+  }
+
+  /* ユーザーニーズ */
+  .needs {
+    background: var(--card);
+    border-left: 4px solid var(--accent);
+    padding: 20px 28px;
+    border-radius: 0 8px 8px 0;
+    font-size: 15px;
+    line-height: 2;
+    color: var(--ink);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    white-space: pre-wrap;
+  }
+
+  /* 全体の方向性チェックリスト */
+  .directions {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .directions li {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 14px 16px 14px 48px;
+    margin-bottom: 10px;
+    position: relative;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  .directions li::before {
+    content: "✓";
+    position: absolute;
+    left: 16px;
+    top: 14px;
+    width: 22px;
+    height: 22px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 1;
+  }
+
+  /* アウトライン */
+  .outline-intro {
+    color: var(--sub);
+    font-size: 14px;
+    margin-bottom: 20px;
+    padding: 12px 16px;
+    background: var(--accent-soft);
+    border-radius: 6px;
+    border-left: 3px solid var(--accent);
+  }
+  .h2-block {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin-bottom: 18px;
+    position: relative;
+  }
+  .h2-block::before {
+    content: "H2";
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+  }
+  .h2-block h3.h2-title {
+    font-size: 19px;
+    font-weight: 700;
+    margin: 4px 0 8px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .h2-block > .direction {
+    font-size: 14px;
+    color: var(--sub);
+    margin: 0 0 16px;
+    line-height: 1.7;
+  }
+  .h3-list {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 0;
+    border-top: 1px dashed var(--line);
+    padding-top: 14px;
+  }
+  .h3-list li {
+    padding: 10px 0 10px 24px;
+    position: relative;
+    font-size: 15px;
+    line-height: 1.6;
+    border-bottom: 1px dashed var(--line);
+  }
+  .h3-list li:last-child {
+    border-bottom: none;
+    padding-bottom: 4px;
+  }
+  .h3-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 19px;
+    width: 12px;
+    height: 2px;
+    background: var(--h3-bar);
+  }
+  .h3-list .h3-title {
+    font-weight: 600;
+    color: var(--ink);
+    display: block;
+    margin-bottom: 4px;
+    font-size: 15px;
+  }
+  .h3-list .h3-title::before {
+    content: "H3";
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    background: #eef3ff;
+    color: var(--accent);
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-right: 8px;
+    letter-spacing: 0.05em;
+    vertical-align: middle;
+  }
+  .h3-list .h3-direction {
+    font-size: 13px;
+    color: var(--sub);
+    line-height: 1.7;
+  }
+
+  /* エンティティリスト */
+  .entity-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: entity-counter;
+  }
+  .entity-list li {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 18px 14px 56px;
+    margin-bottom: 10px;
+    position: relative;
+    counter-increment: entity-counter;
+  }
+  .entity-list li::before {
+    content: counter(entity-counter);
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .entity-name {
+    display: block;
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 2px;
+  }
+  .entity-url {
+    display: block;
+    font-size: 12px;
+    color: var(--accent);
+    text-decoration: none;
+    word-break: break-all;
+  }
+  .entity-url:hover { text-decoration: underline; }
+
+  /* 印刷対応 */
+  @media print {
+    body { background: #fff; font-size: 12pt; }
+    .container { padding: 20px; max-width: 100%; }
+    .h2-block, .info-table, .director-note, .needs, .directions li, .entity-list li {
+      page-break-inside: avoid;
+      box-shadow: none;
+    }
+    h2.section { page-break-after: avoid; }
+  }
+
+  /* モバイル対応 */
+  @media (max-width: 640px) {
+    .container { padding: 24px 16px 64px; }
+    .header h1 { font-size: 24px; }
+    h2.section { font-size: 18px; margin: 40px 0 16px; }
+    .info-table dl { grid-template-columns: 1fr; }
+    .info-table dt { border-bottom: none; padding-bottom: 4px; }
+    .info-table dd { padding-top: 4px; }
+    .h2-block { padding: 20px; }
+    .h2-block h3.h2-title { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ヘッダー -->
+  <header class="header">
+    <span class="eyebrow">WRITER'S BRIEF</span>
+    <h1>記事構成指示書: システム開発 委託</h1>
+  </header>
+
+  <!-- 基本情報 -->
+  <h2 class="section"><span class="num">01</span>基本情報</h2>
+  <div class="info-table">
+    <dl>
+      <dt>キーワード</dt>
+      <dd>システム開発 委託</dd>
+
+      <dt>タイトル案</dt>
+      <dd>システム開発委託の契約形態と進め方｜請負・準委任の違いから契約書の注意点まで</dd>
+
+      <dt>メタディスクリプション案</dt>
+      <dd>システム開発を外部に委託する際の契約形態（請負・準委任）の違い、委託契約書に盛り込むべき条項、委託先選定から納品までの進め方を弁護士監修事例も交えて解説します。</dd>
+
+      <dt>目標文字数</dt>
+      <dd>約 14700 字</dd>
+    </dl>
+  </div>
+
+  <!-- ユーザーニーズ -->
+  <h2 class="section"><span class="num">02</span>ユーザーニーズ</h2>
+  <div class="needs">システム開発を外部の会社に委託しようとしている企業担当者が、契約の進め方と注意点を知りたい。
+請負契約と準委任契約の違いを正確に理解し、自社のプロジェクトにどちらが適しているか判断したい。
+委託契約書に入れるべき条項（責任範囲・知的財産権・検収・契約不適合責任）を把握したい。
+委託先の選定基準、委託後の管理方法、トラブル防止策を体系的に学びたい。
+民法改正による契約実務への影響も押さえておきたい。</div>
+
+  <!-- 全体の方向性 -->
+  <h2 class="section"><span class="num">03</span>全体の方向性</h2>
+  <ul class="directions">
+    <li>請負契約と準委任契約の違いを法的根拠から丁寧に解説する</li>
+    <li>ウォーターフォール型・アジャイル型・AI開発で適切な契約形態が異なることを整理する</li>
+    <li>委託契約書に盛り込むべき重要条項をチェックリスト形式で提示する</li>
+    <li>再委託・知的財産権・契約不適合責任など見落としがちな条項を重点的に解説する</li>
+    <li>多段階契約（工程ごとに契約を分ける）のメリットとやり方を説明する</li>
+    <li>委託先選定の具体的な手順を、RFP作成からプレゼン評価まで体系化する</li>
+    <li>フリーランスへの委託という選択肢も費用メリットとリスク両面で解説する（差別化ポイント）</li>
+    <li>民法改正（2020年）による瑕疵担保→契約不適合への変更の実務的影響を説明する</li>
+  </ul>
+
+  <!-- 記事構成 -->
+  <h2 class="section"><span class="num">04</span>記事構成（アウトライン）</h2>
+  <p class="outline-intro">以下の構成で本文を執筆してください。各 H2 の下の「方向性」は各セクションで触れる要点を示しています。H3 の順序は変更せず、そのまま採用してください。</p>
+
+  <div class="h2-block">
+    <h3 class="h2-title">システム開発委託契約の基本｜請負と準委任の違い</h3>
+    <p class="direction">最も重要な契約形態の違いを法的根拠とともに解説する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">請負契約は「成果物の完成」が義務</span>
+        <span class="h3-direction">完成責任を負う請負契約の特徴と、発注者・受注者それぞれのメリット・リスクを説明する。</span>
+      </li>
+      <li>
+        <span class="h3-title">準委任契約は「業務の遂行」が義務</span>
+        <span class="h3-direction">成果物の完成義務がない準委任契約の構造と、善管注意義務について解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">準委任の「成果完成型」と「履行割合型」の違い</span>
+        <span class="h3-direction">民法改正で明文化された2類型の違いと使い分けを説明する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">開発手法で変わる適切な契約形態の選び方</h3>
+    <p class="direction">プロジェクトの特性に応じた契約形態の選択基準を示す。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">ウォーターフォール型は工程ごとに契約を分ける</span>
+        <span class="h3-direction">要件定義は準委任、開発は請負という多段階契約の考え方を解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">アジャイル開発は準委任が主流な理由</span>
+        <span class="h3-direction">反復開発で成果物を事前に定義しにくい特性と準委任の相性を説明する。</span>
+      </li>
+      <li>
+        <span class="h3-title">AI開発は探索的要素が強く準委任が適する</span>
+        <span class="h3-direction">AI開発特有の不確実性と契約形態の関係を整理する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">委託契約書に盛り込むべき重要条項チェックリスト</h3>
+    <p class="direction">契約書の各条項の意味と盛り込むべきポイントを解説する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">業務範囲・仕様の明確化と変更管理手続き</span>
+        <span class="h3-direction">スコープの定義方法と仕様変更時のプロセスを明記する重要性を説明する。</span>
+      </li>
+      <li>
+        <span class="h3-title">検収条件と契約不適合責任の取り決め</span>
+        <span class="h3-direction">検収基準の設定方法と、不適合発覚時の対応を契約でどう定めるかを解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">知的財産権の帰属と第三者ソフトウェアの取扱い</span>
+        <span class="h3-direction">成果物の著作権帰属や、OSS利用時の権利関係の整理方法を説明する。</span>
+      </li>
+      <li>
+        <span class="h3-title">再委託の可否・条件と機密情報保護</span>
+        <span class="h3-direction">再委託を認める場合の条件設定と、NDAの範囲を解説する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">委託先の選定方法｜RFP作成から契約締結まで</h3>
+    <p class="direction">委託先を選ぶプロセスを体系的に解説する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">RFP（提案依頼書）で要件を明文化する</span>
+        <span class="h3-direction">RFPに含めるべき項目と作成のコツを説明する。</span>
+      </li>
+      <li>
+        <span class="h3-title">複数社からの提案評価と相見積もり</span>
+        <span class="h3-direction">提案書の評価軸と、見積もり比較の際の注意点を解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">フリーランスへの委託という選択肢</span>
+        <span class="h3-direction">コストメリットと品質リスクを天秤にかけた判断基準を示す。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">委託後の管理体制｜プロジェクトマネジメント義務と協力義務</h3>
+    <p class="direction">契約後の運用フェーズでの双方の責任を解説する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">発注者のプロジェクト協力義務とは</span>
+        <span class="h3-direction">判例で認められた発注者側の協力義務の範囲と内容を説明する。</span>
+      </li>
+      <li>
+        <span class="h3-title">受注者のプロジェクトマネジメント義務とは</span>
+        <span class="h3-direction">プロジェクト管理における受注者の法的責任を解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">進捗管理と品質管理の具体的な方法</span>
+        <span class="h3-direction">定例報告・成果物レビュー・テスト計画など実践的な管理手法を示す。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">民法改正がシステム開発委託に与えた影響</h3>
+    <p class="direction">2020年民法改正の実務的な影響を具体的に解説する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">瑕疵担保責任から契約不適合責任への変更点</span>
+        <span class="h3-direction">改正前後の違いと、契約書への反映方法を説明する。</span>
+      </li>
+      <li>
+        <span class="h3-title">報酬請求権と契約解除のルール変更</span>
+        <span class="h3-direction">準委任契約における報酬請求の新ルールを解説する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">アウトソーシング形態の種類と使い分け</h3>
+    <p class="direction">フルアウトソーシング・運用アウトソーシング・常駐サービスの違いを整理する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">フルアウトソーシングと部分委託の比較</span>
+        <span class="h3-direction">委託範囲の広さによるメリット・デメリットを示す。</span>
+      </li>
+      <li>
+        <span class="h3-title">常駐型と持ち帰り型の使い分け</span>
+        <span class="h3-direction">コミュニケーション密度とコストのトレードオフを解説する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">まとめ｜委託契約は「リスクの分担設計」である</h3>
+    <p class="direction">契約は単なる事務手続きではなく、リスクを設計する行為であることを総括する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">委託前に確認すべきポイントの最終チェック</span>
+        <span class="h3-direction">記事で解説した内容を実行に移すための具体的なステップを提示する。</span>
+      </li>
+    </ul>
+  </div>
+
+</div>
+</body>
+</html>
