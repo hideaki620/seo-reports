@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>記事構成指示書: 業務アプリ ノーコード</title>
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --sub: #555;
+    --muted: #888;
+    --line: #e5e5e5;
+    --line-strong: #d0d0d0;
+    --accent: #0a6efd;
+    --accent-soft: #eef3ff;
+    --bg: #fafaf8;
+    --card: #ffffff;
+    --highlight: #fff8e1;
+    --highlight-border: #f0c800;
+    --code-bg: #f4f4f4;
+    --h2-bar: #0a6efd;
+    --h3-bar: #8ab4ff;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 48px 32px 96px;
+  }
+
+  /* ヘッダー */
+  .header {
+    border-bottom: 3px solid var(--ink);
+    padding-bottom: 24px;
+    margin-bottom: 40px;
+  }
+  .header .eyebrow {
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    color: var(--sub);
+    background: #fff;
+    padding: 4px 10px;
+    border: 1px solid var(--line-strong);
+    border-radius: 3px;
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+  .header h1 {
+    font-size: 32px;
+    line-height: 1.4;
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+
+  /* セクション見出し */
+  h2.section {
+    font-size: 22px;
+    font-weight: 800;
+    margin: 56px 0 20px;
+    padding: 12px 0 12px 16px;
+    border-left: 6px solid var(--h2-bar);
+    letter-spacing: -0.01em;
+    line-height: 1.4;
+  }
+  h2.section .num {
+    display: inline-block;
+    font-size: 14px;
+    color: var(--accent);
+    margin-right: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  /* 個別指示（目立たせる） */
+  .director-note {
+    background: var(--highlight);
+    border: 2px solid var(--highlight-border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 0 0 40px;
+  }
+  .director-note::before {
+    content: "📋 ディレクターからの個別指示";
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: #8a6d00;
+    margin-bottom: 10px;
+    letter-spacing: 0.03em;
+  }
+  .director-note p {
+    margin: 0 0 10px;
+    font-size: 15px;
+    line-height: 1.9;
+    color: #5a4a00;
+  }
+  .director-note p:last-child { margin-bottom: 0; }
+  .director-note a {
+    color: #0a5bd2;
+    text-decoration: underline;
+    word-break: break-all;
+  }
+  .director-note a:hover { color: #063d8f; }
+
+  /* 基本情報テーブル */
+  .info-table {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .info-table dl {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 180px 1fr;
+  }
+  .info-table dt {
+    background: #f7f7f5;
+    padding: 14px 20px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--sub);
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+  }
+  .info-table dd {
+    margin: 0;
+    padding: 14px 20px;
+    font-size: 15px;
+    border-bottom: 1px solid var(--line);
+    line-height: 1.6;
+  }
+  .info-table dl > *:nth-last-child(-n+2) {
+    border-bottom: none;
+  }
+  .info-table dd strong {
+    color: var(--accent);
+  }
+
+  /* ユーザーニーズ */
+  .needs {
+    background: var(--card);
+    border-left: 4px solid var(--accent);
+    padding: 20px 28px;
+    border-radius: 0 8px 8px 0;
+    font-size: 15px;
+    line-height: 2;
+    color: var(--ink);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    white-space: pre-wrap;
+  }
+
+  /* 全体の方向性チェックリスト */
+  .directions {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .directions li {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 14px 16px 14px 48px;
+    margin-bottom: 10px;
+    position: relative;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  .directions li::before {
+    content: "✓";
+    position: absolute;
+    left: 16px;
+    top: 14px;
+    width: 22px;
+    height: 22px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 1;
+  }
+
+  /* アウトライン */
+  .outline-intro {
+    color: var(--sub);
+    font-size: 14px;
+    margin-bottom: 20px;
+    padding: 12px 16px;
+    background: var(--accent-soft);
+    border-radius: 6px;
+    border-left: 3px solid var(--accent);
+  }
+  .h2-block {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin-bottom: 18px;
+    position: relative;
+  }
+  .h2-block::before {
+    content: "H2";
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+  }
+  .h2-block h3.h2-title {
+    font-size: 19px;
+    font-weight: 700;
+    margin: 4px 0 8px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .h2-block > .direction {
+    font-size: 14px;
+    color: var(--sub);
+    margin: 0 0 16px;
+    line-height: 1.7;
+  }
+  .h3-list {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 0;
+    border-top: 1px dashed var(--line);
+    padding-top: 14px;
+  }
+  .h3-list li {
+    padding: 10px 0 10px 24px;
+    position: relative;
+    font-size: 15px;
+    line-height: 1.6;
+    border-bottom: 1px dashed var(--line);
+  }
+  .h3-list li:last-child {
+    border-bottom: none;
+    padding-bottom: 4px;
+  }
+  .h3-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 19px;
+    width: 12px;
+    height: 2px;
+    background: var(--h3-bar);
+  }
+  .h3-list .h3-title {
+    font-weight: 600;
+    color: var(--ink);
+    display: block;
+    margin-bottom: 4px;
+    font-size: 15px;
+  }
+  .h3-list .h3-title::before {
+    content: "H3";
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    background: #eef3ff;
+    color: var(--accent);
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-right: 8px;
+    letter-spacing: 0.05em;
+    vertical-align: middle;
+  }
+  .h3-list .h3-direction {
+    font-size: 13px;
+    color: var(--sub);
+    line-height: 1.7;
+  }
+
+  /* エンティティリスト */
+  .entity-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: entity-counter;
+  }
+  .entity-list li {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 18px 14px 56px;
+    margin-bottom: 10px;
+    position: relative;
+    counter-increment: entity-counter;
+  }
+  .entity-list li::before {
+    content: counter(entity-counter);
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .entity-name {
+    display: block;
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 2px;
+  }
+  .entity-url {
+    display: block;
+    font-size: 12px;
+    color: var(--accent);
+    text-decoration: none;
+    word-break: break-all;
+  }
+  .entity-url:hover { text-decoration: underline; }
+
+  /* 印刷対応 */
+  @media print {
+    body { background: #fff; font-size: 12pt; }
+    .container { padding: 20px; max-width: 100%; }
+    .h2-block, .info-table, .director-note, .needs, .directions li, .entity-list li {
+      page-break-inside: avoid;
+      box-shadow: none;
+    }
+    h2.section { page-break-after: avoid; }
+  }
+
+  /* モバイル対応 */
+  @media (max-width: 640px) {
+    .container { padding: 24px 16px 64px; }
+    .header h1 { font-size: 24px; }
+    h2.section { font-size: 18px; margin: 40px 0 16px; }
+    .info-table dl { grid-template-columns: 1fr; }
+    .info-table dt { border-bottom: none; padding-bottom: 4px; }
+    .info-table dd { padding-top: 4px; }
+    .h2-block { padding: 20px; }
+    .h2-block h3.h2-title { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ヘッダー -->
+  <header class="header">
+    <span class="eyebrow">WRITER'S BRIEF</span>
+    <h1>記事構成指示書: 業務アプリ ノーコード</h1>
+  </header>
+
+  <!-- 基本情報 -->
+  <h2 class="section"><span class="num">01</span>基本情報</h2>
+  <div class="info-table">
+    <dl>
+      <dt>キーワード</dt>
+      <dd>業務アプリ ノーコード</dd>
+
+      <dt>タイトル案</dt>
+      <dd>ノーコードで業務アプリを作る方法｜おすすめツール12選と活用事例</dd>
+
+      <dt>メタディスクリプション案</dt>
+      <dd>ノーコードで業務アプリを開発する方法を、ツール選びから開発ステップ、活用事例まで解説。kintone・AppSuiteなど12製品の特徴と費用を比較します。</dd>
+
+      <dt>目標文字数</dt>
+      <dd>約 12700 字</dd>
+    </dl>
+  </div>
+
+  <!-- ユーザーニーズ -->
+  <h2 class="section"><span class="num">02</span>ユーザーニーズ</h2>
+  <div class="needs">社内のエンジニアリソースなしで業務アプリを作りたい（脱Excel・ペーパーレス化）。
+ノーコードツールでどこまでの業務アプリが作れるのか、限界も含めて知りたい。
+自社の業務課題（顧客管理・日報・勤怠・在庫管理等）に合ったツールを選びたい。
+開発コストを抑えつつ、現場の変化に素早く対応できるアプリ開発手法を探している。
+ノーコードとローコードの違いを理解し、適切な手法を選択したい。</div>
+
+  <!-- 全体の方向性 -->
+  <h2 class="section"><span class="num">03</span>全体の方向性</h2>
+  <ul class="directions">
+    <li>ノーコードで業務アプリを開発するメリット・限界を正直に伝える</li>
+    <li>「業務アプリ特化型」と「汎用プラットフォーム型」に分類してツールを整理する</li>
+    <li>作れるアプリの種類（顧客管理・日報・勤怠・経費精算等）を具体的に列挙する</li>
+    <li>開発ステップを初心者にもわかりやすく6段階で解説する</li>
+    <li>ローコードとの違いを明確にし、使い分け基準を提示する</li>
+    <li>導入成功事例を交えて読者がイメージを持てるようにする</li>
+    <li>セキュリティやスケーラビリティの注意点にも触れる</li>
+  </ul>
+
+  <!-- 記事構成 -->
+  <h2 class="section"><span class="num">04</span>記事構成（アウトライン）</h2>
+  <p class="outline-intro">以下の構成で本文を執筆してください。各 H2 の下の「方向性」は各セクションで触れる要点を示しています。H3 の順序は変更せず、そのまま採用してください。</p>
+
+  <div class="h2-block">
+    <h3 class="h2-title">ノーコードで業務アプリを作る3つのメリット</h3>
+    <p class="direction">プログラミング不要でアプリを作る利点を、コスト・スピード・柔軟性の観点で解説する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">開発コストを大幅に削減できる</span>
+        <span class="h3-direction">外注開発やエンジニア採用と比較したコスト面の優位性を示す。</span>
+      </li>
+      <li>
+        <span class="h3-title">開発スピードが速く、現場の変化に即応できる</span>
+        <span class="h3-direction">アジャイルに改善サイクルを回せるノーコード開発の特徴を解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">非エンジニアでも開発・改善ができる</span>
+        <span class="h3-direction">ITスキルのない現場担当者がアプリを作れることの組織的な価値を解説する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">ノーコードで作れる業務アプリの種類</h3>
+    <p class="direction">実際にノーコードで構築可能な業務アプリの具体例を列挙する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">社内業務効率化アプリ（日報・勤怠・経費精算）</span>
+        <span class="h3-direction">バックオフィス業務のペーパーレス化に使えるアプリ例を示す。</span>
+      </li>
+      <li>
+        <span class="h3-title">顧客管理・営業支援アプリ</span>
+        <span class="h3-direction">顧客データの一元管理と営業活動の効率化に使えるアプリ例を示す。</span>
+      </li>
+      <li>
+        <span class="h3-title">在庫管理・報告業務アプリ</span>
+        <span class="h3-direction">現場からのリアルタイム報告と在庫管理の自動化に使えるアプリ例を示す。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">ノーコードとローコードの違いと使い分け</h3>
+    <p class="direction">混同されやすい2つのアプローチの違いと、選択基準を整理する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">ノーコードが向いているケース</span>
+        <span class="h3-direction">シンプルな業務アプリを素早く内製化したい場合の適合性を解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">ローコードが向いているケース</span>
+        <span class="h3-direction">複雑なロジックや外部連携が必要な場合の適合性を解説する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">ノーコード業務アプリ開発の6ステップ</h3>
+    <p class="direction">初心者でも迷わず進められる開発プロセスを解説する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">ステップ1-3：目的設定・設計・ツール選定</span>
+        <span class="h3-direction">課題の明確化からツール選定までの準備段階を解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">ステップ4-6：アプリ作成・テスト・公開運用</span>
+        <span class="h3-direction">実際の構築から運用開始までの実行段階を解説する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">ノーコードツールの選び方4つのポイント</h3>
+    <p class="direction">自社に合ったツールを選ぶための評価軸を解説する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">目的に応じた機能が備わっているか</span>
+        <span class="h3-direction">業務アプリ特化型か汎用型かの判断基準を示す。</span>
+      </li>
+      <li>
+        <span class="h3-title">操作性とサポート体制</span>
+        <span class="h3-direction">担当者のスキルレベルに合ったUI・日本語サポートの確認ポイントを示す。</span>
+      </li>
+      <li>
+        <span class="h3-title">費用とスケーラビリティ</span>
+        <span class="h3-direction">月額費用と将来的な拡張対応を考慮した選び方を解説する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">業務アプリ特化型ノーコードツール</h3>
+    <p class="direction">社内業務アプリの構築に特化したツールを紹介する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">kintone</span>
+        <span class="h3-direction">ノーコードで多様な業務アプリを作れる国産プラットフォームの特徴を解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">AppSuite</span>
+        <span class="h3-direction">desknet&#039;s NEOとの連携で既存グループウェアの延長として使える特徴を解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">CELF</span>
+        <span class="h3-direction">Excel感覚で業務アプリを作れる操作性の高さを解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">サスケWorks</span>
+        <span class="h3-direction">AI連携でアプリ開発を支援する特徴を解説する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">汎用プラットフォーム型ノーコードツール</h3>
+    <p class="direction">業務アプリに限らず幅広い用途で使えるツールを紹介する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">Bubble</span>
+        <span class="h3-direction">高い自由度でWebアプリケーションを構築できるグローバル定番ツールの特徴を解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">Power Apps</span>
+        <span class="h3-direction">Microsoft 365環境との統合で社内業務を効率化できる特徴を解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">Platio</span>
+        <span class="h3-direction">モバイル特化で現場業務のアプリ化に強い特徴を解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">Glide</span>
+        <span class="h3-direction">スプレッドシートをベースにアプリを構築できる手軽さを解説する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">ノーコード業務アプリ開発の注意点と限界</h3>
+    <p class="direction">導入前に理解しておくべき制約事項を正直に伝える。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">カスタマイズの限界と複雑な処理への対応</span>
+        <span class="h3-direction">高度なビジネスロジックや大規模処理には不向きなケースを解説する。</span>
+      </li>
+      <li>
+        <span class="h3-title">セキュリティとデータ移行のリスク</span>
+        <span class="h3-direction">クラウド環境でのセキュリティ確保とプラットフォーム依存のリスクを解説する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">ノーコード業務アプリの活用事例</h3>
+    <p class="direction">実際にノーコードで業務改善に成功した企業の事例を紹介する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">脱Excel：日報・報告業務のアプリ化事例</span>
+        <span class="h3-direction">Excel運用からの移行で業務時間を削減した事例を紹介する。</span>
+      </li>
+      <li>
+        <span class="h3-title">現場主導の業務改善事例</span>
+        <span class="h3-direction">非エンジニアが主導してアプリを開発・改善した事例を紹介する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">まとめ：ノーコードで業務アプリ開発を始めよう</h3>
+    <p class="direction">記事の要点を振り返り、無料トライアルでの検証を促す。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">目的別おすすめツール早見表</span>
+        <span class="h3-direction">業務課題ごとの推奨ツールを表形式で示す。</span>
+      </li>
+    </ul>
+  </div>
+
+  <h2 class="section"><span class="num">05</span>登場させるエンティティ</h2>
+  <p class="outline-intro">⚠️ このリスト以外の店舗名・サービス名・ブランド名を記事に登場させないでください。</p>
+  <ol class="entity-list">
+    <li>
+      <span class="entity-name">kintone</span><a class="entity-url" href="https://kintone.cybozu.co.jp/" target="_blank" rel="noopener noreferrer">https://kintone.cybozu.co.jp/</a>
+    </li>
+    <li>
+      <span class="entity-name">AppSuite</span><a class="entity-url" href="https://www.desknets.com/neo/appsuite/" target="_blank" rel="noopener noreferrer">https://www.desknets.com/neo/appsuite/</a>
+    </li>
+    <li>
+      <span class="entity-name">CELF</span><a class="entity-url" href="https://www.celf.biz/" target="_blank" rel="noopener noreferrer">https://www.celf.biz/</a>
+    </li>
+    <li>
+      <span class="entity-name">サスケWorks</span><a class="entity-url" href="https://works.saaske.com/" target="_blank" rel="noopener noreferrer">https://works.saaske.com/</a>
+    </li>
+    <li>
+      <span class="entity-name">Bubble</span><a class="entity-url" href="https://bubble.io/" target="_blank" rel="noopener noreferrer">https://bubble.io/</a>
+    </li>
+    <li>
+      <span class="entity-name">Power Apps</span><a class="entity-url" href="https://powerapps.microsoft.com/" target="_blank" rel="noopener noreferrer">https://powerapps.microsoft.com/</a>
+    </li>
+    <li>
+      <span class="entity-name">Platio</span><a class="entity-url" href="https://plat.io/ja/" target="_blank" rel="noopener noreferrer">https://plat.io/ja/</a>
+    </li>
+    <li>
+      <span class="entity-name">Glide</span><a class="entity-url" href="https://www.glideapps.com/" target="_blank" rel="noopener noreferrer">https://www.glideapps.com/</a>
+    </li>
+    <li>
+      <span class="entity-name">プリザンター（Pleasanter）</span><a class="entity-url" href="https://pleasanter.org/" target="_blank" rel="noopener noreferrer">https://pleasanter.org/</a>
+    </li>
+    <li>
+      <span class="entity-name">Forguncy</span><a class="entity-url" href="https://www.forguncy.com/" target="_blank" rel="noopener noreferrer">https://www.forguncy.com/</a>
+    </li>
+    <li>
+      <span class="entity-name">Claris FileMaker</span><a class="entity-url" href="https://www.claris.com/" target="_blank" rel="noopener noreferrer">https://www.claris.com/</a>
+    </li>
+    <li>
+      <span class="entity-name">Adalo</span><a class="entity-url" href="https://www.adalo.com/" target="_blank" rel="noopener noreferrer">https://www.adalo.com/</a>
+    </li>
+  </ol>
+</div>
+</body>
+</html>

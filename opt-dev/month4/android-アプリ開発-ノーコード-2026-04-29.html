@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>記事構成指示書: Android アプリ開発 ノーコード</title>
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --sub: #555;
+    --muted: #888;
+    --line: #e5e5e5;
+    --line-strong: #d0d0d0;
+    --accent: #0a6efd;
+    --accent-soft: #eef3ff;
+    --bg: #fafaf8;
+    --card: #ffffff;
+    --highlight: #fff8e1;
+    --highlight-border: #f0c800;
+    --code-bg: #f4f4f4;
+    --h2-bar: #0a6efd;
+    --h3-bar: #8ab4ff;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 48px 32px 96px;
+  }
+
+  /* ヘッダー */
+  .header {
+    border-bottom: 3px solid var(--ink);
+    padding-bottom: 24px;
+    margin-bottom: 40px;
+  }
+  .header .eyebrow {
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    color: var(--sub);
+    background: #fff;
+    padding: 4px 10px;
+    border: 1px solid var(--line-strong);
+    border-radius: 3px;
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+  .header h1 {
+    font-size: 32px;
+    line-height: 1.4;
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+
+  /* セクション見出し */
+  h2.section {
+    font-size: 22px;
+    font-weight: 800;
+    margin: 56px 0 20px;
+    padding: 12px 0 12px 16px;
+    border-left: 6px solid var(--h2-bar);
+    letter-spacing: -0.01em;
+    line-height: 1.4;
+  }
+  h2.section .num {
+    display: inline-block;
+    font-size: 14px;
+    color: var(--accent);
+    margin-right: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  /* 個別指示（目立たせる） */
+  .director-note {
+    background: var(--highlight);
+    border: 2px solid var(--highlight-border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 0 0 40px;
+  }
+  .director-note::before {
+    content: "📋 ディレクターからの個別指示";
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: #8a6d00;
+    margin-bottom: 10px;
+    letter-spacing: 0.03em;
+  }
+  .director-note p {
+    margin: 0 0 10px;
+    font-size: 15px;
+    line-height: 1.9;
+    color: #5a4a00;
+  }
+  .director-note p:last-child { margin-bottom: 0; }
+  .director-note a {
+    color: #0a5bd2;
+    text-decoration: underline;
+    word-break: break-all;
+  }
+  .director-note a:hover { color: #063d8f; }
+
+  /* 基本情報テーブル */
+  .info-table {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .info-table dl {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 180px 1fr;
+  }
+  .info-table dt {
+    background: #f7f7f5;
+    padding: 14px 20px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--sub);
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+  }
+  .info-table dd {
+    margin: 0;
+    padding: 14px 20px;
+    font-size: 15px;
+    border-bottom: 1px solid var(--line);
+    line-height: 1.6;
+  }
+  .info-table dl > *:nth-last-child(-n+2) {
+    border-bottom: none;
+  }
+  .info-table dd strong {
+    color: var(--accent);
+  }
+
+  /* ユーザーニーズ */
+  .needs {
+    background: var(--card);
+    border-left: 4px solid var(--accent);
+    padding: 20px 28px;
+    border-radius: 0 8px 8px 0;
+    font-size: 15px;
+    line-height: 2;
+    color: var(--ink);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    white-space: pre-wrap;
+  }
+
+  /* 全体の方向性チェックリスト */
+  .directions {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .directions li {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 14px 16px 14px 48px;
+    margin-bottom: 10px;
+    position: relative;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  .directions li::before {
+    content: "✓";
+    position: absolute;
+    left: 16px;
+    top: 14px;
+    width: 22px;
+    height: 22px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 1;
+  }
+
+  /* アウトライン */
+  .outline-intro {
+    color: var(--sub);
+    font-size: 14px;
+    margin-bottom: 20px;
+    padding: 12px 16px;
+    background: var(--accent-soft);
+    border-radius: 6px;
+    border-left: 3px solid var(--accent);
+  }
+  .h2-block {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin-bottom: 18px;
+    position: relative;
+  }
+  .h2-block::before {
+    content: "H2";
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+  }
+  .h2-block h3.h2-title {
+    font-size: 19px;
+    font-weight: 700;
+    margin: 4px 0 8px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .h2-block > .direction {
+    font-size: 14px;
+    color: var(--sub);
+    margin: 0 0 16px;
+    line-height: 1.7;
+  }
+  .h3-list {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 0;
+    border-top: 1px dashed var(--line);
+    padding-top: 14px;
+  }
+  .h3-list li {
+    padding: 10px 0 10px 24px;
+    position: relative;
+    font-size: 15px;
+    line-height: 1.6;
+    border-bottom: 1px dashed var(--line);
+  }
+  .h3-list li:last-child {
+    border-bottom: none;
+    padding-bottom: 4px;
+  }
+  .h3-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 19px;
+    width: 12px;
+    height: 2px;
+    background: var(--h3-bar);
+  }
+  .h3-list .h3-title {
+    font-weight: 600;
+    color: var(--ink);
+    display: block;
+    margin-bottom: 4px;
+    font-size: 15px;
+  }
+  .h3-list .h3-title::before {
+    content: "H3";
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    background: #eef3ff;
+    color: var(--accent);
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-right: 8px;
+    letter-spacing: 0.05em;
+    vertical-align: middle;
+  }
+  .h3-list .h3-direction {
+    font-size: 13px;
+    color: var(--sub);
+    line-height: 1.7;
+  }
+
+  /* エンティティリスト */
+  .entity-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: entity-counter;
+  }
+  .entity-list li {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 18px 14px 56px;
+    margin-bottom: 10px;
+    position: relative;
+    counter-increment: entity-counter;
+  }
+  .entity-list li::before {
+    content: counter(entity-counter);
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .entity-name {
+    display: block;
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 2px;
+  }
+  .entity-url {
+    display: block;
+    font-size: 12px;
+    color: var(--accent);
+    text-decoration: none;
+    word-break: break-all;
+  }
+  .entity-url:hover { text-decoration: underline; }
+
+  /* 印刷対応 */
+  @media print {
+    body { background: #fff; font-size: 12pt; }
+    .container { padding: 20px; max-width: 100%; }
+    .h2-block, .info-table, .director-note, .needs, .directions li, .entity-list li {
+      page-break-inside: avoid;
+      box-shadow: none;
+    }
+    h2.section { page-break-after: avoid; }
+  }
+
+  /* モバイル対応 */
+  @media (max-width: 640px) {
+    .container { padding: 24px 16px 64px; }
+    .header h1 { font-size: 24px; }
+    h2.section { font-size: 18px; margin: 40px 0 16px; }
+    .info-table dl { grid-template-columns: 1fr; }
+    .info-table dt { border-bottom: none; padding-bottom: 4px; }
+    .info-table dd { padding-top: 4px; }
+    .h2-block { padding: 20px; }
+    .h2-block h3.h2-title { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ヘッダー -->
+  <header class="header">
+    <span class="eyebrow">WRITER'S BRIEF</span>
+    <h1>記事構成指示書: Android アプリ開発 ノーコード</h1>
+  </header>
+
+  <!-- 基本情報 -->
+  <h2 class="section"><span class="num">01</span>基本情報</h2>
+  <div class="info-table">
+    <dl>
+      <dt>キーワード</dt>
+      <dd>android アプリ開発 ノーコード</dd>
+
+      <dt>タイトル案</dt>
+      <dd>Androidアプリをノーコードで開発できるツール比較｜用途別の選び方と費用</dd>
+
+      <dt>メタディスクリプション案</dt>
+      <dd>Androidアプリをノーコードで開発できるおすすめツールを用途別に比較。Bubble・Adalo・Click・Glideなど主要ツールの特徴・料金・事例と、Android対応時の注意点を解説します。</dd>
+
+      <dt>目標文字数</dt>
+      <dd>約 10000 字</dd>
+    </dl>
+  </div>
+
+  <!-- ユーザーニーズ -->
+  <h2 class="section"><span class="num">02</span>ユーザーニーズ</h2>
+  <div class="needs">プログラミングスキルがないがAndroidアプリを作りたい個人・企業担当者がターゲット。業務アプリ・自社サービスアプリ・個人開発のいずれかを想定し、「どのツールを使えばいいか」「本当にノーコードでAndroidアプリが作れるのか」「費用はいくらか」を知りたい。
+ノーコードツールの種類が多く選べない、Webアプリとネイティブアプリの違いがわからないという初心者の不安を解消したい意図がある。
+Android特有の制約（Google Play公開、PWA対応など）への関心も高い。</div>
+
+  <!-- 全体の方向性 -->
+  <h2 class="section"><span class="num">03</span>全体の方向性</h2>
+  <ul class="directions">
+    <li>ノーコードでAndroidアプリを作る方法を「ネイティブアプリ」「PWA」「Webアプリ」の3カテゴリで整理する</li>
+    <li>各ツールをAndroid対応可否・自由度・費用で比較する一覧表を設ける</li>
+    <li>ツール選定の判断基準を「用途」「予算」「技術レベル」の3軸で示す</li>
+    <li>Google Playへの公開手順と注意点をカバーする</li>
+    <li>業務アプリ・汎用アプリそれぞれのおすすめツールを分けて紹介する</li>
+    <li>ノーコードの限界と、ローコードやフルスクラッチとの使い分けを明記する</li>
+    <li>開発会社への外注という選択肢も併記する</li>
+  </ul>
+
+  <!-- 記事構成 -->
+  <h2 class="section"><span class="num">04</span>記事構成（アウトライン）</h2>
+  <p class="outline-intro">以下の構成で本文を執筆してください。各 H2 の下の「方向性」は各セクションで触れる要点を示しています。H3 の順序は変更せず、そのまま採用してください。</p>
+
+  <div class="h2-block">
+    <h3 class="h2-title">ノーコードでAndroidアプリは本当に作れるのか</h3>
+    <p class="direction">ノーコードでAndroidアプリを作る3つの方式（ネイティブ・PWA・Webアプリ）を解説する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">ネイティブアプリ・PWA・Webアプリの違い</span>
+        <span class="h3-direction">それぞれの特徴とAndroidでの動作の違いを初心者向けに説明する。</span>
+      </li>
+      <li>
+        <span class="h3-title">ノーコード開発の限界と向いているケース</span>
+        <span class="h3-direction">ノーコードが適するプロジェクトの条件と、適さない場合の代替手段を示す。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">【比較表付き】Androidアプリ開発に使えるノーコードツール</h3>
+    <p class="direction">主要ツールをAndroid対応・自由度・費用の3軸で比較する表を提示する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">Webアプリ開発向けツール（Bubble・Glide・AppSheet）</span>
+        <span class="h3-direction">ブラウザベースのWebアプリをAndroidで使うアプローチのツールを紹介する。</span>
+      </li>
+      <li>
+        <span class="h3-title">ネイティブ・スマホアプリ開発向けツール（Click・Adalo・Thunkable）</span>
+        <span class="h3-direction">Google Playにネイティブアプリとして公開できるツールを紹介する。</span>
+      </li>
+      <li>
+        <span class="h3-title">業務アプリ特化ツール（Platio・CELF・サスケWorks）</span>
+        <span class="h3-direction">社内業務の効率化に特化したモバイルアプリ開発ツールを紹介する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">用途別おすすめノーコードツールの選び方</h3>
+    <p class="direction">ユーザーの目的に応じた最適なツールを提案する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">業務効率化アプリを作りたい場合</span>
+        <span class="h3-direction">Excelライクな操作で業務アプリを構築できるツールを推奨する。</span>
+      </li>
+      <li>
+        <span class="h3-title">自社サービス・新規事業アプリを作りたい場合</span>
+        <span class="h3-direction">カスタマイズ性と拡張性を重視したツール選定の考え方を示す。</span>
+      </li>
+      <li>
+        <span class="h3-title">個人開発・学習目的で作りたい場合</span>
+        <span class="h3-direction">無料プランで始められるツールと学習リソースを紹介する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">ノーコードで作ったアプリをGoogle Playに公開する手順</h3>
+    <p class="direction">Android向けにアプリを公開するための手順と費用を解説する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">Google Play Console登録と初回登録料</span>
+        <span class="h3-direction">デベロッパーアカウントの取得方法と費用（25ドル）を説明する。</span>
+      </li>
+      <li>
+        <span class="h3-title">公開時に必要な準備と審査のポイント</span>
+        <span class="h3-direction">アイコン・スクリーンショット・プライバシーポリシーなど必要な準備物を列挙する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">ノーコードツールの料金プラン比較</h3>
+    <p class="direction">各ツールの無料プランと有料プランを比較する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">無料で使えるツールと機能制限</span>
+        <span class="h3-direction">無料プランで実現できる範囲と、有料への移行タイミングを示す。</span>
+      </li>
+      <li>
+        <span class="h3-title">有料プランの費用帯と費用対効果</span>
+        <span class="h3-direction">月額数千円〜数万円の価格帯で何ができるかを具体的に示す。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">ノーコードアプリの開発事例</h3>
+    <p class="direction">実際にノーコードで開発されたAndroidアプリの事例を紹介する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">業務アプリの導入事例</span>
+        <span class="h3-direction">在庫管理・報告書作成・シフト管理などの業務アプリ事例を紹介する。</span>
+      </li>
+      <li>
+        <span class="h3-title">消費者向けサービスアプリの事例</span>
+        <span class="h3-direction">マッチング・EC・コミュニティアプリなどの事例を紹介する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">ノーコード開発を外注する場合の費用と選び方</h3>
+    <p class="direction">自力開発が難しい場合の外注選択肢を示す。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">ノーコード開発会社の費用相場</span>
+        <span class="h3-direction">100万円〜300万円が目安となる相場感を示す。</span>
+      </li>
+      <li>
+        <span class="h3-title">開発会社に依頼するメリット</span>
+        <span class="h3-direction">プロに任せることで得られる品質・速度・サポートの優位性を説明する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">よくある質問</h3>
+    <p class="direction">FAQ形式で疑問に回答する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">ノーコードで作ったアプリのセキュリティは大丈夫？</span>
+        <span class="h3-direction">ツール側のセキュリティ対策と自己責任の範囲を説明する。</span>
+      </li>
+      <li>
+        <span class="h3-title">ノーコードとローコードの違いは？</span>
+        <span class="h3-direction">コードの記述量と自由度の違いを簡潔に説明する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <h2 class="section"><span class="num">05</span>登場させるエンティティ</h2>
+  <p class="outline-intro">⚠️ このリスト以外の店舗名・サービス名・ブランド名を記事に登場させないでください。</p>
+  <ol class="entity-list">
+    <li>
+      <span class="entity-name">Bubble</span><a class="entity-url" href="https://bubble.io/" target="_blank" rel="noopener noreferrer">https://bubble.io/</a>
+    </li>
+    <li>
+      <span class="entity-name">Adalo</span><a class="entity-url" href="https://ja.adalo.com/" target="_blank" rel="noopener noreferrer">https://ja.adalo.com/</a>
+    </li>
+    <li>
+      <span class="entity-name">Click</span><a class="entity-url" href="https://click.dev/" target="_blank" rel="noopener noreferrer">https://click.dev/</a>
+    </li>
+    <li>
+      <span class="entity-name">Glide</span><a class="entity-url" href="https://www.glideapps.com/" target="_blank" rel="noopener noreferrer">https://www.glideapps.com/</a>
+    </li>
+    <li>
+      <span class="entity-name">AppSheet</span><a class="entity-url" href="https://about.appsheet.com/" target="_blank" rel="noopener noreferrer">https://about.appsheet.com/</a>
+    </li>
+    <li>
+      <span class="entity-name">Thunkable</span><a class="entity-url" href="https://thunkable.com/" target="_blank" rel="noopener noreferrer">https://thunkable.com/</a>
+    </li>
+    <li>
+      <span class="entity-name">Platio（プラティオ）</span><a class="entity-url" href="https://plat.io/ja/" target="_blank" rel="noopener noreferrer">https://plat.io/ja/</a>
+    </li>
+    <li>
+      <span class="entity-name">CELF</span><a class="entity-url" href="https://www.celf.biz/" target="_blank" rel="noopener noreferrer">https://www.celf.biz/</a>
+    </li>
+    <li>
+      <span class="entity-name">サスケWorks</span><a class="entity-url" href="https://works.saaske.com/" target="_blank" rel="noopener noreferrer">https://works.saaske.com/</a>
+    </li>
+    <li>
+      <span class="entity-name">Yappli</span><a class="entity-url" href="https://yapp.li/" target="_blank" rel="noopener noreferrer">https://yapp.li/</a>
+    </li>
+    <li>
+      <span class="entity-name">STUDIO</span><a class="entity-url" href="https://studio.design/" target="_blank" rel="noopener noreferrer">https://studio.design/</a>
+    </li>
+    <li>
+      <span class="entity-name">Webflow</span><a class="entity-url" href="https://webflow.com/" target="_blank" rel="noopener noreferrer">https://webflow.com/</a>
+    </li>
+    <li>
+      <span class="entity-name">Wix</span><a class="entity-url" href="https://www.wix.com/" target="_blank" rel="noopener noreferrer">https://www.wix.com/</a>
+    </li>
+    <li>
+      <span class="entity-name">Swooo（株式会社ゼロイチスタート）</span><a class="entity-url" href="https://swooo.net/" target="_blank" rel="noopener noreferrer">https://swooo.net/</a>
+    </li>
+  </ol>
+</div>
+</body>
+</html>

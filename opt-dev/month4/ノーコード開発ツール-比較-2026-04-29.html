@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>記事構成指示書: ノーコード開発ツール 比較</title>
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --sub: #555;
+    --muted: #888;
+    --line: #e5e5e5;
+    --line-strong: #d0d0d0;
+    --accent: #0a6efd;
+    --accent-soft: #eef3ff;
+    --bg: #fafaf8;
+    --card: #ffffff;
+    --highlight: #fff8e1;
+    --highlight-border: #f0c800;
+    --code-bg: #f4f4f4;
+    --h2-bar: #0a6efd;
+    --h3-bar: #8ab4ff;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 48px 32px 96px;
+  }
+
+  /* ヘッダー */
+  .header {
+    border-bottom: 3px solid var(--ink);
+    padding-bottom: 24px;
+    margin-bottom: 40px;
+  }
+  .header .eyebrow {
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    color: var(--sub);
+    background: #fff;
+    padding: 4px 10px;
+    border: 1px solid var(--line-strong);
+    border-radius: 3px;
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+  .header h1 {
+    font-size: 32px;
+    line-height: 1.4;
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+
+  /* セクション見出し */
+  h2.section {
+    font-size: 22px;
+    font-weight: 800;
+    margin: 56px 0 20px;
+    padding: 12px 0 12px 16px;
+    border-left: 6px solid var(--h2-bar);
+    letter-spacing: -0.01em;
+    line-height: 1.4;
+  }
+  h2.section .num {
+    display: inline-block;
+    font-size: 14px;
+    color: var(--accent);
+    margin-right: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  /* 個別指示（目立たせる） */
+  .director-note {
+    background: var(--highlight);
+    border: 2px solid var(--highlight-border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 0 0 40px;
+  }
+  .director-note::before {
+    content: "📋 ディレクターからの個別指示";
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: #8a6d00;
+    margin-bottom: 10px;
+    letter-spacing: 0.03em;
+  }
+  .director-note p {
+    margin: 0 0 10px;
+    font-size: 15px;
+    line-height: 1.9;
+    color: #5a4a00;
+  }
+  .director-note p:last-child { margin-bottom: 0; }
+  .director-note a {
+    color: #0a5bd2;
+    text-decoration: underline;
+    word-break: break-all;
+  }
+  .director-note a:hover { color: #063d8f; }
+
+  /* 基本情報テーブル */
+  .info-table {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .info-table dl {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 180px 1fr;
+  }
+  .info-table dt {
+    background: #f7f7f5;
+    padding: 14px 20px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--sub);
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+  }
+  .info-table dd {
+    margin: 0;
+    padding: 14px 20px;
+    font-size: 15px;
+    border-bottom: 1px solid var(--line);
+    line-height: 1.6;
+  }
+  .info-table dl > *:nth-last-child(-n+2) {
+    border-bottom: none;
+  }
+  .info-table dd strong {
+    color: var(--accent);
+  }
+
+  /* ユーザーニーズ */
+  .needs {
+    background: var(--card);
+    border-left: 4px solid var(--accent);
+    padding: 20px 28px;
+    border-radius: 0 8px 8px 0;
+    font-size: 15px;
+    line-height: 2;
+    color: var(--ink);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    white-space: pre-wrap;
+  }
+
+  /* 全体の方向性チェックリスト */
+  .directions {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .directions li {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 14px 16px 14px 48px;
+    margin-bottom: 10px;
+    position: relative;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  .directions li::before {
+    content: "✓";
+    position: absolute;
+    left: 16px;
+    top: 14px;
+    width: 22px;
+    height: 22px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 1;
+  }
+
+  /* アウトライン */
+  .outline-intro {
+    color: var(--sub);
+    font-size: 14px;
+    margin-bottom: 20px;
+    padding: 12px 16px;
+    background: var(--accent-soft);
+    border-radius: 6px;
+    border-left: 3px solid var(--accent);
+  }
+  .h2-block {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin-bottom: 18px;
+    position: relative;
+  }
+  .h2-block::before {
+    content: "H2";
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+  }
+  .h2-block h3.h2-title {
+    font-size: 19px;
+    font-weight: 700;
+    margin: 4px 0 8px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .h2-block > .direction {
+    font-size: 14px;
+    color: var(--sub);
+    margin: 0 0 16px;
+    line-height: 1.7;
+  }
+  .h3-list {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 0;
+    border-top: 1px dashed var(--line);
+    padding-top: 14px;
+  }
+  .h3-list li {
+    padding: 10px 0 10px 24px;
+    position: relative;
+    font-size: 15px;
+    line-height: 1.6;
+    border-bottom: 1px dashed var(--line);
+  }
+  .h3-list li:last-child {
+    border-bottom: none;
+    padding-bottom: 4px;
+  }
+  .h3-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 19px;
+    width: 12px;
+    height: 2px;
+    background: var(--h3-bar);
+  }
+  .h3-list .h3-title {
+    font-weight: 600;
+    color: var(--ink);
+    display: block;
+    margin-bottom: 4px;
+    font-size: 15px;
+  }
+  .h3-list .h3-title::before {
+    content: "H3";
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    background: #eef3ff;
+    color: var(--accent);
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-right: 8px;
+    letter-spacing: 0.05em;
+    vertical-align: middle;
+  }
+  .h3-list .h3-direction {
+    font-size: 13px;
+    color: var(--sub);
+    line-height: 1.7;
+  }
+
+  /* エンティティリスト */
+  .entity-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: entity-counter;
+  }
+  .entity-list li {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 18px 14px 56px;
+    margin-bottom: 10px;
+    position: relative;
+    counter-increment: entity-counter;
+  }
+  .entity-list li::before {
+    content: counter(entity-counter);
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .entity-name {
+    display: block;
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 2px;
+  }
+  .entity-url {
+    display: block;
+    font-size: 12px;
+    color: var(--accent);
+    text-decoration: none;
+    word-break: break-all;
+  }
+  .entity-url:hover { text-decoration: underline; }
+
+  /* 印刷対応 */
+  @media print {
+    body { background: #fff; font-size: 12pt; }
+    .container { padding: 20px; max-width: 100%; }
+    .h2-block, .info-table, .director-note, .needs, .directions li, .entity-list li {
+      page-break-inside: avoid;
+      box-shadow: none;
+    }
+    h2.section { page-break-after: avoid; }
+  }
+
+  /* モバイル対応 */
+  @media (max-width: 640px) {
+    .container { padding: 24px 16px 64px; }
+    .header h1 { font-size: 24px; }
+    h2.section { font-size: 18px; margin: 40px 0 16px; }
+    .info-table dl { grid-template-columns: 1fr; }
+    .info-table dt { border-bottom: none; padding-bottom: 4px; }
+    .info-table dd { padding-top: 4px; }
+    .h2-block { padding: 20px; }
+    .h2-block h3.h2-title { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ヘッダー -->
+  <header class="header">
+    <span class="eyebrow">WRITER'S BRIEF</span>
+    <h1>記事構成指示書: ノーコード開発ツール 比較</h1>
+  </header>
+
+  <!-- 基本情報 -->
+  <h2 class="section"><span class="num">01</span>基本情報</h2>
+  <div class="info-table">
+    <dl>
+      <dt>キーワード</dt>
+      <dd>ノーコード開発ツール 比較</dd>
+
+      <dt>タイトル案</dt>
+      <dd>ノーコード開発ツール16選を徹底比較｜用途別の選び方と料金一覧</dd>
+
+      <dt>メタディスクリプション案</dt>
+      <dd>ノーコード開発ツール16選を用途別（汎用・業務アプリ・Webサイト・EC）に徹底比較。料金相場の一覧表、5つの比較ポイント、タイプ別の選び方を解説します。</dd>
+
+      <dt>目標文字数</dt>
+      <dd>約 15000 字</dd>
+    </dl>
+  </div>
+
+  <!-- ユーザーニーズ -->
+  <h2 class="section"><span class="num">02</span>ユーザーニーズ</h2>
+  <div class="needs">ノーコードツールの導入を検討しているが、種類が多すぎてどれを選べばよいかわからない企業担当者や個人がターゲット。
+用途（業務アプリ・Webサイト・EC・プロダクト開発）ごとに最適なツールを知りたい。
+料金プランの違いを一覧で比較し、予算に合ったツールを選びたいニーズがある。
+各ツールの機能差・使いやすさ・日本語対応・拡張性を具体的に比較したい。
+ノーコードの基本（仕組み・メリット・ローコードとの違い）も合わせて理解したい。</div>
+
+  <!-- 全体の方向性 -->
+  <h2 class="section"><span class="num">03</span>全体の方向性</h2>
+  <ul class="directions">
+    <li>ツールを4タイプ（汎用型・業務アプリ型・Webサイト型・EC型）に分類して比較する</li>
+    <li>料金相場の一覧表を冒頭近くに配置し、全体感を掴めるようにする</li>
+    <li>各ツールの機能・料金・日本語対応・強みを統一フォーマットで紹介する</li>
+    <li>選び方の5つのポイントを先に提示し、読者が自分の基準で選べるようにする</li>
+    <li>ノーコードとローコードの違いを明確にする</li>
+    <li>メリットだけでなくデメリット（制約事項）も正直に伝える</li>
+  </ul>
+
+  <!-- 記事構成 -->
+  <h2 class="section"><span class="num">04</span>記事構成（アウトライン）</h2>
+  <p class="outline-intro">以下の構成で本文を執筆してください。各 H2 の下の「方向性」は各セクションで触れる要点を示しています。H3 の順序は変更せず、そのまま採用してください。</p>
+
+  <div class="h2-block">
+    <h3 class="h2-title">ノーコード開発ツールとは？仕組みとローコードとの違い</h3>
+    <p class="direction">ノーコードの基本概念を非エンジニアにもわかるように解説する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">ノーコードツールの仕組み（ビジュアルプログラミング）</span>
+        <span class="h3-direction">ドラッグ&amp;ドロップでの開発がなぜ可能なのかを説明する。</span>
+      </li>
+      <li>
+        <span class="h3-title">ノーコードとローコードの違い</span>
+        <span class="h3-direction">コーディングの要否と、実現可能な範囲の違いを比較する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">ノーコード開発ツールのメリットと注意点</h3>
+    <p class="direction">導入前に把握すべきメリット3つとデメリットを整理する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">コスト削減・開発スピード・非エンジニアでも開発可能</span>
+        <span class="h3-direction">3つのメリットを具体的な数値や事例とともに示す。</span>
+      </li>
+      <li>
+        <span class="h3-title">カスタマイズ性・パフォーマンス・ベンダーロックインの制約</span>
+        <span class="h3-direction">導入前に理解しておくべき制約事項を正直に解説する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">ノーコード開発ツールの4つのタイプと選び方</h3>
+    <p class="direction">用途に応じた4分類と、それぞれに向いているケースを解説する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">プロダクト開発向け汎用型ツール</span>
+        <span class="h3-direction">自社サービスやMVP開発に適したツールの特徴を示す。</span>
+      </li>
+      <li>
+        <span class="h3-title">業務アプリ特化型ツール</span>
+        <span class="h3-direction">社内業務効率化に適したツールの特徴を示す。</span>
+      </li>
+      <li>
+        <span class="h3-title">Webサイト制作型・ECサイト構築型ツール</span>
+        <span class="h3-direction">Web・EC向けツールの特徴と選定ポイントを示す。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">ノーコード開発ツールの比較ポイント5選</h3>
+    <p class="direction">選定時に確認すべき5つの軸を解説する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">機能充実度・提供形態（Web/ネイティブ）・販路</span>
+        <span class="h3-direction">開発目的との適合性を評価する3つの視点を示す。</span>
+      </li>
+      <li>
+        <span class="h3-title">設計の容易さ・ログイン機能・外部連携</span>
+        <span class="h3-direction">実際の開発体験に関わる2つの視点を示す。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">ノーコード開発ツールの料金相場一覧表</h3>
+    <p class="direction">16ツールの料金プランを一覧表で比較する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">無料プランの有無と有料プランの価格帯</span>
+        <span class="h3-direction">各ツールの料金レンジを表形式で整理する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">おすすめノーコード開発ツール（汎用型）4選</h3>
+    <p class="direction">プロダクト開発にも対応できる汎用型ツールを紹介する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">APPBOX・Bubble</span>
+        <span class="h3-direction">高いカスタマイズ性を持つ2ツールの特徴を比較する。</span>
+      </li>
+      <li>
+        <span class="h3-title">Click・Adalo</span>
+        <span class="h3-direction">モバイル対応に強い2ツールの特徴を比較する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">おすすめノーコード開発ツール（業務アプリ型）8選</h3>
+    <p class="direction">社内業務効率化に特化したツールを紹介する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">kintone・PigeonCloud・サスケWorks・Platio</span>
+        <span class="h3-direction">国産ツールを中心に日本語対応の4ツールを比較する。</span>
+      </li>
+      <li>
+        <span class="h3-title">@pocket・Airtable・AppSheet・Glide</span>
+        <span class="h3-direction">データベース連携に強い4ツールを比較する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">おすすめノーコード開発ツール（Webサイト・EC型）4選</h3>
+    <p class="direction">Webサイト制作とEC構築に特化したツールを紹介する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">Studio・ペライチ・BiNDup・KARTE Blocks</span>
+        <span class="h3-direction">Web制作向けの4ツールを特徴・料金で比較する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="h2-block">
+    <h3 class="h2-title">ノーコード開発ツールの比較に関するよくある質問</h3>
+    <p class="direction">ツール選定でよくある疑問にFAQ形式で回答する。</p>
+    <ul class="h3-list">
+      <li>
+        <span class="h3-title">複数のツールを組み合わせて使うことはできる？</span>
+        <span class="h3-direction">ツール間連携の可能性と方法を説明する。</span>
+      </li>
+      <li>
+        <span class="h3-title">ノーコードツールで作ったものを後からコード化できる？</span>
+        <span class="h3-direction">エクスポート機能の有無をツール別に整理する。</span>
+      </li>
+    </ul>
+  </div>
+
+  <h2 class="section"><span class="num">05</span>登場させるエンティティ</h2>
+  <p class="outline-intro">⚠️ このリスト以外の店舗名・サービス名・ブランド名を記事に登場させないでください。</p>
+  <ol class="entity-list">
+    <li>
+      <span class="entity-name">APPBOX</span><a class="entity-url" href="https://appbox.jp/" target="_blank" rel="noopener noreferrer">https://appbox.jp/</a>
+    </li>
+    <li>
+      <span class="entity-name">Bubble</span><a class="entity-url" href="https://bubble.io/" target="_blank" rel="noopener noreferrer">https://bubble.io/</a>
+    </li>
+    <li>
+      <span class="entity-name">Click</span><a class="entity-url" href="https://click.dev/" target="_blank" rel="noopener noreferrer">https://click.dev/</a>
+    </li>
+    <li>
+      <span class="entity-name">Adalo</span><a class="entity-url" href="https://ja.adalo.com/" target="_blank" rel="noopener noreferrer">https://ja.adalo.com/</a>
+    </li>
+    <li>
+      <span class="entity-name">kintone</span><a class="entity-url" href="https://kintone.cybozu.co.jp/" target="_blank" rel="noopener noreferrer">https://kintone.cybozu.co.jp/</a>
+    </li>
+    <li>
+      <span class="entity-name">PigeonCloud</span><a class="entity-url" href="https://pigeoncloud.jp/" target="_blank" rel="noopener noreferrer">https://pigeoncloud.jp/</a>
+    </li>
+    <li>
+      <span class="entity-name">サスケWorks</span><a class="entity-url" href="https://works.sasuke.bz/" target="_blank" rel="noopener noreferrer">https://works.sasuke.bz/</a>
+    </li>
+    <li>
+      <span class="entity-name">Platio</span><a class="entity-url" href="https://plat.io/ja/" target="_blank" rel="noopener noreferrer">https://plat.io/ja/</a>
+    </li>
+    <li>
+      <span class="entity-name">@pocket</span><a class="entity-url" href="https://at-pocket.com/" target="_blank" rel="noopener noreferrer">https://at-pocket.com/</a>
+    </li>
+    <li>
+      <span class="entity-name">Airtable</span><a class="entity-url" href="https://airtable.com/" target="_blank" rel="noopener noreferrer">https://airtable.com/</a>
+    </li>
+    <li>
+      <span class="entity-name">AppSheet</span><a class="entity-url" href="https://about.appsheet.com/" target="_blank" rel="noopener noreferrer">https://about.appsheet.com/</a>
+    </li>
+    <li>
+      <span class="entity-name">Glide</span><a class="entity-url" href="https://www.glideapps.com/" target="_blank" rel="noopener noreferrer">https://www.glideapps.com/</a>
+    </li>
+    <li>
+      <span class="entity-name">Studio</span><a class="entity-url" href="https://studio.design/" target="_blank" rel="noopener noreferrer">https://studio.design/</a>
+    </li>
+    <li>
+      <span class="entity-name">ペライチ</span><a class="entity-url" href="https://peraichi.com/" target="_blank" rel="noopener noreferrer">https://peraichi.com/</a>
+    </li>
+    <li>
+      <span class="entity-name">BiNDup</span><a class="entity-url" href="https://bindup.jp/" target="_blank" rel="noopener noreferrer">https://bindup.jp/</a>
+    </li>
+    <li>
+      <span class="entity-name">KARTE Blocks</span><a class="entity-url" href="https://blocks.karte.io/" target="_blank" rel="noopener noreferrer">https://blocks.karte.io/</a>
+    </li>
+  </ol>
+</div>
+</body>
+</html>
